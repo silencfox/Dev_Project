@@ -1,0 +1,43 @@
+name: $(Build.BuildId)-$(SourceBranchName)-$(Date:yyyyMMdd)$(rev:.r)
+
+trigger: none
+
+parameters:
+  - name: desiredVersion
+    type: string
+    displayName: Version
+    default: "1.1.0"
+
+resources:
+  pipelines:
+    - pipeline: Build
+      source: Build
+      trigger:
+        branches:
+        - main
+        - Test
+        stages:
+          - Build
+
+variables:
+  - name: application_name
+    value: 'Devsu'
+
+
+lockBehavior: sequential
+extends:
+  template: pipeline/multi-stage-node.yml
+  parameters:
+    artifactName: drop
+    application_name: $(application_name)
+
+    environments:
+      - name: Dev
+        dependsOn: []
+        environment: DEV
+      - name: QA
+        dependsOn: DeployDev 
+        environment: QA
+      - name: PROD
+        dependsOn: DeployQA
+        environment: PROD
