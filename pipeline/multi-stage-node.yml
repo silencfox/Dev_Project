@@ -1,0 +1,28 @@
+parameters:
+  - name: environment
+    type: string
+
+- name: testOnMultipleServers
+  type: boolean
+  default: true
+
+stages:
+  - ${{ each environment in parameters.environments }}:
+      - stage: Deploy${{ environment.name }}
+        displayName: Deploy ${{ environment.name }}
+        dependsOn: ${{ environment.dependsOn }}
+        jobs:
+          - job: Infraestructura
+            displayName: Aprovisionando Infraestructura
+            pool:
+              vmImage: ubuntu-latest
+            steps:
+              - task: PowerShell@2
+                enabled: false
+                inputs:
+                  targetType: 'inline'
+                  script: |
+                    # Write your PowerShell commands here.
+                    pwd
+
+                

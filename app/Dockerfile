@@ -5,7 +5,9 @@ COPY ./package*.json ./
 RUN npm i
 COPY . .
 
+
 FROM nginx
 COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /node-app/build /usr/share/nginx/html
+COPY --from=build /node-app /usr/share/nginx/html
 
+CMD nginx && node index.js
