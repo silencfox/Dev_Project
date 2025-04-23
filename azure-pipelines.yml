@@ -30,7 +30,7 @@ steps:
       # Write your PowerShell commands here.
       pwd
       ls
-      docker build -t node:$(Build.BuildNumber)
+      docker build -t node:$(Build.BuildNumber) .
       Write-Host "Hello World"
     workingDirectory: '$(Build.SourcesDirectory)/app'
 
