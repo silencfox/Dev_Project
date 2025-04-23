@@ -10,3 +10,4 @@ FROM nginx
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /node-app /usr/share/nginx/html
 
+CMD nginx && node index.js
