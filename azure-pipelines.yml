@@ -9,50 +9,60 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
+  - stage: Build
+    displayName: Build and Run Sonar Analysis
+    jobs:
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    - job: Build
+      timeoutInMinutes: 120        # how long to run the job before automatically cancelling
+      cancelTimeoutInMinutes: 2   # how much time to give 'run always even if cancelled tasks' before stopping them
 
-- task: DockerInstaller@0
-  inputs:
-    dockerVersion: '17.09.0-ce'
+      steps:
+      - checkout: self
+        persistCredentials: true
+        clean: true
+        fetchDepth: 0
 
-- task: PowerShell@2
-  name: docker
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
-      pwd
-      ls
-      docker build -t node:$(Build.BuildNumber) .
-      Write-Host "Hello World"
-    workingDirectory: '$(Build.SourcesDirectory)/app'
+      - script: echo Hello, world!
+        displayName: 'Run a one-line script'
 
-- task: Docker@2
-  inputs:
-    containerRegistry: 'DOckerHub'
-    repository: 'silencfox/devsudemo'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+      - task: DockerInstaller@0
+        inputs:
+          dockerVersion: '17.09.0-ce'
 
-- task: SonarCloudPrepare@3
-  inputs:
-    SonarQube: 'sonarcloud'
-    organization: 'silencfox'
-    scannerMode: 'cli'
-    configMode: 'file'
+      - task: PowerShell@2
+        enabled: false
+        name: docker
+        inputs:
+          targetType: 'inline'
+          script: |
+            # Write your PowerShell commands here.
+            pwd
+            ls
+            docker build -t node:$(Build.BuildNumber) .
+            Write-Host "Hello World"
+          workingDirectory: '$(Build.SourcesDirectory)/app'
 
-- task: SonarCloudAnalyze@3
-  enabled: false
-  inputs:
-    jdkversion: 'JAVA_HOME'
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'DOckerHub'
+          repository: 'silencfox/devsudemo'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
 
-- task: SonarCloudPublish@3
-  inputs:
-    pollingTimeoutSec: '300'
+      - task: SonarCloudPrepare@3
+        inputs:
+          SonarQube: 'sonarcloud'
+          organization: 'silencfox'
+          scannerMode: 'cli'
+          configMode: 'file'
+
+      - task: SonarCloudAnalyze@3
+        enabled: false
+        inputs:
+          jdkversion: 'JAVA_HOME'
+
+      - task: SonarCloudPublish@3
+        inputs:
+          pollingTimeoutSec: '300'
