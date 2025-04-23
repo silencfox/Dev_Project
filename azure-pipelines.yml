@@ -34,6 +34,13 @@ steps:
       Write-Host "Hello World"
     workingDirectory: '$(Build.SourcesDirectory)/app'
 
+- task: Docker@2
+  inputs:
+    containerRegistry: 'DOckerHub'
+    repository: 'silencfox/devsudemo'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+
 - task: SonarCloudPrepare@3
   inputs:
     SonarQube: 'sonarcloud'
