@@ -23,3 +23,18 @@ steps:
     script: |
       pwd
       ls
+
+- task: SonarCloudPrepare@3
+  inputs:
+    SonarQube: 'sonarcloud'
+    organization: 'silencfox'
+    scannerMode: 'cli'
+    configMode: 'file'
+
+- task: SonarCloudAnalyze@3
+  inputs:
+    jdkversion: 'JAVA_HOME'
+
+- task: SonarCloudPublish@3
+  inputs:
+    pollingTimeoutSec: '300'
