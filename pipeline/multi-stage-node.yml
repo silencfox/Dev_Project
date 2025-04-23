@@ -11,17 +11,11 @@ stages:
       - stage: Deploy${{ environment.name }}
         displayName: Deploy ${{ environment.name }}
         dependsOn: ${{ environment.dependsOn }}
-        variables:
-          - group: ${{ parameters.commonDeployVariableGroup }}
-          - group: ${{ environment.deployVariableGroup }}   
-
         jobs:
           - job: Infraestructura
             displayName: Aprovisionando Infraestructura
-
             pool:
-              #vmImage: ubuntu-latest
-
+              vmImage: ubuntu-latest
             steps:
               - task: PowerShell@2
                 enabled: false
