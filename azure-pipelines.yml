@@ -17,12 +17,22 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+- task: DockerInstaller@0
+  inputs:
+    dockerVersion: '17.09.0-ce'
+
 - task: PowerShell@2
+  name: docker
   inputs:
     targetType: 'inline'
     script: |
+      # Write your PowerShell commands here.
       pwd
       ls
+      docker build -t node:$(Build.BuildNumber)
+      Write-Host "Hello World"
+    workingDirectory: '$(Build.SourcesDirectory)/app'
 
 - task: SonarCloudPrepare@3
   inputs:
