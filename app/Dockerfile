@@ -8,7 +8,9 @@ COPY . .
 
 FROM node:18.15.0
 
-RUN apt install nginx
+RUN apt-get update && apt-get install -y nginx \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /node-app
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /node-app /usr/share/nginx/html
