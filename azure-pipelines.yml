@@ -50,6 +50,9 @@ stages:
           repository: 'silencfox/devsudemo'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
+          tags: |
+            $(Build.BuildId)
+            latest
 
       - task: SonarCloudPrepare@3
         inputs:
