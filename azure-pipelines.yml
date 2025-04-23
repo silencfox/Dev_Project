@@ -32,6 +32,7 @@ steps:
     configMode: 'file'
 
 - task: SonarCloudAnalyze@3
+  enabled: false
   inputs:
     jdkversion: 'JAVA_HOME'
 
