@@ -5,7 +5,6 @@ COPY ./package*.json ./
 RUN npm i
 COPY . .
 
-RUN yarn run build
 
 FROM nginx
 COPY ./nginx.conf /etc/nginx/nginx.conf
