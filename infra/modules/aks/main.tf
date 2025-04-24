@@ -37,9 +37,12 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
    } 
   }
 
-  service_principal  {
-    client_id = var.client_id
-    client_secret = var.client_secret
+  identity {
+    type = "SystemAssigned"
+  }
+
+  tags = {
+    Environment = "Production"
   }
 
   linux_profile {
@@ -58,4 +61,11 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
     
   }
 
-
+/*
+resource "azurerm_role_assignment" "ars" {
+  principal_id                     = azurerm_kubernetes_cluster.aks-cluster.kubelet_identity[0].object_id
+  role_definition_name             = "AcrPull"
+  scope                            = azurerm_container_registry.acr.id
+  skip_service_principal_aad_check = true
+}
+*/

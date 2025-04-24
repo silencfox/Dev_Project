@@ -3,6 +3,7 @@ resource "azurerm_resource_group" "rg1" {
   location = var.location
 }
 
+/*
 module "ServicePrincipal" {
   source                 = "./modules/ServicePrincipal"
   service_principal_name = var.service_principal_name
@@ -11,6 +12,8 @@ module "ServicePrincipal" {
     azurerm_resource_group.rg1
   ]
 }
+
+
 
 resource "azurerm_role_assignment" "rolespn" {
 
@@ -24,14 +27,19 @@ resource "azurerm_role_assignment" "rolespn" {
   ]
 }
 
+
+
 module "keyvault" {
   source                      = "./modules/keyvault"
   keyvault_name               = var.keyvault_name
   location                    = var.location
   resource_group_name         = var.rgname
+  sku                         = var.sku
   service_principal_name      = var.service_principal_name
-  service_principal_object_id = module.ServicePrincipal.service_principal_object_id
-  service_principal_tenant_id = module.ServicePrincipal.service_principal_tenant_id
+
+#  service_principal_object_id = module.ServicePrincipal.service_principal_object_id
+#  service_principal_tenant_id = module.ServicePrincipal.service_principal_tenant_id
+  service_principal_tenant_id = var.tenant_id
 
   depends_on = [
     module.ServicePrincipal
@@ -48,7 +56,7 @@ resource "azurerm_key_vault_secret" "example" {
   ]
 }
 
-
+*/
 #create Azure Container Registry
 module "acr" {
   source                 = "./modules/acr/"
@@ -62,27 +70,44 @@ module "acr" {
   ghpathfile             = var.ghpathfile
   ghtoken                = var.ghtoken
 
-  depends_on = [
-    module.ServicePrincipal
-  ]
+  #depends_on = [
+  #  module.ServicePrincipal
+  #]
 
 }
+
+/*
+#create Azure Kubernetes Service
+module "aks2" {
+  source                 = "./modules/aks2/"
+  service_principal_name = var.service_principal_name
+  location               = var.location
+  resource_group_name    = var.rgname
+  aks_name               = var.aks_name
+  ghpathfile             = var.ghpathfile
+  ghtoken                = var.ghtoken
+
+}
+
+*/
 
 #create Azure Kubernetes Service
 module "aks" {
   source                 = "./modules/aks/"
   service_principal_name = var.service_principal_name
-  client_id              = module.ServicePrincipal.client_id
-  client_secret          = module.ServicePrincipal.client_secret
+  #client_id              = module.ServicePrincipal.client_id
+  #client_secret          = module.ServicePrincipal.client_secret
   location               = var.location
   resource_group_name    = var.rgname
   aks_name               = var.aks_name
 
-  depends_on = [
-    module.ServicePrincipal
-  ]
+#  depends_on = [
+#    module.ServicePrincipal
+#  ]
 
 }
+
+
 
 resource "local_file" "kubeconfig" {
   depends_on   = [module.aks]
