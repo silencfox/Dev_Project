@@ -101,6 +101,21 @@ stages:
             ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
             ARM_TENANT_ID: $(ARM_TENANT_ID)
 
+      - task: Bash@3
+        enabled: true
+        name: terraform2
+        displayName: "Crear AKS"
+        inputs:
+          targetType: 'inline'
+          script: |
+            mv ./infra/terraform.tmptfvars ./infra/terraform.tfvars
+            mv ./tfstate/terraform.tmptfvars ./tfstate/terraform.tfvars
+          workingDirectory: '$(Build.SourcesDirectory)'
+
+      - task: replacetokens@6
+        inputs:
+          root: '$(Build.SourcesDirectory)/infra'
+          sources: 'terraform.tfvars'
 
       - task: Bash@3
         enabled: true
@@ -109,7 +124,7 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            mv terraform.tmptfvars terraform.tfvars
+            #mv terraform.tmptfvars terraform.tfvars
             terraform init
             terraform plan
             terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)"
