@@ -103,7 +103,7 @@ stages:
 
       - task: Bash@3
         enabled: true
-        name: terraform2
+        name: replacevar
         displayName: "Crear AKS"
         inputs:
           targetType: 'inline'
