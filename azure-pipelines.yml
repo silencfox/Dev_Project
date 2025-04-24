@@ -84,7 +84,7 @@ stages:
 
 
       - task: Bash@3
-        enabled: true
+        enabled: false
         name: tfstates
         displayName: "Crear terraform storage"
         inputs:
@@ -100,6 +100,26 @@ stages:
             ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
             ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
             ARM_TENANT_ID: $(ARM_TENANT_ID)
+
+
+      - task: Bash@3
+        enabled: true
+        name: terraform2
+        displayName: "Crear AKS"
+        inputs:
+          targetType: 'inline'
+          script: |
+            mv terraform.tmptfvars terraform.tfvars
+            terraform init
+            terraform plan
+            terraform apply --auto-approve
+          workingDirectory: '$(Build.SourcesDirectory)/infra'
+          bashEnvValue: |
+            ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+            ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+            ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+            ARM_TENANT_ID: $(ARM_TENANT_ID)
+
 
       - task: PowerShell@2
         enabled: false
