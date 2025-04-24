@@ -34,7 +34,27 @@ stages:
       - task: TerraformInstaller@1
         inputs:
           terraformVersion: 'latest'
-          
+
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '18.x'
+
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            npm install
+            npm test
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**/test_results.xml'
+          mergeTestResults: true
+          failTaskOnFailedTests: true
+          testRunTitle: 'Pruebas unitarias'
+
       - task: PowerShell@2
         enabled: false
         name: docker
@@ -118,7 +138,7 @@ stages:
           sources: 'terraform.tfvars'
 
       - task: Bash@3
-        enabled: true
+        enabled: false
         name: terraform2
         displayName: "Crear AKS"
         inputs:
@@ -152,7 +172,7 @@ stages:
           workingDirectory: '$(Build.SourcesDirectory)/tfstate'
 
       - task: PowerShell@2
-        enabled: true
+        enabled: false
         name: terraform
         displayName: "Crear AKS"
         inputs:
