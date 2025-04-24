@@ -3,10 +3,10 @@ parameters:
   type: object
   default: ""
 stages:
-  - stage: Build
-    displayName: Build
+  - stage: Build_And_Analyze
+    displayName: Build And Analyze	
     jobs: 
-    - job: Build
+    - job: build_node_app
       timeoutInMinutes: 120        # how long to run the job before automatically cancelling
       cancelTimeoutInMinutes: 2   # how much time to give 'run always even if cancelled tasks' before stopping them
 
@@ -15,9 +15,6 @@ stages:
         persistCredentials: true
         clean: true
         fetchDepth: 0
-
-      - script: echo Hello, world!
-        displayName: 'Run a one-line script'
 
       - task: DockerInstaller@0
         inputs:
@@ -32,7 +29,7 @@ stages:
           versionSpec: '18.x'
 
       - task: Bash@3
-        displayName: "Unit Test"
+        displayName: "Run Unit Tests Jest"
         inputs:
           targetType: 'inline'
           script: |
@@ -49,7 +46,7 @@ stages:
 
       - task: PublishTestResults@2
         condition: succeededOrFailed()
-        displayName: "Test Result"
+        displayName: "Publish JUnit Test Results"
         inputs:
           testResultsFormat: 'JUnit'
           testResultsFiles: 'junit.xml'
@@ -61,7 +58,7 @@ stages:
 
       - task: PublishCodeCoverageResults@2
         condition: succeededOrFailed()
-        displayName: "Code coverage"
+        displayName: "Publish Code Coverage HTML"
         enabled: false
         inputs:
           codeCoverageTool: 'Cobertura'
@@ -69,29 +66,15 @@ stages:
           reportDirectory: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
 
       - task: PublishCodeCoverageResults@2
+        enabled: true
+        displayName: "Publish Code Coverage HTML"
         inputs:
+          codeCoverageTool: 'Cobertura'
           summaryFileLocation: '$(Build.SourcesDirectory)/app/coverage/lcov.info'
           reportDirectory: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
           pathToSources: '$(Build.SourcesDirectory)/app'
           failIfCoverageEmpty: true
 
-      - task: PowerShell@2
-        enabled: true
-        name: show
-        inputs:
-          targetType: 'inline'
-          script: |
-            # Write your PowerShell commands here.
-            pwd
-            ls
-            tree
-            #docker build -t node:$(Build.BuildNumber) .
-            Write-Host "Hello World"
-            #${env:ARM_CLIENT_ID}
-            #${env:ARM_CLIENT_SECRET}
-            #${env:ARM_SUBSCRIPTION_ID}
-            #${env:ARM_TENANT_ID}
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
 
       - task: SonarCloudPrepare@3
         inputs:
@@ -112,8 +95,8 @@ stages:
 
       - task: Docker@2
         enabled: false
-        name: "Docker_Build"
-        displayName: "Build and Push"
+        name: "Docker_Build_And_Push"
+        displayName: "Docker Build And Push"
         inputs:
           containerRegistry: 'DOckerHub'
           repository: 'silencfox/devsudemo'
@@ -131,7 +114,7 @@ stages:
         dependsOn: ${{ environment.dependsOn }}
 
         jobs: 
-        - job: Build
+        - job: Deploy_Infrastructure
           timeoutInMinutes: 120        # how long to run the job before automatically cancelling
           cancelTimeoutInMinutes: 2   # how much time to give 'run always even if cancelled tasks' before stopping them
 
@@ -145,7 +128,7 @@ stages:
           - task: Bash@3
             enabled: false
             name: tfstates
-            displayName: "Crear terraform storage"
+            displayName: "Create_TF_Storage"
             inputs:
               targetType: 'inline'
               script: |
