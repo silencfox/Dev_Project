@@ -70,6 +70,7 @@ stages:
 
 
       - task: Docker@2
+        enabled: false
         name: "Docker_Build"
         displayName: "Build and Push"
         inputs:
@@ -81,14 +82,55 @@ stages:
             $(Build.BuildId)
             latest
 
-      - task: PowerShell@2
+
+      - task: Bash@3
+        enabled: false
+        name: tfstates
+        displayName: "Crear terraform storage"
+        inputs:
+          targetType: 'inline'
+          script: |
+            mv terraform.tmptfvars terraform.tfvars
+            terraform init
+            terraform plan
+            terraform apply --auto-approve
+          workingDirectory: '$(Build.SourcesDirectory)/tfstate'
+          bashEnvValue: |
+            ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+            ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+            ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+            ARM_TENANT_ID: $(ARM_TENANT_ID)
+
+
+      - task: Bash@3
         enabled: true
+        name: terraform2
+        displayName: "Crear AKS"
+        inputs:
+          targetType: 'inline'
+          script: |
+            mv terraform.tmptfvars terraform.tfvars
+            terraform init
+            terraform plan
+            terraform apply --auto-approve
+          workingDirectory: '$(Build.SourcesDirectory)/infra'
+          bashEnvValue: |
+            ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+            ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+            ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+            ARM_TENANT_ID: $(ARM_TENANT_ID)
+            ghtoken: $(ghtoken)
+
+
+      - task: PowerShell@2
+        enabled: false
         name: tfstates
         displayName: "Crear terraform storage"
         inputs:
           targetType: 'inline'
           script: |
             # Write your PowerShell commands here.
+            Rename-Item -Path "terraform.tmptfvars" -NewName "terraform.tfvars"
             terraform init
             terraform plan
             terraform apply --auto-approve
@@ -102,10 +144,10 @@ stages:
           targetType: 'inline'
           script: |
             # Write your PowerShell commands here.
+            Rename-Item -Path "terraform.tmptfvars" -NewName "terraform.tfvars"
             terraform init
             terraform plan
             terraform apply --auto-approve
           workingDirectory: '$(Build.SourcesDirectory)/infra'
-
 
 
