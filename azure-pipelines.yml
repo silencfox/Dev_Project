@@ -46,6 +46,10 @@ stages:
             ls
             docker build -t node:$(Build.BuildNumber) .
             Write-Host "Hello World"
+            #${env:ARM_CLIENT_ID}
+            #${env:ARM_CLIENT_SECRET}
+            #${env:ARM_SUBSCRIPTION_ID}
+            #${env:ARM_TENANT_ID}
           workingDirectory: '$(Build.SourcesDirectory)/app'
 
       - task: Docker@2
@@ -74,6 +78,31 @@ stages:
         inputs:
           pollingTimeoutSec: '300'
 
+      - task: PowerShell@2
+        enabled: true
+        name: tfstates
+        displayName: "Crear terraform storage"
+        inputs:
+          targetType: 'inline'
+          script: |
+            # Write your PowerShell commands here.
+            terraform init
+            terraform plan
+            terraform apply --auto-approve
+          workingDirectory: '$(Build.SourcesDirectory)/tfstate'
+
+      - task: PowerShell@2
+        enabled: true
+        name: terraform
+        displayName: "Crear AKS"
+        inputs:
+          targetType: 'inline'
+          script: |
+            # Write your PowerShell commands here.
+            terraform init
+            terraform plan
+            terraform apply --auto-approve
+          workingDirectory: '$(Build.SourcesDirectory)/infra'
 
 
 
