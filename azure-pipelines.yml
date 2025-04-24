@@ -63,8 +63,8 @@ stages:
         displayName: "Code coverage"
         inputs:
           codeCoverageTool: 'Cobertura'
-          summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
-          reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
+          summaryFileLocation: '$(Build.SourcesDirectory)/app/coverage/lcov.info'
+          reportDirectory: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
 
 
       - task: PowerShell@2
