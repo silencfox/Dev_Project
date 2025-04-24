@@ -3,7 +3,6 @@
 
 variable "TF_VAR_ghtoken" {
   type        = string
-  default     = "#{TF_VAR_ghtoken}#"
   description = "Github persnal access token"
 }
 
