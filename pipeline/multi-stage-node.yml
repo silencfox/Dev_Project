@@ -1,7 +1,7 @@
 parameters:
-  - name: environment
-    type: string
-
+- name: environments
+  type: object
+  default: ""
 stages:
   - ${{ each environment in parameters.environments }}:
       - stage: Deploy${{ environment.name }}
