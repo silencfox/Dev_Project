@@ -11,7 +11,7 @@ resource "tls_private_key" "aks" {
 resource "azurerm_kubernetes_cluster" "aks-cluster" {
   name                  = var.aks_name
   location              = var.location
-  resource_group_name   = var.resource_group_name
+  resource_group_name   = "${var.resource_group_name}-nrg"
   dns_prefix            = "${var.resource_group_name}-cluster"           
   kubernetes_version    =  data.azurerm_kubernetes_service_versions.current.latest_version
   node_resource_group = "${var.resource_group_name}-nrg"
