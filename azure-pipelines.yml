@@ -52,16 +52,6 @@ stages:
             #${env:ARM_TENANT_ID}
           workingDirectory: '$(Build.SourcesDirectory)/app'
 
-      - task: Docker@2
-        inputs:
-          containerRegistry: 'DOckerHub'
-          repository: 'silencfox/devsudemo'
-          command: 'buildAndPush'
-          Dockerfile: '**/Dockerfile'
-          tags: |
-            $(Build.BuildId)
-            latest
-
       - task: SonarCloudPrepare@3
         inputs:
           SonarQube: 'sonarcloud'
@@ -77,6 +67,19 @@ stages:
       - task: SonarCloudPublish@3
         inputs:
           pollingTimeoutSec: '300'
+
+
+      - task: Docker@2
+        name: "Docker_Build"
+        displayName: "Build and Push"
+        inputs:
+          containerRegistry: 'DOckerHub'
+          repository: 'silencfox/devsudemo'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: |
+            $(Build.BuildId)
+            latest
 
       - task: PowerShell@2
         enabled: true
