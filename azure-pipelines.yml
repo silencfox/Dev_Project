@@ -58,14 +58,20 @@ stages:
           failTaskOnFailedTests: true
           testRunTitle: 'Pruebas unitarias'
 
-      - task: PublishCodeCoverageResults@1
+      - task: PublishCodeCoverageResults@2
         condition: succeededOrFailed()
         displayName: "Code coverage"
+        enabled: false
         inputs:
           codeCoverageTool: 'Cobertura'
           summaryFileLocation: '$(Build.SourcesDirectory)/app/coverage/lcov.info'
           reportDirectory: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
 
+      - task: PublishCodeCoverageResults@2
+        inputs:
+          summaryFileLocation: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
+          pathToSources: '$(Build.SourcesDirectory)/app'
+          failIfCoverageEmpty: true
 
       - task: PowerShell@2
         enabled: true
