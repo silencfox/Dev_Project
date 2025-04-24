@@ -49,6 +49,7 @@ stages:
 
       - task: PublishTestResults@2
         condition: succeededOrFailed()
+        displayName: "Test Result"
         inputs:
           testResultsFormat: 'JUnit'
           testResultsFiles: '**/test_results.xml'
@@ -56,16 +57,26 @@ stages:
           failTaskOnFailedTests: true
           testRunTitle: 'Pruebas unitarias'
 
+      - task: PublishCodeCoverageResults@1
+        condition: succeededOrFailed()
+        displayName: "Code coverage"
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
+          reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
+
+
       - task: PowerShell@2
-        enabled: false
-        name: docker
+        enabled: true
+        name: show
         inputs:
           targetType: 'inline'
           script: |
             # Write your PowerShell commands here.
             pwd
             ls
-            docker build -t node:$(Build.BuildNumber) .
+            tree
+            #docker build -t node:$(Build.BuildNumber) .
             Write-Host "Hello World"
             #${env:ARM_CLIENT_ID}
             #${env:ARM_CLIENT_SECRET}
