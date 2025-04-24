@@ -2,6 +2,7 @@
 terraform.tfstate
 terraform.tfstate.backup
 .terraform
+.terraform.lock*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
