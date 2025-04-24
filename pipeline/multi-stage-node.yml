@@ -131,7 +131,7 @@ stages:
         dependsOn: ${{ environment.dependsOn }}
 
         jobs: 
-        - job: Build
+        - job: Deploy_Infrastructure
           timeoutInMinutes: 120        # how long to run the job before automatically cancelling
           cancelTimeoutInMinutes: 2   # how much time to give 'run always even if cancelled tasks' before stopping them
 
@@ -145,7 +145,7 @@ stages:
           - task: Bash@3
             enabled: false
             name: tfstates
-            displayName: "Crear terraform storage"
+            displayName: "Create_TF_Storage"
             inputs:
               targetType: 'inline'
               script: |
