@@ -70,6 +70,7 @@ stages:
 
 
       - task: Docker@2
+        enabled: false
         name: "Docker_Build"
         displayName: "Build and Push"
         inputs:
