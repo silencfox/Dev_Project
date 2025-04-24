@@ -43,6 +43,6 @@ variable "acr_name" {
 variable "ghpathfile" {
   type = string
 }
-variable "ghtoken" {
+variable "TF_VAR_ghtoken" {
   type = string
 }

@@ -8,7 +8,7 @@ aks_name                = "aks-Devsu"
 sku                      = "Basic"
 acr_name                 = "acrdevsu"
 ghpathfile               = "https://github.com/silencfox/Dev_Project#main:app"
-ghtoken                  = ""
+TF_VAR_ghtoken           = ""
                          
 tenant_id                = ""
 subscription_id          = ""

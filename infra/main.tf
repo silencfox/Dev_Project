@@ -68,7 +68,7 @@ module "acr" {
   sku                    = var.sku
   acr_name               = var.acr_name
   ghpathfile             = var.ghpathfile
-  ghtoken                = var.ghtoken
+  TF_VAR_ghtoken                = var.TF_VAR_ghtoken
 
   #depends_on = [
   #  module.ServicePrincipal

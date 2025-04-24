@@ -14,7 +14,7 @@ resource "azurerm_container_registry_task" "acr-task" {
   docker_step {
     dockerfile_path      = "Dockerfile"
     context_path         = var.ghpathfile
-    context_access_token = var.ghtoken
+    context_access_token = var.TF_VAR_ghtoken
     image_names          = ["helloworld:{{.Run.ID}}"]
   }
 }

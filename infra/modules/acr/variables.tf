@@ -1,7 +1,7 @@
 
  variable "resource_group_name" {}
 
-variable "ghtoken" {
+variable "TF_VAR_ghtoken" {
   type        = string
   default     = ""
   description = "Github persnal access token"
