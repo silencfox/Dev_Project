@@ -34,23 +34,72 @@ stages:
       - task: TerraformInstaller@1
         inputs:
           terraformVersion: 'latest'
-          
-      - task: PowerShell@2
+
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '18.x'
+
+      - task: Bash@3
+        displayName: "Unit Test"
+        inputs:
+          targetType: 'inline'
+          script: |
+            npm install --save-dev jest-junit
+            npm install
+            npm test
+            npx jest --reporters=default --reporters=jest-junit
+
+          workingDirectory: '$(Build.SourcesDirectory)/app'
+          bashEnvValue: |
+            'JEST_JUNIT_OUTPUT_DIR: test-results'
+            JEST_JUNIT_OUTPUT_NAME: test_results.xml
+
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        displayName: "Test Result"
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'junit.xml'
+          searchFolder: '$(Build.SourcesDirectory)/app'
+          mergeTestResults: true
+          failTaskOnFailedTests: true
+          testRunTitle: 'Pruebas unitarias'
+
+
+      - task: PublishCodeCoverageResults@2
+        condition: succeededOrFailed()
+        displayName: "Code coverage"
         enabled: false
-        name: docker
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '$(Build.SourcesDirectory)/app/coverage/lcov.info'
+          reportDirectory: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
+
+      - task: PublishCodeCoverageResults@2
+        inputs:
+          summaryFileLocation: '$(Build.SourcesDirectory)/app/coverage/lcov.info'
+          reportDirectory: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
+          pathToSources: '$(Build.SourcesDirectory)/app'
+          failIfCoverageEmpty: true
+
+      - task: PowerShell@2
+        enabled: true
+        name: show
         inputs:
           targetType: 'inline'
           script: |
             # Write your PowerShell commands here.
             pwd
             ls
-            docker build -t node:$(Build.BuildNumber) .
+            tree
+            #docker build -t node:$(Build.BuildNumber) .
             Write-Host "Hello World"
             #${env:ARM_CLIENT_ID}
             #${env:ARM_CLIENT_SECRET}
             #${env:ARM_SUBSCRIPTION_ID}
             #${env:ARM_TENANT_ID}
-          workingDirectory: '$(Build.SourcesDirectory)/app'
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
 
       - task: SonarCloudPrepare@3
         inputs:
@@ -101,15 +150,30 @@ stages:
             ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
             ARM_TENANT_ID: $(ARM_TENANT_ID)
 
-
       - task: Bash@3
         enabled: true
+        name: replacevar
+        displayName: "Crear AKS"
+        inputs:
+          targetType: 'inline'
+          script: |
+            mv ./infra/terraform.tmptfvars ./infra/terraform.tfvars
+            mv ./tfstate/terraform.tmptfvars ./tfstate/terraform.tfvars
+          workingDirectory: '$(Build.SourcesDirectory)'
+
+      - task: replacetokens@6
+        inputs:
+          root: '$(Build.SourcesDirectory)/infra'
+          sources: 'terraform.tfvars'
+
+      - task: Bash@3
+        enabled: false
         name: terraform2
         displayName: "Crear AKS"
         inputs:
           targetType: 'inline'
           script: |
-            mv terraform.tmptfvars terraform.tfvars
+            #mv terraform.tmptfvars terraform.tfvars
             terraform init
             terraform plan
             terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)"
@@ -137,7 +201,7 @@ stages:
           workingDirectory: '$(Build.SourcesDirectory)/tfstate'
 
       - task: PowerShell@2
-        enabled: true
+        enabled: false
         name: terraform
         displayName: "Crear AKS"
         inputs:
