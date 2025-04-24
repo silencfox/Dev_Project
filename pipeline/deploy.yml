@@ -20,7 +20,7 @@ extends:
   parameters:
     environments:
       - name: Dev
-        dependsOn: Build
+        dependsOn: Build_And_Analyze
         environment: DEV
       - name: QA
         dependsOn: DeployDev
