@@ -69,7 +69,8 @@ stages:
 
       - task: PublishCodeCoverageResults@2
         inputs:
-          summaryFileLocation: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
+          summaryFileLocation: '$(Build.SourcesDirectory)/app/coverage/lcov.info'
+          reportDirectory: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
           pathToSources: '$(Build.SourcesDirectory)/app'
           failIfCoverageEmpty: true
 
