@@ -45,6 +45,7 @@ stages:
           script: |
             npm install
             npm test
+          workingDirectory: '$(Build.SourcesDirectory)/app'
 
       - task: PublishTestResults@2
         condition: succeededOrFailed()
