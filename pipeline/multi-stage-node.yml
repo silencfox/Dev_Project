@@ -3,6 +3,20 @@ parameters:
   type: object
   default: ""
 stages:
+  - stage: Build
+    displayName: Build
+    jobs: 
+    - job: Build
+      timeoutInMinutes: 120        # how long to run the job before automatically cancelling
+      cancelTimeoutInMinutes: 2   # how much time to give 'run always even if cancelled tasks' before stopping them
+
+      steps:
+      - checkout: self
+        persistCredentials: true
+        clean: true
+        fetchDepth: 0
+
+
   - ${{ each environment in parameters.environments }}:
       - stage: Deploy${{ environment.name }}
         displayName: Deploy ${{ environment.name }}
