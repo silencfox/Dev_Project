@@ -1,28 +1,227 @@
 parameters:
-  - name: environment
-    type: string
-
-- name: testOnMultipleServers
-  type: boolean
-  default: true
-
+- name: environments
+  type: object
+  default: ""
 stages:
+  - stage: Build
+    displayName: Build
+    jobs: 
+    - job: Build
+      timeoutInMinutes: 120        # how long to run the job before automatically cancelling
+      cancelTimeoutInMinutes: 2   # how much time to give 'run always even if cancelled tasks' before stopping them
+
+      steps:
+      - checkout: self
+        persistCredentials: true
+        clean: true
+        fetchDepth: 0
+
+      - script: echo Hello, world!
+        displayName: 'Run a one-line script'
+
+      - task: DockerInstaller@0
+        inputs:
+          dockerVersion: '17.09.0-ce'
+
+      - task: TerraformInstaller@1
+        inputs:
+          terraformVersion: 'latest'
+
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '18.x'
+
+      - task: Bash@3
+        displayName: "Unit Test"
+        inputs:
+          targetType: 'inline'
+          script: |
+            npm install --save-dev jest-junit
+            npm install
+            npm test
+            npx jest --reporters=default --reporters=jest-junit
+
+          workingDirectory: '$(Build.SourcesDirectory)/app'
+          bashEnvValue: |
+            'JEST_JUNIT_OUTPUT_DIR: test-results'
+            JEST_JUNIT_OUTPUT_NAME: test_results.xml
+
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        displayName: "Test Result"
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'junit.xml'
+          searchFolder: '$(Build.SourcesDirectory)/app'
+          mergeTestResults: true
+          failTaskOnFailedTests: true
+          testRunTitle: 'Pruebas unitarias'
+
+
+      - task: PublishCodeCoverageResults@2
+        condition: succeededOrFailed()
+        displayName: "Code coverage"
+        enabled: false
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '$(Build.SourcesDirectory)/app/coverage/lcov.info'
+          reportDirectory: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
+
+      - task: PublishCodeCoverageResults@2
+        inputs:
+          summaryFileLocation: '$(Build.SourcesDirectory)/app/coverage/lcov.info'
+          reportDirectory: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
+          pathToSources: '$(Build.SourcesDirectory)/app'
+          failIfCoverageEmpty: true
+
+      - task: PowerShell@2
+        enabled: true
+        name: show
+        inputs:
+          targetType: 'inline'
+          script: |
+            # Write your PowerShell commands here.
+            pwd
+            ls
+            tree
+            #docker build -t node:$(Build.BuildNumber) .
+            Write-Host "Hello World"
+            #${env:ARM_CLIENT_ID}
+            #${env:ARM_CLIENT_SECRET}
+            #${env:ARM_SUBSCRIPTION_ID}
+            #${env:ARM_TENANT_ID}
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+      - task: SonarCloudPrepare@3
+        inputs:
+          SonarQube: 'sonarcloud'
+          organization: 'silencfox'
+          scannerMode: 'cli'
+          configMode: 'file'
+
+      - task: SonarCloudAnalyze@3
+        enabled: false
+        inputs:
+          jdkversion: 'JAVA_HOME'
+
+      - task: SonarCloudPublish@3
+        inputs:
+          pollingTimeoutSec: '300'
+
+
+      - task: Docker@2
+        enabled: false
+        name: "Docker_Build"
+        displayName: "Build and Push"
+        inputs:
+          containerRegistry: 'DOckerHub'
+          repository: 'silencfox/devsudemo'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: |
+            $(Build.BuildId)
+            latest
+
+
+
   - ${{ each environment in parameters.environments }}:
       - stage: Deploy${{ environment.name }}
         displayName: Deploy ${{ environment.name }}
         dependsOn: ${{ environment.dependsOn }}
-        jobs:
-          - job: Infraestructura
-            displayName: Aprovisionando Infraestructura
-            pool:
-              vmImage: ubuntu-latest
-            steps:
-              - task: PowerShell@2
-                enabled: false
-                inputs:
-                  targetType: 'inline'
-                  script: |
-                    # Write your PowerShell commands here.
-                    pwd
 
-                
+        jobs: 
+        - job: Build
+          timeoutInMinutes: 120        # how long to run the job before automatically cancelling
+          cancelTimeoutInMinutes: 2   # how much time to give 'run always even if cancelled tasks' before stopping them
+
+          steps:
+          - checkout: self
+            persistCredentials: true
+            clean: true
+            fetchDepth: 0
+
+
+          - task: Bash@3
+            enabled: false
+            name: tfstates
+            displayName: "Crear terraform storage"
+            inputs:
+              targetType: 'inline'
+              script: |
+                mv terraform.tmptfvars terraform.tfvars
+                terraform init
+                terraform plan
+                terraform apply --auto-approve
+              workingDirectory: '$(Build.SourcesDirectory)/tfstate'
+              bashEnvValue: |
+                ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+                ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+                ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+                ARM_TENANT_ID: $(ARM_TENANT_ID)
+
+          - task: Bash@3
+            enabled: true
+            name: replacevar
+            displayName: "Crear AKS"
+            inputs:
+              targetType: 'inline'
+              script: |
+                mv ./infra/terraform.tmptfvars ./infra/terraform.tfvars
+                mv ./tfstate/terraform.tmptfvars ./tfstate/terraform.tfvars
+              workingDirectory: '$(Build.SourcesDirectory)'
+
+          - task: replacetokens@6
+            inputs:
+              root: '$(Build.SourcesDirectory)/infra'
+              sources: 'terraform.tfvars'
+
+          - task: Bash@3
+            enabled: false
+            name: terraform2
+            displayName: "Crear AKS"
+            inputs:
+              targetType: 'inline'
+              script: |
+                #mv terraform.tmptfvars terraform.tfvars
+                terraform init
+                terraform plan
+                terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)"
+              workingDirectory: '$(Build.SourcesDirectory)/infra'
+              bashEnvValue: |
+                ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+                ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+                ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+                ARM_TENANT_ID: $(ARM_TENANT_ID)
+                TF_VAR_ghtoken: $(TF_VAR_ghtoken)
+
+
+          - task: PowerShell@2
+            enabled: false
+            name: tfstates
+            displayName: "Crear terraform storage"
+            inputs:
+              targetType: 'inline'
+              script: |
+                # Write your PowerShell commands here.
+                Rename-Item -Path "terraform.tmptfvars" -NewName "terraform.tfvars"
+                terraform init
+                terraform plan
+                terraform apply --auto-approve
+              workingDirectory: '$(Build.SourcesDirectory)/tfstate'
+
+          - task: PowerShell@2
+            enabled: false
+            name: terraform
+            displayName: "Crear AKS"
+            inputs:
+              targetType: 'inline'
+              script: |
+                # Write your PowerShell commands here.
+                Rename-Item -Path "terraform.tmptfvars" -NewName "terraform.tfvars"
+                terraform init
+                terraform plan
+                terraform apply --auto-approve
+              workingDirectory: '$(Build.SourcesDirectory)/infra'
+
+

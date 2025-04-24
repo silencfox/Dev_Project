@@ -1,43 +1,30 @@
-name: $(Build.BuildId)-$(SourceBranchName)-$(Date:yyyyMMdd)$(rev:.r)
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
 
-trigger: none
+trigger:
+- main
 
-parameters:
-  - name: desiredVersion
-    type: string
-    displayName: Version
-    default: "1.1.0"
-
-resources:
-  pipelines:
-    - pipeline: Build
-      source: Build
-      trigger:
-        branches:
-        - main
-        - Test
-        stages:
-          - Build
+pool:
+  vmImage: ubuntu-latest
 
 variables:
   - name: application_name
-    value: 'Devsu'
+    value: 'Node_Devsu'
 
 
 lockBehavior: sequential
 extends:
-  template: pipeline/multi-stage-node.yml
+  template: multi-stage-node.yml
   parameters:
-    artifactName: drop
-    application_name: $(application_name)
-
     environments:
       - name: Dev
-        dependsOn: []
+        dependsOn: Build
         environment: DEV
       - name: QA
-        dependsOn: DeployDev 
+        dependsOn: DeployDev
         environment: QA
-      - name: PROD
+      - name: Prod
         dependsOn: DeployQA
         environment: PROD

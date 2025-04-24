@@ -8,7 +8,7 @@ resource "tls_private_key" "aks" {
   rsa_bits  = 4096
 }
 
-resource "azurerm_kubernetes_cluster" "aks-cluster" {
+resource "azurerm_kubernetes_cluster" "aks_cluster" {
   name                  = var.aks_name
   location              = var.location
   resource_group_name   = "${var.resource_group_name}-nrg"
