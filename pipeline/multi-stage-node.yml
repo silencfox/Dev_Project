@@ -2,10 +2,6 @@ parameters:
   - name: environment
     type: string
 
-- name: testOnMultipleServers
-  type: boolean
-  default: true
-
 stages:
   - ${{ each environment in parameters.environments }}:
       - stage: Deploy${{ environment.name }}
