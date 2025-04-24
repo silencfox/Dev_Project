@@ -45,6 +45,8 @@ stages:
           workingDirectory: '$(Build.SourcesDirectory)/app'
 
       - task: Docker@2
+        enabled: false
+        displayName: "Publish build"
         inputs:
           containerRegistry: 'DOckerHub'
           repository: 'silencfox/devsudemo'
