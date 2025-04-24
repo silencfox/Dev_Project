@@ -75,23 +75,6 @@ stages:
           pathToSources: '$(Build.SourcesDirectory)/app'
           failIfCoverageEmpty: true
 
-      - task: PowerShell@2
-        enabled: true
-        name: show
-        inputs:
-          targetType: 'inline'
-          script: |
-            # Write your PowerShell commands here.
-            pwd
-            ls
-            tree
-            #docker build -t node:$(Build.BuildNumber) .
-            Write-Host "Hello World"
-            #${env:ARM_CLIENT_ID}
-            #${env:ARM_CLIENT_SECRET}
-            #${env:ARM_SUBSCRIPTION_ID}
-            #${env:ARM_TENANT_ID}
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
 
       - task: SonarCloudPrepare@3
         inputs:
