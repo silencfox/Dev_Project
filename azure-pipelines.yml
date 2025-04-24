@@ -61,6 +61,7 @@ stages:
         inputs:
           testResultsFormat: 'JUnit'
           testResultsFiles: '**/test-results/test_results.xml'
+          searchFolder: '$(Build.SourcesDirectory)/app'
           mergeTestResults: true
           failTaskOnFailedTests: true
           testRunTitle: 'Pruebas unitarias'
