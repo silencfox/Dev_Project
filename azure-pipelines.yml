@@ -44,19 +44,27 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
+            npm install --save-dev jest-junit
             npm install
             npm test
+            npx jest --reporters=default --reporters=jest-junit
+
           workingDirectory: '$(Build.SourcesDirectory)/app'
+          bashEnvValue: |
+            'JEST_JUNIT_OUTPUT_DIR: test-results'
+            JEST_JUNIT_OUTPUT_NAME: test_results.xml
+
 
       - task: PublishTestResults@2
         condition: succeededOrFailed()
         displayName: "Test Result"
         inputs:
           testResultsFormat: 'JUnit'
-          testResultsFiles: '**/test_results.xml'
+          testResultsFiles: '**/test-results/test_results.xml'
           mergeTestResults: true
           failTaskOnFailedTests: true
           testRunTitle: 'Pruebas unitarias'
+
 
       - task: PublishCodeCoverageResults@2
         condition: succeededOrFailed()
