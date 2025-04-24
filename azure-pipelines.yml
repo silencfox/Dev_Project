@@ -112,7 +112,7 @@ stages:
             mv terraform.tmptfvars terraform.tfvars
             terraform init
             terraform plan
-            terraform apply --auto-approve
+            terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)"
           workingDirectory: '$(Build.SourcesDirectory)/infra'
           bashEnvValue: |
             ARM_CLIENT_ID: $(ARM_CLIENT_ID)
