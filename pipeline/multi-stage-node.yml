@@ -422,11 +422,11 @@ stages:
                         #mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
                       workingDirectory: '$(Build.SourcesDirectory)/infra'
 
-                - script: |
-                    echo "hola"
-                    #kubectl get nodes
-                    #kubectl apply -f path/to/deployment.yml
-                  displayName: 'Deploy to AKS using kubeconfig'
+                  - script: |
+                      echo "hola"
+                      #kubectl get nodes
+                      #kubectl apply -f path/to/deployment.yml
+                    displayName: 'Deploy to AKS using kubeconfig'
 
                   - task: Bash@3
                     enabled: true
