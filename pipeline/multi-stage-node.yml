@@ -312,6 +312,14 @@ stages:
                       terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                       terraform apply -auto-approve "${{ environment.name }}.tfplan"
                       ls -lrt
+
+                      mkdir -p ~/.kube
+                      cp kubeconfig kubeconfig.yaml
+                      cp kubeconfig.yaml ~/.kube/config
+                      chmod 600 ~/.kube/config
+                      ls -lrt ~/.kube
+                      kubectl get nodes
+                      #kubectl apply -f path/to/deployment.yml
                       #terraform plan -destroy -out="${{ environment.name }}.tfplan"
                       #terraform apply tfplan "${{ environment.name }}.tfplan"
 
