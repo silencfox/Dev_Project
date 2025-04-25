@@ -403,18 +403,26 @@ stages:
                       kubectlVersion: 'latest'
 
                   - task: Bash@3
-
                     inputs:
                       targetType: 'inline'
                       script: |
+                        echo "infra"
+                        ls -lrt
+                        echo "_tmp"
                         ls -lrt /home/vsts/work/_temp/
+                        echo ".kube"
+                        ls -lrta ~/.kube
+                        mkdir -p ~/.kube
+                        cp kubeconfig.yaml ~/.kube/config
+                        chmod 600 ~/.kube/config
+
                         #chmod go-r "$(terraform_alonetfvars.secureFilePath)"
                         #chmod go-r "$(terraformtfvars.secureFilePath)"
                         #cat "$(terraform_alonetfvars.secureFilePath)"
                         #cat "$(terraformtfvars.secureFilePath)"
                         #mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                         #mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
-                      workingDirectory: '$(Build.SourcesDirectory)'
+                      workingDirectory: '$(Build.SourcesDirectory)/infra'
 
                   - task: Bash@3
                     enabled: true
