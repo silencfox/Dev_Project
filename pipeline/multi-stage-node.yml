@@ -407,12 +407,13 @@ stages:
                     inputs:
                       targetType: 'inline'
                       script: |
-                        chmod go-r "$(terraform_alonetfvars.secureFilePath)"
-                        chmod go-r "$(terraformtfvars.secureFilePath)"
-                        cat "$(terraform_alonetfvars.secureFilePath)"
-                        cat "$(terraformtfvars.secureFilePath)"
-                        mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
-                        mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
+                        ls -lrt /home/vsts/work/_temp/
+                        #chmod go-r "$(terraform_alonetfvars.secureFilePath)"
+                        #chmod go-r "$(terraformtfvars.secureFilePath)"
+                        #cat "$(terraform_alonetfvars.secureFilePath)"
+                        #cat "$(terraformtfvars.secureFilePath)"
+                        #mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                        #mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
                       workingDirectory: '$(Build.SourcesDirectory)'
 
                   - task: Bash@3
