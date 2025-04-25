@@ -213,16 +213,18 @@ stages:
               sources: 'terraform.tfvars'
 
           - task: Bash@3
-            enabled: false
+            enabled: true
             name: terraform2
             displayName: "Crear AKS"
             inputs:
               targetType: 'inline'
               script: |
                 #mv terraform.tmptfvars terraform.tfvars
-                terraform init
-                terraform plan
-                terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="TF_VAR_ghtoken=${{ environment.name }}"
+                terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                terraform plan -out="${{ environment.name }}.tfplan" -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="TF_VAR_ghtoken=${{ environment.name }}"
+                terraform apply -auto-approve "${{ environment.name }}.tfplan"
+
+                #terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="TF_VAR_ghtoken=${{ environment.name }}"
               workingDirectory: '$(Build.SourcesDirectory)/infra'
               bashEnvValue: |
                 ARM_CLIENT_ID: $(ARM_CLIENT_ID)
