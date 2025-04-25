@@ -16,6 +16,19 @@ stages:
         clean: true
         fetchDepth: 0
 
+
+      - task: DownloadSecureFile@1
+        name: 'terraformtfvars'
+        displayName: 'download tfvars'
+        inputs:
+          secureFile: 'terraform.tfvars'
+
+      - task: DownloadSecureFile@1
+        name: 'terraform_alonetfvars'
+        displayName: 'download alone tfvars'
+        inputs:
+          secureFile: 'terraform_alone.tfvars'
+
       - task: Bash@3
         inputs:
           targetType: 'inline'
@@ -26,7 +39,6 @@ stages:
             cat "$(terraformtfvars.secureFilePath)"
             mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
             mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
-
           workingDirectory: '$(Build.SourcesDirectory)'
 
       - task: DockerInstaller@0
@@ -37,6 +49,20 @@ stages:
         inputs:
           terraformVersion: 'latest'
 
+      - task: AzureCLI@2
+        enabled: true
+        inputs:
+          azureSubscription: 'Azure subscription 1(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
+            docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
+            docker push $(ARM_ACR_LOGIN_SERVER)/devsudemo:latest
+          addSpnToEnvironment: true
+          useGlobalConfig: true
+          workingDirectory: '$(Build.SourcesDirectory)/app'
+          
       - task: NodeTool@0
         inputs:
           versionSpec: '18.x'
@@ -124,17 +150,6 @@ stages:
             ARM_TENANT_ID: $(ARM_TENANT_ID)
 
 
-      - task: DownloadSecureFile@1
-        name: 'terraformtfvars'
-        displayName: 'download tfvars'
-        inputs:
-          secureFile: 'terraform.tfvars'
-
-      - task: DownloadSecureFile@1
-        name: 'terraform_alonetfvars'
-        displayName: 'download alone tfvars'
-        inputs:
-          secureFile: 'terraform_alone.tfvars'
 
 
       - task: Bash@3
@@ -159,16 +174,15 @@ stages:
 
 
       - task: AzureCLI@2
+        enabled: true
         inputs:
           azureSubscription: 'Azure subscription 1(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
-          scriptType: 'ps'
+          scriptType: 'bash'
           scriptLocation: 'inlineScript'
           inlineScript: |
             docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
             docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
-            docker push $ARM_ACR_LOGIN_SERVER/devsudemo:latest
-
-          arguments: 'ARM_CLIENT_ID: $(ARM_CLIENT_ID)'
+            docker push $(ARM_ACR_LOGIN_SERVER)/devsudemo:latest
           addSpnToEnvironment: true
           useGlobalConfig: true
           workingDirectory: '$(Build.SourcesDirectory)/app'
