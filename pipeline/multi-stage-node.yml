@@ -308,16 +308,12 @@ stages:
 
                   - task: Bash@3
                     enabled: true
-                    displayName: "Crear AKS"
+                    displayName: "Roll Back AKS"
                     inputs:
                       targetType: 'inline'
                       script: |
-                        #mv terraform.tmptfvars terraform.tfvars
                         terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
                         terraform destroy -auto-approve 
-
-                        #terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="environment=${{ environment.name }}"
-
                 success:
                   steps:
 
@@ -329,3 +325,5 @@ stages:
                       script: |
                         echo "Successfully deployed to ${{ environment.name }}"    
                         echo "Retaining build..."
+                        terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        terraform destroy -auto-approve                         
