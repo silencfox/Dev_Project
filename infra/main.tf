@@ -22,7 +22,7 @@ module "ServicePrincipal" {
 #    module.ServicePrincipal
 #  ]
 #}
-
+/*
 module "keyvault" {
   source                      = "./modules/keyvault"
   keyvault_name               = var.keyvault_name
@@ -36,7 +36,7 @@ module "keyvault" {
     module.ServicePrincipal
   ]
 }
-
+*/
 #resource "azurerm_key_vault_secret" "example" {
 #  name         = module.ServicePrincipal.client_id
 #  value        = module.ServicePrincipal.client_secret
