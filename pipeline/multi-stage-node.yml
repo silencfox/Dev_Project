@@ -257,7 +257,7 @@ stages:
                       terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                       terraform apply -auto-approve "${{ environment.name }}.tfplan"
 
-                      terraform destroy --auto-approve
+                      terraform destroy --auto-approve -var="environment=${{ environment.name }}"
                       #terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="environment=${{ environment.name }}"
                     workingDirectory: '$(Build.SourcesDirectory)/infra'
                     #bashEnvValue: |
