@@ -284,17 +284,6 @@ stages:
                       mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
                     workingDirectory: '$(Build.SourcesDirectory)'
 
-                - task: Bash@3
-                  enabled: false
-                  name: replacevar
-                  displayName: "Crear AKS"
-                  inputs:
-                    targetType: 'inline'
-                    script: |
-                      mv ./infra/terraform.tmptfvars ./infra/terraform.tfvars
-                      mv ./tfstate/terraform.tmptfvars ./tfstate/terraform.tfvars
-                    workingDirectory: '$(Build.SourcesDirectory)'
-
                 - task: replacetokens@6
                   inputs:
                     root: '$(Build.SourcesDirectory)/infra'
@@ -302,7 +291,7 @@ stages:
 
                 - task: Bash@3
                   enabled: true
-                  name: terraform2
+                  name: Crear_AKS
                   displayName: "Crear AKS"
                   inputs:
                     targetType: 'inline'
@@ -311,16 +300,7 @@ stages:
                       terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
                       terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                       terraform apply -auto-approve "${{ environment.name }}.tfplan"
-                      ls -lrt
 
-                      mkdir -p ~/.kube
-                      cp kubeconfig kubeconfig.yaml
-                      cp kubeconfig.yaml ~/.kube/config
-                      chmod 600 ~/.kube/config
-                      ls -lrt ~/.kube
-                      export KUBECONFIG=$(Build.SourcesDirectory)/infra/kubeconfig.yaml
-                      kubectl get nodes
-                      #kubectl apply -f path/to/deployment.yml
                       #terraform plan -destroy -out="${{ environment.name }}.tfplan"
                       #terraform apply tfplan "${{ environment.name }}.tfplan"
 
@@ -332,6 +312,36 @@ stages:
                     #  ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
                     #  ARM_TENANT_ID: $(ARM_TENANT_ID)
                     #  TF_VAR_ghtoken: $(TF_VAR_ghtoken)
+
+                - task: Bash@3
+                  enabled: true
+                  name: Crear_AKS
+                  displayName: "Crear AKS"
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      mkdir -p ~/.kube
+                      cp kubeconfig kubeconfig.yaml
+                      cp kubeconfig.yaml ~/.kube/config
+                      chmod 600 ~/.kube/config
+                      ls -lrt ~/.kube
+                      export KUBECONFIG=$(Build.SourcesDirectory)/infra/kubeconfig.yaml
+                      kubectl get nodes
+                      kubectl create namespace devsu
+                      kubectl apply -f deployment.yaml -n devsu
+                      kubectl apply -f service_balance.yaml -n devsu
+                      kubectl apply -f hpa.yaml -n devsu
+                      
+                      kubectl get deployments -n devsu
+                      kubectl get services -n devsu
+
+                      #kubectl apply -f path/to/deployment.yml
+                      #terraform plan -destroy -out="${{ environment.name }}.tfplan"
+                      #terraform apply tfplan "${{ environment.name }}.tfplan"
+
+                      #terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="environment=${{ environment.name }}"
+                    workingDirectory: '$(Build.SourcesDirectory)/deployment'
+
 
                 - task: PublishPipelineArtifact@1
                   inputs:
