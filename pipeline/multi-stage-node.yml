@@ -363,7 +363,7 @@ stages:
                   - task: DownloadPipelineArtifact@2
                     inputs:
                       artifact: 'kubeconfig'
-                      path: '~/.kube/kubeconfig'
+                      path: 'kubeconfig'
 
                   - task: TerraformInstaller@1
                     inputs:
@@ -423,7 +423,7 @@ stages:
                   - task: DownloadPipelineArtifact@2
                     inputs:
                       artifact: 'kubeconfig'
-                      path: '~/.kube/kubeconfig'
+                      path: 'kubeconfig'
 
                   - task: TerraformInstaller@1
                     inputs:
