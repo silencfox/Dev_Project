@@ -434,7 +434,10 @@ stages:
                         #cat "$(terraformtfvars.secureFilePath)"
                         mv $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                         mv $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
+                        terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        terraform destroy -auto-approve
                         terraform output
+
                       workingDirectory: '$(Build.SourcesDirectory)/infra'
 
                   - script: |
