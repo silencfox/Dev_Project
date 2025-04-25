@@ -335,15 +335,13 @@ stages:
                   - script: echo "Desplegando a QA"
 
                   - task: DownloadSecureFile@1
-                    name: 'terraform_alonetfvars_fail'
-                    enabled: false
+                    enabled: true
                     displayName: 'download tfvars'
                     inputs:
                       secureFile: 'terraform.tfvars'
 
                   - task: DownloadSecureFile@1
-                    name: 'terraform_tfvars_fail'
-                    enabled: false
+                    enabled: true
                     displayName: 'download alone tfvars'
                     inputs:
                       secureFile: 'terraform_alone.tfvars'
@@ -382,13 +380,13 @@ stages:
                   - script: echo "Desplegando a QA"
 
                   - task: DownloadSecureFile@1
-                    enabled: false
+                    enabled: true
                     displayName: 'download tfvars'
                     inputs:
                       secureFile: 'terraform.tfvars'
 
                   - task: DownloadSecureFile@1
-                    enabled: false
+                    enabled: true
                     displayName: 'download alone tfvars'
                     inputs:
                       secureFile: 'terraform_alone.tfvars'
