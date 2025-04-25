@@ -16,6 +16,15 @@ stages:
         clean: true
         fetchDepth: 0
 
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            chmod go-r "$(terraform_alonetfvars.secureFilePath)"
+            chmod go-r "$(terraformtfvars.secureFilePath)"
+            mv $(terraform_alone.tfvars.secureFilePath) ./terraform.tfvars
+          workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
+
       - task: DockerInstaller@0
         inputs:
           dockerVersion: '17.09.0-ce'
@@ -131,7 +140,8 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            chmod go-r "$(terraform_alone.tfvars.secureFilePath)"
+            chmod go-r "$(terraform_alonetfvars.secureFilePath)"
+            chmod go-r "$(terraformtfvars.secureFilePath)"
             mv $(terraform_alone.tfvars.secureFilePath) ./terraform.tfvars
             terraform init
             terraform plan
