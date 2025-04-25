@@ -14,7 +14,7 @@ resource "tls_private_key" "aks" {
 }
 
 resource "azurerm_kubernetes_cluster" "aks-cluster" {
-  name                  = "techtutorialwithpiyush-aks-cluster"
+  name                  = "${var.cluster_name}"
   location              = var.location
   resource_group_name   = var.resource_group_name
   dns_prefix            = "${var.resource_group_name}-cluster"           
@@ -32,12 +32,12 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
     type                 = "VirtualMachineScaleSets"
     node_labels = {
       "nodepool-type"    = "system"
-      "environment"      = "prod"
+      "environment"      = "${var.environment}"
       "nodepoolos"       = "linux"
      } 
    tags = {
       "nodepool-type"    = "system"
-      "environment"      = "prod"
+      "environment"      = "${var.environment}"
       "nodepoolos"       = "linux"
    } 
   }

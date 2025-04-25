@@ -41,6 +41,18 @@ variable "create_acr" {
 variable "ghpathfile" {
   type = string
 }
+
 variable "TF_VAR_ghtoken" {
   type = string
+}
+
+variable "environment" {
+  type = string
+  description = "Ambiente de la infra Dev, QA, Prod"
+}
+
+variable "cluster_name" {
+  type = string
+  default = "Devsu-aks-cluster"
+  description = "Nombre del cluster AKS"
 }
