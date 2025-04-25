@@ -373,11 +373,12 @@ stages:
                     inputs:
                       targetType: 'inline'
                       script: |
-                        echo "infra"
-                        #ls -lrta ~/.kube
-                        #mkdir -p ~/.kube
+                        mkdir -p ~/.kube
                         #cp kubeconfig.yaml ~/.kube/config
-                        #chmod 600 ~/.kube/config
+                        cp $(Build.SourcesDirectory)/kubeconfig ~/.kube/config
+                        chmod 600 ~/.kube/config
+                        kubectl get nodes
+
                         chmod go-r "$(Agent.TempDirectory)/terraform.tfvars"
                         chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
 
@@ -438,11 +439,11 @@ stages:
                     inputs:
                       targetType: 'inline'
                       script: |
-                        echo "infra"
-                        #ls -lrta ~/.kube
-                        #mkdir -p ~/.kube
+                        mkdir -p ~/.kube
                         #cp kubeconfig.yaml ~/.kube/config
-                        #chmod 600 ~/.kube/config
+                        cp $(Build.SourcesDirectory)/kubeconfig ~/.kube/config
+                        chmod 600 ~/.kube/config
+                        kubectl get nodes
                         chmod go-r "$(Agent.TempDirectory)/terraform.tfvars"
                         chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
 
@@ -450,10 +451,10 @@ stages:
                         #cat "$(terraformtfvars.secureFilePath)"
                         mv $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                         mv $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
-                        terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
-                        terraform destroy -auto-approve
-                        terraform output
-                        kubectl get nodes
+                        #terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        #terraform destroy -auto-approve
+                        #terraform output
+
                       workingDirectory: '$(Build.SourcesDirectory)/infra'
 
                   - script: |
