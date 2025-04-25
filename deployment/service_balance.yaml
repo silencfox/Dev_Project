@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: desunode
+  name: node-service
 spec:
   selector:
-    app: desunode
+    run: node-service  # Cambiado de desunode a node-service
   type: LoadBalancer
   ports:
   - protocol: TCP
