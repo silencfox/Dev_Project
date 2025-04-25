@@ -4,9 +4,9 @@ parameters:
   default: ""
 stages:
   - stage: Build_And_Analyze
-    displayName: Build And Analyze	
+    displayName: Build And Analyze
     jobs: 
-    - job: build_node_app
+    - job: 'Build_app'
       timeoutInMinutes: 120        # how long to run the job before automatically cancelling
       cancelTimeoutInMinutes: 2   # how much time to give 'run always even if cancelled tasks' before stopping them
 
