@@ -189,6 +189,54 @@ stages:
         dependsOn: ${{ environment.dependsOn }}
 
         jobs: 
+        - job: Deploy_Infrastructure
+          timeoutInMinutes: 120        # how long to run the job before automatically cancelling
+          cancelTimeoutInMinutes: 2   # how much time to give 'run always even if cancelled tasks' before stopping them
+
+          steps:
+          - checkout: self
+            persistCredentials: true
+            clean: true
+            fetchDepth: 0
+
+
+          - task: Bash@3
+            enabled: false
+            name: replacevar
+            displayName: "Crear AKS"
+            inputs:
+              targetType: 'inline'
+              script: |
+                mv ./infra/terraform.tmptfvars ./infra/terraform.tfvars
+                mv ./tfstate/terraform.tmptfvars ./tfstate/terraform.tfvars
+              workingDirectory: '$(Build.SourcesDirectory)'
+
+          - task: replacetokens@6
+            inputs:
+              root: '$(Build.SourcesDirectory)/infra'
+              sources: 'terraform.tfvars'
+
+          - task: Bash@3
+            enabled: true
+            name: terraform2
+            displayName: "Crear AKS"
+            inputs:
+              targetType: 'inline'
+              script: |
+                #mv terraform.tmptfvars terraform.tfvars
+                terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
+                terraform apply -auto-approve "${{ environment.name }}.tfplan"
+
+                #terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="environment=${{ environment.name }}"
+              workingDirectory: '$(Build.SourcesDirectory)/infra'
+              bashEnvValue: |
+                ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+                ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+                ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+                ARM_TENANT_ID: $(ARM_TENANT_ID)
+                TF_VAR_ghtoken: $(TF_VAR_ghtoken)
+
 
         - deployment: Deploy${{ environment.name }}
           environment: ${{ environment.name }}
