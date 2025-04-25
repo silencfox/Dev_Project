@@ -113,13 +113,13 @@ stages:
 
       - task: DownloadSecureFile@1
         name: 'terraformtfvars'
-        displayName: 'terraform'
+        displayName: 'download tfvars'
         inputs:
           secureFile: 'terraform.tfvars'
 
       - task: DownloadSecureFile@1
         name: 'terraform_alonetfvars'
-        displayName: 'terraform'
+        displayName: 'download alone tfvars'
         inputs:
           secureFile: 'terraform_alone.tfvars'
 
