@@ -16,5 +16,5 @@ output "client_secret" {
 output "kube_config" {
   description = "config de kubernetes"
   value       = module.aks.kube_config
-  sensitive = false
+  sensitive = true
 }
