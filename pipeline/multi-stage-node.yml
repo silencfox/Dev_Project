@@ -321,11 +321,11 @@ stages:
                     targetType: 'inline'
                     script: |
                       mkdir -p ~/.kube
-                      cp kubeconfig kubeconfig.yaml
-                      cp kubeconfig.yaml ~/.kube/config
+                      cp $(Build.SourcesDirectory)/infra/kubeconfig kubeconfig.yaml
+                      cp $(Build.SourcesDirectory)/infra/kubeconfig ~/.kube/config
                       chmod 600 ~/.kube/config
                       ls -lrt ~/.kube
-                      export KUBECONFIG=$(Build.SourcesDirectory)/infra/kubeconfig.yaml
+                      export KUBECONFIG=$(Build.SourcesDirectory)/infra/kubeconfig
                       kubectl get nodes
                       kubectl create namespace devsu
                       kubectl apply -f deployment.yaml -n devsu
