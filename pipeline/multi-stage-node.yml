@@ -319,6 +319,7 @@ stages:
                       chmod 600 ~/.kube/config
                       ls -lrt ~/.kube
                       kubectl get nodes
+                      #export KUBECONFIG=$(Build.ArtifactStagingDirectory)/kubeconfig.yaml
                       #kubectl apply -f path/to/deployment.yml
                       #terraform plan -destroy -out="${{ environment.name }}.tfplan"
                       #terraform apply tfplan "${{ environment.name }}.tfplan"
