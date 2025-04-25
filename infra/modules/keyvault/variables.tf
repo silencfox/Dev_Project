@@ -13,10 +13,5 @@ variable "service_principal_name" {
     type = string
 }
 
-variable "sku" {
-    type = string
-    default = "premium"
-}
-
-#variable "service_principal_object_id" {}
+variable "service_principal_object_id" {}
 variable "service_principal_tenant_id" {}

@@ -1,3 +1,8 @@
+# Datasource to get Latest Azure AKS latest Version
+# Check if there is a var with the version name , if not , use the 
+# latest version, if there is a var, use that version
+# make sure the version specified in var is valid
+
 data "azurerm_kubernetes_service_versions" "current" {
   location = var.location
   include_preview = false  
@@ -8,10 +13,10 @@ resource "tls_private_key" "aks" {
   rsa_bits  = 4096
 }
 
-resource "azurerm_kubernetes_cluster" "aks_cluster" {
-  name                  = var.aks_name
+resource "azurerm_kubernetes_cluster" "aks-cluster" {
+  name                  = "techtutorialwithpiyush-aks-cluster"
   location              = var.location
-  resource_group_name   = "${var.resource_group_name}-nrg"
+  resource_group_name   = var.resource_group_name
   dns_prefix            = "${var.resource_group_name}-cluster"           
   kubernetes_version    =  data.azurerm_kubernetes_service_versions.current.latest_version
   node_resource_group = "${var.resource_group_name}-nrg"
@@ -40,10 +45,9 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   identity {
     type = "SystemAssigned"
   }
-
-  tags = {
-    Environment = "Production"
-  }
+  
+# to do: generate the ssh keys using tls_private_key
+# upload the key to key vault
 
   linux_profile {
     admin_username = "ubuntu"
@@ -61,11 +65,4 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     
   }
 
-/*
-resource "azurerm_role_assignment" "ars" {
-  principal_id                     = azurerm_kubernetes_cluster.aks-cluster.kubelet_identity[0].object_id
-  role_definition_name             = "AcrPull"
-  scope                            = azurerm_container_registry.acr.id
-  skip_service_principal_aad_check = true
-}
-*/
+

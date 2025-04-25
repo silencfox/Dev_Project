@@ -11,14 +11,8 @@ variable "ssh_public_key" {
   default = "~/.ssh/id_rsa.pub"
 }
 
-#variable "client_id" {}
-#variable "client_secret" {
-#  type = string
-#  sensitive = true
-#}
-
-variable "aks_name" {
+variable "client_id" {}
+variable "client_secret" {
   type = string
   sensitive = true
 }
-

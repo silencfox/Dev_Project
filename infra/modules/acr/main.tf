@@ -1,12 +1,14 @@
 
 resource "azurerm_container_registry" "acr" {
   name                = var.acr_name
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.rgname
   location            = var.location
   sku                 = var.sku
 }
-resource "azurerm_container_registry_task" "acr-task" {
-  name                  = "acr-task"
+
+resource "azurerm_container_registry_task" "acr_task" {
+  name                  = "acr_task"
+  enabled               = var.create_acr
   container_registry_id = azurerm_container_registry.acr.id
   platform {
     os = "Linux"
@@ -15,7 +17,7 @@ resource "azurerm_container_registry_task" "acr-task" {
     dockerfile_path      = "Dockerfile"
     context_path         = var.ghpathfile
     context_access_token = var.TF_VAR_ghtoken
-    image_names          = ["helloworld:{{.Run.ID}}"]
+    image_names          = ["devsudemo:{{.Run.ID}}"]
   }
 }
 
