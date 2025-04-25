@@ -112,12 +112,17 @@ stages:
 
 
       - task: DownloadSecureFile@1
+        name: 'terraform'
+        displayName: 'terraform'
         inputs:
           secureFile: 'terraform.tfvars'
 
       - task: DownloadSecureFile@1
+        name: 'terraform'
+        displayName: 'terraform'
         inputs:
           secureFile: 'terraform_alone.tfvars'
+
 
       - task: Bash@3
         enabled: true
@@ -126,7 +131,8 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            mv terraform.tmptfvars terraform.tfvars
+            chmod go-r "$(terraform_alone.tfvars.secureFilePath)"
+            mv $(terraform_alone.tfvars.secureFilePath) ./terraform.tfvars
             terraform init
             terraform plan
             terraform apply --auto-approve
