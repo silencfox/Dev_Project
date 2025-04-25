@@ -110,23 +110,6 @@ stages:
             ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
             ARM_TENANT_ID: $(ARM_TENANT_ID)
 
-      - task: Bash@3
-        enabled: true
-        name: ACR
-        displayName: "Create Azure ACR"
-        inputs:
-          targetType: 'inline'
-          script: |
-            mv terraform.tmptfvars terraform.tfvars
-            terraform init
-            terraform plan
-            terraform apply --auto-approve
-          workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
-          bashEnvValue: |
-            ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-            ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-            ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-            ARM_TENANT_ID: $(ARM_TENANT_ID)
 
       - task: DownloadSecureFile@1
         inputs:
@@ -154,21 +137,6 @@ stages:
             ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
             ARM_TENANT_ID: $(ARM_TENANT_ID)
 
-      - task: Bash@3
-        enabled: true
-        name: Build_And_Push
-        displayName: "Docker Build And Push"
-        inputs:
-          targetType: 'inline'
-          script: |
-            docker build -q -t myapp:latest .
-            
-          workingDirectory: '$(Build.SourcesDirectory)/app'
-          bashEnvValue: |
-            ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-            ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-            ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-            ARM_TENANT_ID: $(ARM_TENANT_ID)
 
       - task: AzureCLI@2
         inputs:
