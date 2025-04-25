@@ -11,5 +11,10 @@ output "client_secret" {
   description = "Password for service principal."
   value       = module.ServicePrincipal.client_secret
   sensitive = true
+}
 
+output "kube_config" {
+  description = "config de kubernetes"
+  value       = module.aks.kube_config
+  sensitive = true
 }

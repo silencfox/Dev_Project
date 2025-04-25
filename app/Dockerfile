@@ -20,5 +20,4 @@ COPY --from=build /node-app /node-app
 
 EXPOSE 8000
 
-#CMD ["npm", "run", "start"]
-CMD ["pm2-runtime", "ecosystem.config.js"]
+CMD ["npm", "run", "start"]

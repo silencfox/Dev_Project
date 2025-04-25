@@ -56,7 +56,7 @@ module "aks" {
   service_principal_name = var.service_principal_name
   client_id              = module.ServicePrincipal.client_id
   client_secret          = module.ServicePrincipal.client_secret
-  cluster_name           = "${cluster_name}-${var.environment}"
+  cluster_name           = "${var.cluster_name}-${var.environment}"
   location               = var.location
   resource_group_name    = "${var.rgname}-${var.environment}"
   environment            = var.environment
@@ -70,6 +70,6 @@ module "aks" {
 resource "local_file" "kubeconfig" {
   depends_on   = [module.aks]
   filename     = "./kubeconfig"
-  content      = module.aks.config
+  content      = module.aks.kube_config
   
 }
