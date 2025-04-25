@@ -276,6 +276,11 @@ stages:
                   inputs:
                     terraformVersion: 'latest'
 
+                - task: KubectlInstaller@0
+                  displayName: Install kubectl
+                  inputs:
+                    kubectlVersion: 'latest'
+
                 - task: Bash@3
 
                   inputs:
