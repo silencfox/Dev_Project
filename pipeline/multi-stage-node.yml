@@ -197,6 +197,7 @@ stages:
           strategy:
             runOnce:
               preDeploy:
+              displayName: "preDeploy"
                 steps:
 
                 - checkout: self
@@ -243,6 +244,7 @@ stages:
                       TF_VAR_ghtoken: $(TF_VAR_ghtoken)
 
               deploy:
+              displayName: "Deploy"
                 steps:
                 - checkout: self
                   persistCredentials: true
