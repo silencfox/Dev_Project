@@ -207,7 +207,7 @@ stages:
                   - task: TerraformInstaller@1
                     inputs:
                       terraformVersion: 'latest'
-                      
+
                   - task: Bash@3
 
                     inputs:
@@ -258,5 +258,59 @@ stages:
                       #  ARM_TENANT_ID: $(ARM_TENANT_ID)
                       #  TF_VAR_ghtoken: $(TF_VAR_ghtoken)
 
+              on:
+                failure:
+                  steps:
+                    - checkout: self
+                      persistCredentials: true
+                      clean: true
+                      fetchDepth: 0
+                    - script: echo "Desplegando a QA"
 
+                    - task: DownloadSecureFile@1
+                      name: 'terraformtfvars'
+                      displayName: 'download tfvars'
+                      inputs:
+                        secureFile: 'terraform.tfvars'
+
+                    - task: DownloadSecureFile@1
+                      name: 'terraform_alonetfvars'
+                      displayName: 'download alone tfvars'
+                      inputs:
+                        secureFile: 'terraform_alone.tfvars'
+
+                    - task: TerraformInstaller@1
+                      inputs:
+                        terraformVersion: 'latest'
+
+                    - task: Bash@3
+
+                      inputs:
+                        targetType: 'inline'
+                        script: |
+                          chmod go-r "$(terraform_alonetfvars.secureFilePath)"
+                          chmod go-r "$(terraformtfvars.secureFilePath)"
+                          cat "$(terraform_alonetfvars.secureFilePath)"
+                          cat "$(terraformtfvars.secureFilePath)"
+                          mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                          mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
+                        workingDirectory: '$(Build.SourcesDirectory)'
+
+                    - task: Bash@3
+                      enabled: true
+                      name: terraform2
+                      displayName: "Crear AKS"
+                      inputs:
+                        targetType: 'inline'
+                        script: |
+                          #mv terraform.tmptfvars terraform.tfvars
+                          terraform destroy -auto-approve 
+
+                          #terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="environment=${{ environment.name }}"
+                success:
+                  steps:
+                    - script: |
+                        echo "Successfully deployed to ${{ parameters.environment }}
+                        echo "Retaining build..."
+                      displayName: Success
 
