@@ -309,10 +309,10 @@ stages:
                         terraform destroy -auto-approve 
 
                         #terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="environment=${{ environment.name }}"
-              success:
-                steps:
-                  - script: |
-                      echo "Successfully deployed to ${{ parameters.environment }}
-                      echo "Retaining build..."
-                    displayName: Success
+              #success:
+              #  steps:
+              #    - script: |
+              #        echo "Successfully deployed to ${{ parameters.environment }}
+              #        echo "Retaining build..."
+              #      displayName: Success
 
