@@ -217,7 +217,7 @@ stages:
               sources: 'terraform.tfvars'
 
           - task: Bash@3
-            enabled: true
+            enabled: false
             name: terraform2
             displayName: "Crear AKS"
             inputs:
