@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: desunode
+spec:
+ selector:
+   matchLabels:
+     run: desunode
+ replicas: 1
+ template:
+   metadata:
+     labels:
+       run: desunode
+   spec:
+     containers:
+     - name: desunode
+       image: k8s.gcr.io/hpa-example
+       ports:
+       - containerPort: 8000
+       resources:
+         limits:
+           cpu: 500m
+         requests:
+           cpu: 200m

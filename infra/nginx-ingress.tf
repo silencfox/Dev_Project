@@ -3,7 +3,7 @@ data "azurerm_kubernetes_cluster" "aks" {
   resource_group_name = "${var.rgname}-${var.environment}"
 
   # Comment this out if you get: Error: Kubernetes cluster unreachable 
-  depends_on = [azurerm_kubernetes_cluster.this]
+  depends_on = [azurerm_kubernetes_cluster.aks]
 }
 /*
 provider "helm" {
