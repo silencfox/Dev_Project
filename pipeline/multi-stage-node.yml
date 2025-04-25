@@ -328,13 +328,13 @@ stages:
                       ls -lrt ~/.kube
                       export KUBECONFIG=$(Build.SourcesDirectory)/infra/kubeconfig
                       kubectl get nodes
-                      kubectl create namespace devsu
-                      kubectl apply -f deployment.yaml -n devsu
-                      kubectl apply -f service_balance.yaml -n devsu
-                      kubectl apply -f hpa.yaml -n devsu
+                      kubectl create namespace $(K8S_NAMESPACE)
+                      kubectl apply -f deployment.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f service_balance.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f hpa.yaml -n $(K8S_NAMESPACE)
 
-                      kubectl get deployments -n devsu
-                      kubectl get services -n devsu
+                      kubectl get deployments -n $(K8S_NAMESPACE)
+                      kubectl get services -n $(K8S_NAMESPACE)
 
                       #kubectl apply -f path/to/deployment.yml
                       #terraform plan -destroy -out="${{ environment.name }}.tfplan"
