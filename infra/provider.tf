@@ -13,6 +13,11 @@ terraform {
       source = "hashicorp/azuread"
       version = "~> 3.0.2"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.1.0"
+    }
+
   }
 
   required_version = ">= 1.9.0"
@@ -29,3 +34,5 @@ provider "azurerm" {
 provider "azuread" {
   
 }
+
+
