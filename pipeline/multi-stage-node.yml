@@ -298,8 +298,9 @@ stages:
                     script: |
                       #mv terraform.tmptfvars terraform.tfvars
                       terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
-                      terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
-                      terraform apply -auto-approve "${{ environment.name }}.tfplan"
+                      terraform destroy -auto-approve
+                      $terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
+                      $terraform apply -auto-approve "${{ environment.name }}.tfplan"
 
                       #terraform plan -destroy -out="${{ environment.name }}.tfplan"
                       #terraform apply tfplan "${{ environment.name }}.tfplan"
