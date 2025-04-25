@@ -22,6 +22,8 @@ stages:
           script: |
             chmod go-r "$(terraform_alonetfvars.secureFilePath)"
             chmod go-r "$(terraformtfvars.secureFilePath)"
+            cat "$(terraform_alonetfvars.secureFilePath)"
+            cat "$(terraformtfvars.secureFilePath)"
             mv $(terraform_alonetfvars.secureFilePath) ./terraform.tfvars
           workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
 
