@@ -265,16 +265,19 @@ stages:
                     persistCredentials: true
                     clean: true
                     fetchDepth: 0
+
                   - script: echo "Desplegando a QA"
 
                   - task: DownloadSecureFile@1
                     name: 'terraform_alonetfvars_fail'
+                    enabled: false
                     displayName: 'download tfvars'
                     inputs:
                       secureFile: 'terraform.tfvars'
 
                   - task: DownloadSecureFile@1
                     name: 'terraform_tfvars_fail'
+                    enabled: false
                     displayName: 'download alone tfvars'
                     inputs:
                       secureFile: 'terraform_alone.tfvars'
@@ -287,12 +290,12 @@ stages:
                     inputs:
                       targetType: 'inline'
                       script: |
-                        chmod go-r "$(terraform_alonetfvars_fail.secureFilePath)"
-                        chmod go-r "$(terraform_tfvars_fail.secureFilePath)"
-                        cat "$(terraform_alonetfvars_fail.secureFilePath)"
-                        cat "$(terraform_tfvars_fail.secureFilePath)"
-                        mv $(terraform_alonetfvars_fail.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
-                        mv $(terraform_tfvars_fail.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
+                        chmod go-r "$(terraform_alonetfvars.secureFilePath)"
+                        chmod go-r "$(terraformtfvars.secureFilePath)"
+                        cat "$(terraform_alonetfvars.secureFilePath)"
+                        cat "$(terraformtfvars.secureFilePath)"
+                        mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                        mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
                       workingDirectory: '$(Build.SourcesDirectory)'
 
                   - task: Bash@3
