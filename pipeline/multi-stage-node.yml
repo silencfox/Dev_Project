@@ -318,8 +318,8 @@ stages:
                       cp kubeconfig.yaml ~/.kube/config
                       chmod 600 ~/.kube/config
                       ls -lrt ~/.kube
+                      export KUBECONFIG=$(Build.SourcesDirectory)/infra/kubeconfig.yaml
                       kubectl get nodes
-                      #export KUBECONFIG=$(Build.ArtifactStagingDirectory)/kubeconfig.yaml
                       #kubectl apply -f path/to/deployment.yml
                       #terraform plan -destroy -out="${{ environment.name }}.tfplan"
                       #terraform apply tfplan "${{ environment.name }}.tfplan"
@@ -338,7 +338,7 @@ stages:
                   steps:
                   - checkout: self
                     persistCredentials: true
-                    clean: true
+                    clean: false
                     fetchDepth: 0
 
                   - script: echo "Desplegando a QA"
@@ -392,7 +392,7 @@ stages:
                   steps:
                   - checkout: self
                     persistCredentials: true
-                    clean: true
+                    clean: false
                     fetchDepth: 0
 
                   - script: echo "Desplegando a QA"
