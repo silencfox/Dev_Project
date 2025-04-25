@@ -58,7 +58,8 @@ module "aks" {
   client_secret          = module.ServicePrincipal.client_secret
   location               = var.location
   resource_group_name    = var.rgname
-
+  environment            = var.environment
+  
   depends_on = [
     module.ServicePrincipal
   ]

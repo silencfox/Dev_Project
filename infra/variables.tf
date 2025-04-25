@@ -41,6 +41,12 @@ variable "create_acr" {
 variable "ghpathfile" {
   type = string
 }
+
 variable "TF_VAR_ghtoken" {
   type = string
+}
+
+variable "environment" {
+  type = string
+  description = "Ambiente de la infra Dev, QA, Prod"
 }

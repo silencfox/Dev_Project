@@ -32,12 +32,12 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
     type                 = "VirtualMachineScaleSets"
     node_labels = {
       "nodepool-type"    = "system"
-      "environment"      = "prod"
+      "environment"      = "${var.environment}"
       "nodepoolos"       = "linux"
      } 
    tags = {
       "nodepool-type"    = "system"
-      "environment"      = "prod"
+      "environment"      = "${var.environment}"
       "nodepoolos"       = "linux"
    } 
   }
