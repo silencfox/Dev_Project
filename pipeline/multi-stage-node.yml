@@ -156,7 +156,7 @@ stages:
       - task: AzureCLI@2
         name: "Docker_Build_And_Push"
         displayName: "Docker Build And Push"
-        enabled: false
+        enabled: true
         inputs:
           azureSubscription: 'Azure subscription 1(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
           scriptType: 'bash'
