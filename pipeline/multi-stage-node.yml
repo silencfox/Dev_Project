@@ -256,7 +256,7 @@ stages:
                       terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
                       terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                       terraform apply -auto-approve "${{ environment.name }}.tfplan"
-
+                      ls -lrt
                       terraform plan -destroy -out=tfplan
                       terraform apply tfplan
 
