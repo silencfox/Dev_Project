@@ -58,11 +58,12 @@ stages:
           inlineScript: |
             docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
             docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
+            ARM_ACR_LOGIN_SERVER="acrdevsu.azurecr.io"
             docker push $(ARM_ACR_LOGIN_SERVER)/devsudemo:latest
           addSpnToEnvironment: true
           useGlobalConfig: true
           workingDirectory: '$(Build.SourcesDirectory)/app'
-          
+
       - task: NodeTool@0
         inputs:
           versionSpec: '18.x'
