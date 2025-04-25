@@ -30,6 +30,7 @@ stages:
           secureFile: 'terraform_alone.tfvars'
 
       - task: Bash@3
+
         inputs:
           targetType: 'inline'
           script: |
@@ -49,20 +50,6 @@ stages:
         inputs:
           terraformVersion: 'latest'
 
-      - task: AzureCLI@2
-        enabled: true
-        inputs:
-          azureSubscription: 'Azure subscription 1(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          inlineScript: |
-            docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
-            docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
-            ARM_ACR_LOGIN_SERVER="acrdevsu.azurecr.io"
-            docker push acrdevsu.azurecr.io/devsudemo:latest
-          addSpnToEnvironment: true
-          useGlobalConfig: true
-          workingDirectory: '$(Build.SourcesDirectory)/app'
 
       - task: NodeTool@0
         inputs:
@@ -175,6 +162,8 @@ stages:
 
 
       - task: AzureCLI@2
+        name: "Docker_Build_And_Push"
+        displayName: "Docker Build And Push"
         enabled: true
         inputs:
           azureSubscription: 'Azure subscription 1(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
@@ -183,25 +172,11 @@ stages:
           inlineScript: |
             docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
             docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
-            docker push $(ARM_ACR_LOGIN_SERVER)/devsudemo:latest
+            ARM_ACR_LOGIN_SERVER="acrdevsu.azurecr.io"
+            docker push acrdevsu.azurecr.io/devsudemo:latest
           addSpnToEnvironment: true
           useGlobalConfig: true
           workingDirectory: '$(Build.SourcesDirectory)/app'
-
-          
-      - task: Docker@2
-        enabled: false
-        name: "Docker_Build_And_Push"
-        displayName: "Docker Build And Push"
-        inputs:
-          containerRegistry: 'DockerHub'
-          repository: 'silencfox/devsudemo'
-          command: 'buildAndPush'
-          Dockerfile: '**/Dockerfile'
-          tags: |
-            $(Build.BuildId)
-            latest
-
 
 
   - ${{ each environment in parameters.environments }}:
@@ -223,24 +198,6 @@ stages:
 
           - task: Bash@3
             enabled: false
-            name: tfstates
-            displayName: "Create_TF_Storage"
-            inputs:
-              targetType: 'inline'
-              script: |
-                mv terraform.tmptfvars terraform.tfvars
-                terraform init
-                terraform plan
-                terraform apply --auto-approve
-              workingDirectory: '$(Build.SourcesDirectory)/tfstate'
-              bashEnvValue: |
-                ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-                ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-                ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-                ARM_TENANT_ID: $(ARM_TENANT_ID)
-
-          - task: Bash@3
-            enabled: true
             name: replacevar
             displayName: "Crear AKS"
             inputs:
@@ -265,7 +222,7 @@ stages:
                 #mv terraform.tmptfvars terraform.tfvars
                 terraform init
                 terraform plan
-                terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)"
+                terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="TF_VAR_ghtoken=${{ environment.name }}"
               workingDirectory: '$(Build.SourcesDirectory)/infra'
               bashEnvValue: |
                 ARM_CLIENT_ID: $(ARM_CLIENT_ID)
@@ -274,33 +231,5 @@ stages:
                 ARM_TENANT_ID: $(ARM_TENANT_ID)
                 TF_VAR_ghtoken: $(TF_VAR_ghtoken)
 
-
-          - task: PowerShell@2
-            enabled: false
-            name: tfstates
-            displayName: "Crear terraform storage"
-            inputs:
-              targetType: 'inline'
-              script: |
-                # Write your PowerShell commands here.
-                Rename-Item -Path "terraform.tmptfvars" -NewName "terraform.tfvars"
-                terraform init
-                terraform plan
-                terraform apply --auto-approve
-              workingDirectory: '$(Build.SourcesDirectory)/tfstate'
-
-          - task: PowerShell@2
-            enabled: false
-            name: terraform
-            displayName: "Crear AKS"
-            inputs:
-              targetType: 'inline'
-              script: |
-                # Write your PowerShell commands here.
-                Rename-Item -Path "terraform.tmptfvars" -NewName "terraform.tfvars"
-                terraform init
-                terraform plan
-                terraform apply --auto-approve
-              workingDirectory: '$(Build.SourcesDirectory)/infra'
 
 
