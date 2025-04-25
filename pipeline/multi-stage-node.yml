@@ -321,7 +321,7 @@ stages:
                 success:
                   steps:
                     - script: |
-                        echo "Successfully deployed to ${{ environment.name }}
+                        echo "Successfully deployed to ${{ environment.name }}"
                         echo "Retaining build..."
                       displayName: Success
 
