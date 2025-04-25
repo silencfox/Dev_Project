@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "rg1" {
-  name     = var.rgname
+  name     = "${var.rgname}-${var.environment}"
   location = var.location
 }
 
@@ -27,7 +27,7 @@ module "keyvault" {
   source                      = "./modules/keyvault"
   keyvault_name               = var.keyvault_name
   location                    = var.location
-  resource_group_name         = var.rgname
+  resource_group_name         = "${var.rgname}-${var.environment}"
   service_principal_name      = var.service_principal_name
   service_principal_object_id = module.ServicePrincipal.service_principal_object_id
   service_principal_tenant_id = module.ServicePrincipal.service_principal_tenant_id
@@ -56,8 +56,9 @@ module "aks" {
   service_principal_name = var.service_principal_name
   client_id              = module.ServicePrincipal.client_id
   client_secret          = module.ServicePrincipal.client_secret
+  cluster_name           = "${cluster_name}-${var.environment}"
   location               = var.location
-  resource_group_name    = var.rgname
+  resource_group_name    = "${var.rgname}-${var.environment}"
   environment            = var.environment
   
   depends_on = [

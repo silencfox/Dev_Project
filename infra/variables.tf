@@ -50,3 +50,9 @@ variable "environment" {
   type = string
   description = "Ambiente de la infra Dev, QA, Prod"
 }
+
+variable "cluster_name" {
+  type = string
+  default = "Devsu-aks-cluster"
+  description = "Nombre del cluster AKS"
+}

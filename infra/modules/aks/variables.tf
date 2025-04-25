@@ -3,6 +3,12 @@ variable "location" {
 }
  variable "resource_group_name" {}
 
+variable "cluster_name" {
+  type = string
+  default = "Devsu-aks-cluster"
+  description = "Nombre del cluster AKS"
+}
+
 variable "service_principal_name" {
   type = string
 }
