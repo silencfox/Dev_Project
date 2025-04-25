@@ -316,6 +316,28 @@ stages:
                         terraform destroy -auto-approve 
                 success:
                   steps:
+                  - checkout: self
+                    persistCredentials: true
+                    clean: true
+                    fetchDepth: 0
+
+                  - script: echo "Desplegando a QA"
+
+                  - task: DownloadSecureFile@1
+                    enabled: false
+                    displayName: 'download tfvars'
+                    inputs:
+                      secureFile: 'terraform.tfvars'
+
+                  - task: DownloadSecureFile@1
+                    enabled: false
+                    displayName: 'download alone tfvars'
+                    inputs:
+                      secureFile: 'terraform_alone.tfvars'
+
+                  - task: TerraformInstaller@1
+                    inputs:
+                      terraformVersion: 'latest'
 
                   - task: Bash@3
                     enabled: true
