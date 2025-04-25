@@ -272,17 +272,18 @@ stages:
                     kubectlVersion: 'latest'
 
                 - task: Bash@3
-
+                  displayName: "getting vars"
                   inputs:
                     targetType: 'inline'
                     script: |
-                      chmod go-r "$(terraform_alonetfvars.secureFilePath)"
-                      chmod go-r "$(terraformtfvars.secureFilePath)"
-                      ls -lrt "$(terraform_alonetfvars.secureFilePath)"
-                      ls -lrt "$(terraformtfvars.secureFilePath)"
                       mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                       mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
-                    workingDirectory: '$(Build.SourcesDirectory)'
+
+                      chmod go-r "$(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars"
+                      chmod go-r "$(Build.SourcesDirectory)/infra/terraform.tfvars"
+                      ls -lrt "$(terraform_alonetfvars.secureFilePath)/infra/standalone/acr/terraform.tfvars"
+                      ls -lrt "$(terraformtfvars.secureFilePath)/infra/terraform.tfvars"
+                    workingDirectory: '$(Build.SourcesDirectory)/infra'
 
                 - task: replacetokens@6
                   inputs:
@@ -296,12 +297,11 @@ stages:
                   inputs:
                     targetType: 'inline'
                     script: |
-                      #mv terraform.tmptfvars terraform.tfvars
+                      ls -lrt 
                       terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
                       terraform destroy -auto-approve
                       $terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                       $terraform apply -auto-approve "${{ environment.name }}.tfplan"
-
                       #terraform plan -destroy -out="${{ environment.name }}.tfplan"
                       #terraform apply tfplan "${{ environment.name }}.tfplan"
 
