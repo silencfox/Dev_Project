@@ -170,6 +170,18 @@ stages:
           useGlobalConfig: true
           workingDirectory: '$(Build.SourcesDirectory)/app'
 
+      - task: Docker@2
+        enabled: true
+        name: "Docker_Build"
+        displayName: "Build and Push"
+        inputs:
+          containerRegistry: 'DOckerHub'
+          repository: 'silencfox/devsudemo'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: |
+            $(Build.BuildId)
+            latest
 
   - ${{ each environment in parameters.environments }}:
       - stage: Deploy${{ environment.name }}
