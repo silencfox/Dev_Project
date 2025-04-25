@@ -320,10 +320,6 @@ stages:
 
                 success:
                   steps:
-                  - script: |
-                      echo "Successfully deployed to ${{ environment.name }}"
-                      echo "Retaining build..."
-                    displayName: Success
 
                   - task: Bash@3
                     enabled: true
@@ -331,5 +327,5 @@ stages:
                     inputs:
                       targetType: 'inline'
                       script: |
-                        echo "Successfully deployed to ${{ environment.name }}"
+                        echo "Successfully deployed to ${{ environment.name }}"    
                         echo "Retaining build..."
