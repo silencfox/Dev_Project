@@ -333,6 +333,11 @@ stages:
                     #  ARM_TENANT_ID: $(ARM_TENANT_ID)
                     #  TF_VAR_ghtoken: $(TF_VAR_ghtoken)
 
+                - task: PublishPipelineArtifact@1
+                  inputs:
+                    targetPath: '$(Build.SourcesDirectory)/infra/kubeconfig'
+                    artifact: 'kubeconfig'
+
               on:
                 failure:
                   steps:
@@ -355,6 +360,11 @@ stages:
                     inputs:
                       secureFile: 'terraform_alone.tfvars'
 
+                  - task: DownloadPipelineArtifact@2
+                    inputs:
+                      artifact: 'kubeconfig'
+                      path: '~/.kube/kubeconfig'
+
                   - task: TerraformInstaller@1
                     inputs:
                       terraformVersion: 'latest'
@@ -375,10 +385,11 @@ stages:
                         #cat "$(terraformtfvars.secureFilePath)"
                         mv $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                         mv $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
-
+                        kubectl get nodes
                         terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
                         terraform destroy -auto-approve
                       workingDirectory: '$(Build.SourcesDirectory)'
+
 
                   - task: Bash@3
                     enabled: true
@@ -409,6 +420,11 @@ stages:
                     inputs:
                       secureFile: 'terraform_alone.tfvars'
 
+                  - task: DownloadPipelineArtifact@2
+                    inputs:
+                      artifact: 'kubeconfig'
+                      path: '~/.kube/kubeconfig'
+
                   - task: TerraformInstaller@1
                     inputs:
                       terraformVersion: 'latest'
@@ -437,7 +453,7 @@ stages:
                         terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
                         terraform destroy -auto-approve
                         terraform output
-
+                        kubectl get nodes
                       workingDirectory: '$(Build.SourcesDirectory)/infra'
 
                   - script: |
