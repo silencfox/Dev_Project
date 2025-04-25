@@ -363,12 +363,21 @@ stages:
                     inputs:
                       targetType: 'inline'
                       script: |
-                        chmod go-r "$(terraform_alonetfvars.secureFilePath)"
-                        chmod go-r "$(terraformtfvars.secureFilePath)"
-                        ls -lrt "$(terraform_alonetfvars.secureFilePath)"
-                        ls -lrt "$(terraformtfvars.secureFilePath)"
-                        mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
-                        mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
+                        echo "infra"
+                        #ls -lrta ~/.kube
+                        #mkdir -p ~/.kube
+                        #cp kubeconfig.yaml ~/.kube/config
+                        #chmod 600 ~/.kube/config
+                        chmod go-r "$(Agent.TempDirectory)/terraform.tfvars"
+                        chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
+
+                        #cat "$(terraform_alonetfvars.secureFilePath)"
+                        #cat "$(terraformtfvars.secureFilePath)"
+                        mv $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                        mv $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
+
+                        terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        terraform destroy -auto-approve
                       workingDirectory: '$(Build.SourcesDirectory)'
 
                   - task: Bash@3
@@ -414,21 +423,18 @@ stages:
                       targetType: 'inline'
                       script: |
                         echo "infra"
-                        ls -lrt
-                        echo "_tmp"
-                        ls -lrt /home/vsts/work/_temp/
-                        echo ".kube"
-                        ls -lrta ~/.kube
-                        mkdir -p ~/.kube
-                        cp kubeconfig.yaml ~/.kube/config
-                        chmod 600 ~/.kube/config
+                        #ls -lrta ~/.kube
+                        #mkdir -p ~/.kube
+                        #cp kubeconfig.yaml ~/.kube/config
+                        #chmod 600 ~/.kube/config
+                        chmod go-r "$(Agent.TempDirectory)/terraform.tfvars"
+                        chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
 
-                        #chmod go-r "$(terraform_alonetfvars.secureFilePath)"
-                        #chmod go-r "$(terraformtfvars.secureFilePath)"
                         #cat "$(terraform_alonetfvars.secureFilePath)"
                         #cat "$(terraformtfvars.secureFilePath)"
-                        #mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
-                        #mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
+                        mv $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                        mv $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
+                        terraform output
                       workingDirectory: '$(Build.SourcesDirectory)/infra'
 
                   - script: |
