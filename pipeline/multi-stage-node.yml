@@ -133,7 +133,7 @@ stages:
 
 
       - task: Bash@3
-        enabled: false
+        enabled: true
         name: ACR
         displayName: "Create Azure ACR"
         inputs:
