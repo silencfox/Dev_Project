@@ -129,47 +129,6 @@ stages:
             ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
             ARM_TENANT_ID: $(ARM_TENANT_ID)
 
-
-
-
-      - task: Bash@3
-        enabled: true
-        name: ACR
-        displayName: "Create Azure ACR"
-        inputs:
-          targetType: 'inline'
-          script: |
-            chmod go-r "$(terraform_alonetfvars.secureFilePath)"
-            chmod go-r "$(terraformtfvars.secureFilePath)"
-            mv $(terraform_alone.tfvars.secureFilePath) ./terraform.tfvars
-            terraform init
-            terraform plan
-            terraform apply --auto-approve
-          workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
-          bashEnvValue: |
-            ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-            ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-            ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-            ARM_TENANT_ID: $(ARM_TENANT_ID)
-
-
-      - task: AzureCLI@2
-        name: "Docker_Build_And_Push"
-        displayName: "Docker Build And Push"
-        enabled: true
-        inputs:
-          azureSubscription: 'Azure subscription 1(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          inlineScript: |
-            docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
-            docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
-            ARM_ACR_LOGIN_SERVER="acrdevsu.azurecr.io"
-            docker push acrdevsu.azurecr.io/devsudemo:latest
-          addSpnToEnvironment: true
-          useGlobalConfig: true
-          workingDirectory: '$(Build.SourcesDirectory)/app'
-
       - task: Docker@2
         enabled: true
         name: "Docker_Build"
@@ -203,12 +162,10 @@ stages:
                   persistCredentials: true
                   clean: true
                   fetchDepth: 0
-
-
                 - task: Bash@3
                   enabled: false
                   name: replacevar
-                  displayName: "Crear AKS"
+                  displayName: "replace var"
                   inputs:
                     targetType: 'inline'
                     script: |
@@ -220,6 +177,44 @@ stages:
                   inputs:
                     root: '$(Build.SourcesDirectory)/infra'
                     sources: 'terraform.tfvars'
+
+                - task: Bash@3
+                  enabled: true
+                  name: ACR
+                  displayName: "Create Azure ACR"
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      chmod go-r "$(terraform_alonetfvars.secureFilePath)"
+                      chmod go-r "$(terraformtfvars.secureFilePath)"
+                      mv $(terraform_alone.tfvars.secureFilePath) ./terraform.tfvars
+                      terraform init
+                      terraform plan
+                      terraform apply --auto-approve
+                    workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
+                    bashEnvValue: |
+                      ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+                      ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+                      ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+                      ARM_TENANT_ID: $(ARM_TENANT_ID)
+
+
+                - task: AzureCLI@2
+                  name: "Docker_Build_And_Push"
+                  displayName: "Docker Build And Push"
+                  enabled: true
+                  inputs:
+                    azureSubscription: 'Azure subscription 1(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
+                      docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
+                      ARM_ACR_LOGIN_SERVER="acrdevsu.azurecr.io"
+                      docker push acrdevsu.azurecr.io/devsudemo:latest
+                    addSpnToEnvironment: true
+                    useGlobalConfig: true
+                    workingDirectory: '$(Build.SourcesDirectory)/app'
 
                 - task: Bash@3
                   enabled: false
