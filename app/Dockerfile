@@ -20,5 +20,4 @@ COPY --from=build /node-app /node-app
 
 EXPOSE 8000
 
-#CMD ["npm", "run", "start"]
 CMD ["npm", "run", "start"]
