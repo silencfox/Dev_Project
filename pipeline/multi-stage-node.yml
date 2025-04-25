@@ -280,8 +280,8 @@ stages:
                     script: |
                       chmod go-r "$(terraform_alonetfvars.secureFilePath)"
                       chmod go-r "$(terraformtfvars.secureFilePath)"
-                      cat "$(terraform_alonetfvars.secureFilePath)"
-                      cat "$(terraformtfvars.secureFilePath)"
+                      ls -lrt "$(terraform_alonetfvars.secureFilePath)"
+                      ls -lrt "$(terraformtfvars.secureFilePath)"
                       mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                       mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
                     workingDirectory: '$(Build.SourcesDirectory)'
@@ -360,8 +360,8 @@ stages:
                       script: |
                         chmod go-r "$(terraform_alonetfvars.secureFilePath)"
                         chmod go-r "$(terraformtfvars.secureFilePath)"
-                        cat "$(terraform_alonetfvars.secureFilePath)"
-                        cat "$(terraformtfvars.secureFilePath)"
+                        ls -lrt "$(terraform_alonetfvars.secureFilePath)"
+                        ls -lrt "$(terraformtfvars.secureFilePath)"
                         mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                         mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
                       workingDirectory: '$(Build.SourcesDirectory)'
