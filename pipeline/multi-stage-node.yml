@@ -268,13 +268,11 @@ stages:
                     - script: echo "Desplegando a QA"
 
                     - task: DownloadSecureFile@1
-                      name: 'terraformtfvars'
                       displayName: 'download tfvars'
                       inputs:
                         secureFile: 'terraform.tfvars'
 
                     - task: DownloadSecureFile@1
-                      name: 'terraform_alonetfvars'
                       displayName: 'download alone tfvars'
                       inputs:
                         secureFile: 'terraform_alone.tfvars'
@@ -284,7 +282,6 @@ stages:
                         terraformVersion: 'latest'
 
                     - task: Bash@3
-
                       inputs:
                         targetType: 'inline'
                         script: |
@@ -298,7 +295,6 @@ stages:
 
                     - task: Bash@3
                       enabled: true
-                      name: terraform2
                       displayName: "Crear AKS"
                       inputs:
                         targetType: 'inline'
