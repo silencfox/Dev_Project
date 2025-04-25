@@ -336,13 +336,24 @@ stages:
                       kubectl get deployments -n $(K8S_NAMESPACE)
                       kubectl get services -n $(K8S_NAMESPACE)
 
-                      #kubectl apply -f path/to/deployment.yml
-                      #terraform plan -destroy -out="${{ environment.name }}.tfplan"
-                      #terraform apply tfplan "${{ environment.name }}.tfplan"
+                      for i in {1..20}; do
+                        ipaddrs=$(kubectl get svc node-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+                        if [ -n "$ipaddrs" ]; then
+                          echo "Service ip: $ipaddrs"
+                          echo "##vso[task.setvariable variable=publicIP]$ipaddrs"
+                          break
+                        fi
+                        echo "waiting for public ip"
+                        sleep 15
+                      done
 
-                      #terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="environment=${{ environment.name }}"
+
                     workingDirectory: '$(Build.SourcesDirectory)/deployment'
 
+                - script: |
+                    echo "service ip: $(publicIP)"
+                    curl http://$(publicIP):8000
+                  displayName: 'ip publica del servicio'
 
                 - task: PublishPipelineArtifact@1
                   inputs:
