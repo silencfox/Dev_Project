@@ -136,13 +136,62 @@ stages:
         inputs:
           secureFile: 'terraform_alone.tfvars'
 
+      - task: Bash@3
+        enabled: true
+        name: ACR
+        displayName: "Create Azure ACR"
+        inputs:
+          targetType: 'inline'
+          script: |
+            mv terraform.tmptfvars terraform.tfvars
+            terraform init
+            terraform plan
+            terraform apply --auto-approve
+          workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
+          bashEnvValue: |
+            ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+            ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+            ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+            ARM_TENANT_ID: $(ARM_TENANT_ID)
 
+      - task: Bash@3
+        enabled: true
+        name: Build_And_Push
+        displayName: "Docker Build And Push"
+        inputs:
+          targetType: 'inline'
+          script: |
+            docker build -q -t myapp:latest .
+            
+          workingDirectory: '$(Build.SourcesDirectory)/app'
+          bashEnvValue: |
+            ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+            ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+            ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+            ARM_TENANT_ID: $(ARM_TENANT_ID)
+
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: 'Azure subscription 1(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
+          scriptType: 'ps'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
+            docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
+            docker push $ARM_ACR_LOGIN_SERVER/devsudemo:latest
+
+          arguments: 'ARM_CLIENT_ID: $(ARM_CLIENT_ID)'
+          addSpnToEnvironment: true
+          useGlobalConfig: true
+          workingDirectory: '$(Build.SourcesDirectory)/app'
+
+          
       - task: Docker@2
         enabled: false
         name: "Docker_Build_And_Push"
         displayName: "Docker Build And Push"
         inputs:
-          containerRegistry: 'DOckerHub'
+          containerRegistry: 'DockerHub'
           repository: 'silencfox/devsudemo'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
