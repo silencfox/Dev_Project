@@ -22,7 +22,7 @@ stages:
           script: |
             chmod go-r "$(terraform_alonetfvars.secureFilePath)"
             chmod go-r "$(terraformtfvars.secureFilePath)"
-            mv $(terraform_alone.tfvars.secureFilePath) ./terraform.tfvars
+            mv $(terraform_alonetfvars.secureFilePath) ./terraform.tfvars
           workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
 
       - task: DockerInstaller@0
