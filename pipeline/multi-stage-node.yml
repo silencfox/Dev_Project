@@ -320,8 +320,16 @@ stages:
 
                 success:
                   steps:
-                    - script: |
+                  - script: |
+                      echo "Successfully deployed to ${{ environment.name }}"
+                      echo "Retaining build..."
+                    displayName: Success
+
+                  - task: Bash@3
+                    enabled: true
+                    displayName: "Crear AKS"
+                    inputs:
+                      targetType: 'inline'
+                      script: |
                         echo "Successfully deployed to ${{ environment.name }}"
                         echo "Retaining build..."
-                      displayName: Success
-
