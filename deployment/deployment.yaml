@@ -30,10 +30,4 @@ spec:
           httpGet:
             path: /api/users
             port: 8000
-          initialDelaySeconds: 30
-          periodSeconds: 5
-        tcpSocket:
-          port: 8000
-        initialDelaySeconds: 30
-        periodSeconds: 5
       automountServiceAccountToken: false
