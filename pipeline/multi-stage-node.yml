@@ -54,7 +54,7 @@ stages:
           versionSpec: '18.x'
 
       - task: SonarCloudPrepare@3
-        continueOnError: true
+        continueOnError: false
         inputs:
           SonarQube: 'SonarSerConn_Devsu'
           organization: 'silencfox'
@@ -69,17 +69,17 @@ stages:
 
 
       - task: SonarCloudAnalyze@3
-        continueOnError: true
+        continueOnError: false
         inputs:
           jdkversion: 'JAVA_HOME'
 
       - task: SonarCloudPublish@3
-        continueOnError: true
+        continueOnError: false
         inputs:
           pollingTimeoutSec: '300'
 
       - task: Bash@3
-        enabled: true
+        enabled: false
         displayName: "Run Unit Tests Jest"
         inputs:
           targetType: 'inline'
@@ -95,7 +95,7 @@ stages:
 
 
       - task: PublishTestResults@2
-        enabled: true
+        enabled: false
         condition: succeededOrFailed()
         displayName: "Publish JUnit Test Results"
         inputs:
@@ -107,7 +107,7 @@ stages:
           testRunTitle: 'Unit Tests'
 
       - task: PublishCodeCoverageResults@2
-        continueOnError: true
+        continueOnError: false
         enabled: true
         displayName: "Publish Code Coverage HTML"
         inputs:
@@ -206,7 +206,7 @@ stages:
                     sources: 'terraform.tfvars'
 
                 - task: Bash@3
-                  enabled: true
+                  enabled: false
                   name: ACR
                   displayName: "Create Azure ACR"
                   inputs:
