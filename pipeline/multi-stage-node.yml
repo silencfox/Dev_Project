@@ -392,6 +392,7 @@ stages:
                 - task: Bash@3
                   displayName: "Functional Test - Newman"
                   continueOnError: true
+                  timeoutInMinutes: 1
                   inputs:
                     targetType: 'inline'
                     script: |

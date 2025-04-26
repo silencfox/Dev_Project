@@ -15,22 +15,19 @@ spec:
     spec:
       containers:
       - name: node-service  # Cambiado de desunode a node-service
-        image: silencfox/devsudemo:latest
+        image: silencfox/devsudemo:512
         resources:
           limits:
             cpu: 500m
+            memory: 100Mi
           requests:
             cpu: 200m
+            memory: 100Mi
+
         ports:
         - containerPort: 8000
         livenessProbe:
           httpGet:
             path: /api/users
             port: 8000
-          initialDelaySeconds: 30
-          periodSeconds: 5
-        tcpSocket:
-          port: 8000
-        initialDelaySeconds: 30
-        periodSeconds: 5
-
+      automountServiceAccountToken: false

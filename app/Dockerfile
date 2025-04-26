@@ -1,4 +1,4 @@
-FROM node:18.15.0 as build 
+FROM node:18.15.0 AS build 
 
 WORKDIR /node-app
 COPY ./package*.json ./
