@@ -3,6 +3,11 @@ resource "azurerm_resource_group" "rg1" {
   location = var.location
 }
 
+data "azurerm_container_registry" "acr" {
+  name                = "acrdevsu"               
+  resource_group_name = "Devsu_acr"                 
+}
+
 module "ServicePrincipal" {
   source                 = "./modules/ServicePrincipal"
   service_principal_name = var.service_principal_name
@@ -43,7 +48,7 @@ resource "local_file" "kubeconfig" {
 resource "azurerm_role_assignment" "aks_acr_pull" {
   principal_id         = module.aks.aks_principal_id
   role_definition_name = "AcrPull"
-  scope                = azurerm_container_registry.acr.id
+  scope                = data.azurerm_container_registry.acr.id
 
   depends_on = [
     module.aks
