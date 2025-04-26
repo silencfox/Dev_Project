@@ -247,6 +247,10 @@ stages:
                   displayName: 'download alone tfvars'
                   inputs:
                     secureFile: 'terraform_alone.tfvars'
+                - task: NodeTool@0
+                  inputs:
+                    versionSpec: '18.x'
+                  displayName: 'Install Node.js'
 
                 - task: TerraformInstaller@1
                   inputs:
@@ -285,12 +289,11 @@ stages:
                     script: |
                       ls -lrt 
                       terraform init -backend-config="backend-${{ environment.name }}.tfvars" # -reconfigure
-                      #terraform refresh
+                      terraform refresh
                       #terraform destroy -auto-approve
-                      $terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
-                      $terraform apply -auto-approve "${{ environment.name }}.tfplan"
+                      terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
+                      terraform apply -auto-approve "${{ environment.name }}.tfplan"
                       #terraform plan -destroy -out="${{ environment.name }}.tfplan"
-                      #terraform apply tfplan "${{ environment.name }}.tfplan"
 
                       #terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="environment=${{ environment.name }}"
                     workingDirectory: '$(Build.SourcesDirectory)/infra'
@@ -328,6 +331,7 @@ stages:
                         if [ -n "$ipaddrs" ]; then
                           echo "Service ip: $ipaddrs"
                           echo "##vso[task.setvariable variable=publicIP]$ipaddrs"
+                          #echo "##vso[task.setvariable variable=publicIP;isOutput=true]$ipaddrs"
                           break
                         fi
                         echo "waiting for public ip"
@@ -336,6 +340,12 @@ stages:
 
 
                     workingDirectory: '$(Build.SourcesDirectory)/deployment'
+
+                - script: |
+                    echo "hola"
+                    npm install -g newman
+                    newman run collection.json -e environment.json --reporters cli,junit --reporter-junit-export results.xml
+                  displayName: 'Run Postman Collection'
 
                 - script: |
                     echo "service ip: $(publicIP)"
@@ -491,13 +501,3 @@ stages:
                         terraform refresh
                         terraform destroy -auto-approve
 
-
-                  - script: |
-                      echo "hola"
-                      #npm install -g newman
-                    displayName: 'Install Newman'
-
-                  - script: |
-                      echo "hola"
-                      #newman run collection.json -e environment.json --reporters cli,junit --reporter-junit-export results.xml
-                    displayName: 'Run Postman Collection'
