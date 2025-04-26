@@ -68,13 +68,27 @@ Las plantillas de Terraform (`*.tf`) utilizan variables para parametrizar el des
   - `ARM_SUBSCRIPTION_ID`
   - `ARM_TENANT_ID`
 
-**Nota:** Las variables de Azure deben ser exportadas como variables de entorno antes de ejecutar Terraform.
+**Nota:** Variables ARM* se colocan como variables secretas en azure pipeline antes de ejecutar Terraform.
+
+- **Service connections de Azure **
+  - `GitHub`
+  - `SonarCloud`
+  - `Azure Subscripcion`
+
+```mermaid
+graph TD;
+    A[Developer hace push o pull request en GitHub] --> B[Azure DevOps detecta el cambio]
+    B --> C[Se ejecuta el Pipeline CI/CD]
+    C --> D{¿Hay cambios en infraestructura?}
+    D -- Sí --> E[Terraform aplica cambios en Azure]
+    D -- No --> F[Continúa el despliegue de la app]
+    E --> G[Infraestructura actualizada ☁️]
+    F --> G
+    G --> H[Aplicación desplegada y lista 🚀]
+```
+
 
 ```bash
-export ARM_CLIENT_ID="..."
-export ARM_CLIENT_SECRET="..."
-export ARM_SUBSCRIPTION_ID="..."
-export ARM_TENANT_ID="..."
 
 
 ## 🔥 Flujo de trabajo de despliegue
