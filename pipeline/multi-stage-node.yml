@@ -204,7 +204,7 @@ stages:
                       chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
                       cp $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                       terraform init
-                      terraform refresh
+                      terraform refresh -input=false 
                       terraform plan
                       terraform apply --auto-approve
 
