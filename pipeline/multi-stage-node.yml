@@ -208,8 +208,9 @@ stages:
                       terraform plan
                       terraform apply --auto-approve
 
+                      echo "vamos a parsear"
                       terraform_outputs=$(terraform output -json)
-
+                      echo $terraform_outputs
                       # Parsear outputs con jq
                       acr_name=$(echo "$terraform_outputs" | jq -r '.container_registry_name.value')
                       acr_server=$(echo "$terraform_outputs" | jq -r '.container_registry_login_server.value')
