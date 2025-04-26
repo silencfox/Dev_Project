@@ -4,9 +4,9 @@
 Este proyecto es un ejemplo práctico que combina **Docker**, **Terraform**, **AKS**, **Azure Pipelines** y **Node JS** para levantar una aplicación de manera eficiente y ordenada.
 
 ## Notas importantes
-- Se recomienda crear la infraestructura en un repositorio separado a las fuentes de la aplicacion.
 - Por motivo de la evaluacion vigente en esta practica se crean los ambientes desde Cero incluyendo el kluster de AKS (Caso que no debe hacerse en produccion).
-
+- Se recomienda crear la infraestructura en un repositorio separado a las fuentes de la aplicacion.
+- Por buenas practicas se crean cluster de kubernetes separados para ambientes Produccion y no productivo
 ## Main
 
 [![Build Status](https://dev.azure.com/the-punisher01/gitops/_apis/build/status%2Fsilencfox.Dev_Project?branchName=main)](https://dev.azure.com/the-punisher01/gitops/_build/latest?definitionId=46&branchName=main)
