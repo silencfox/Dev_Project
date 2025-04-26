@@ -207,6 +207,9 @@ stages:
                       terraform refresh
                       terraform plan
                       terraform apply --auto-approve
+                      acr_server=$(terraform output -raw container_registry_login_server)
+                      echo "##vso[task.setvariable variable=acrLoginServer]$acr_server"
+                      echo "ACR es: $acr_server"
                     workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
 
 
