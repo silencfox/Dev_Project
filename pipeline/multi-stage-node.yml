@@ -56,6 +56,7 @@ stages:
           versionSpec: '18.x'
 
       - task: SonarCloudPrepare@3
+        continueOnError: true
         inputs:
           SonarQube: 'SonarSerConn_Devsu'
           organization: 'silencfox'
@@ -97,6 +98,7 @@ stages:
           testRunTitle: 'Unit Tests'
 
       - task: PublishCodeCoverageResults@2
+        continueOnError: true
         enabled: true
         displayName: "Publish Code Coverage HTML"
         inputs:
@@ -136,7 +138,7 @@ stages:
       - task: SonarCloudPublish@3
         inputs:
           pollingTimeoutSec: '300'
-          
+
       - task: Docker@2
         enabled: false
         name: "Docker_Build"
