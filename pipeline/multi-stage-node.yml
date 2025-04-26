@@ -198,6 +198,7 @@ stages:
                   enabled: true
                   name: ACR
                   displayName: "Create Azure ACR"
+                  continueOnError: true
                   inputs:
                     targetType: 'inline'
                     script: |
@@ -219,6 +220,7 @@ stages:
                       echo "##vso[task.setvariable variable=acrLoginServer2]$acr_server"
                       echo "ACR es: $acrLoginServer2"
                     workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
+                    
 
 
 
