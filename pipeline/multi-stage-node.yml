@@ -385,7 +385,7 @@ stages:
                   displayName: Publish Test Results
                   inputs:
                     testResultsFiles: '**\*${{ environment.name }}.xml'
-                    searchFolder: $(Pipeline.Workspace)\TestResults\Newman
+                    searchFolder: $(Pipeline.Workspace)/TestResults/Newman
                     mergeTestResults: true
                     failTaskOnFailedTests: false
                     testRunTitle: 'NewmanTests - ${{ environment.name }}'
