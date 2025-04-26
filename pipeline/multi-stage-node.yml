@@ -162,6 +162,18 @@ stages:
                   persistCredentials: true
                   clean: true
                   fetchDepth: 0
+
+                - task: DownloadSecureFile@1
+                  enabled: true
+                  displayName: 'download tfvars'
+                  inputs:
+                    secureFile: 'terraform.tfvars'
+
+                - task: DownloadSecureFile@1
+                  enabled: true
+                  displayName: 'download alone tfvars'
+                  inputs:
+                    secureFile: 'terraform_alone.tfvars'
                 - task: Bash@3
                   enabled: false
                   name: replacevar
@@ -185,9 +197,10 @@ stages:
                   inputs:
                     targetType: 'inline'
                     script: |
-                      chmod go-r "$(terraform_alonetfvars.secureFilePath)"
-                      chmod go-r "$(terraformtfvars.secureFilePath)"
-                      mv $(terraform_alone.tfvars.secureFilePath) ./terraform.tfvars
+                      chmod go-r "$(Agent.TempDirectory)/terraform.tfvars"
+                      chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
+                      mv $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                      mv $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
                       terraform init
                       terraform plan
                       terraform apply --auto-approve
