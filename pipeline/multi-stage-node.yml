@@ -61,12 +61,13 @@ stages:
           SonarQube: 'SonarSerConn_Devsu'
           organization: 'silencfox'
           scannerMode: 'cli'
-          configMode: 'file'
+          configMode: 'manual'
+          cliProjectKey: 'silencfox_Dev_Project'
+          cliProjectName: 'Dev_Project'
+          cliSources: '.'
           extraProperties: |
-            # Additional properties that will be passed to the scanner, 
-            # Put one key=value per line, example:
-            # sonar.exclusions=**/*.bin
-            #sonar.or
+            Dsonar.sources=.
+            Dsonar.host.url=https://sonarcloud.io
 
 
       - task: SonarCloudAnalyze@3
