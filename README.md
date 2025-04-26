@@ -84,18 +84,18 @@ Las plantillas de Terraform (`*.tf`) utilizan variables para parametrizar el des
 ```mermaid
 graph TD;
     A[GitHub - Push/Pull Request] --> B[Azure DevOps - CI]
-    B --> E[Análisis de código (SonarQube, etc.)]
+    B --> E[Análisis de código ,SonarQube, etc.,]
     B --> F[Pruebas unitarias]
     B --> G[Build de la app]
     G --> H{¿Build y pruebas exitosas?}
     H -- No --> I[Pipeline Falla ❌]
     H -- Sí --> J[Creación de imagen Docker]
-    J --> K[Publicar imagen en Azure Container Registry (ACR)]
+    J --> K[Publicar imagen en Azure Container Registry ,ACR,]
     K --> L[Azure DevOps - CD]
     L --> M[Terraform despliega Infraestructura en Azure]
     M --> N[Terraform guarda estados en Azure Blob Storage]
     N --> O[Azure DevOps despliega App en AKS usando imagen de ACR]
-    O --> P[Pruebas Funcionales (Newman)]
+    O --> P[Pruebas Funcionales ,Newman,]
     P --> Q{¿Pruebas exitosas?}
     Q -- No --> R[Rollback]
     Q -- Sí --> S[Solicitar aprobación para siguiente Stage]
