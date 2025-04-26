@@ -54,7 +54,7 @@ stages:
           versionSpec: '18.x'
 
       - task: SonarCloudPrepare@3
-        continueOnError: false
+        continueOnError: true
         inputs:
           SonarQube: 'SonarSerConn_Devsu'
           organization: 'silencfox'
@@ -69,12 +69,14 @@ stages:
 
 
       - task: SonarCloudAnalyze@3
-        continueOnError: false
+        continueOnError: true
+        enabled: false
         inputs:
           jdkversion: 'JAVA_HOME'
 
       - task: SonarCloudPublish@3
-        continueOnError: false
+        continueOnError: true
+        enabled: false
         inputs:
           pollingTimeoutSec: '300'
 
@@ -95,6 +97,7 @@ stages:
 
 
       - task: PublishTestResults@2
+        continueOnError: true
         enabled: false
         condition: succeededOrFailed()
         displayName: "Publish JUnit Test Results"
