@@ -197,10 +197,8 @@ stages:
                   inputs:
                     targetType: 'inline'
                     script: |
-                      chmod go-r "$(Agent.TempDirectory)/terraform.tfvars"
                       chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
                       mv $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
-                      mv $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
                       terraform init
                       terraform plan
                       terraform apply --auto-approve
@@ -236,7 +234,8 @@ stages:
                   inputs:
                     targetType: 'inline'
                     script: |
-                      #mv terraform.tmptfvars terraform.tfvars
+                      chmod go-r "$(Agent.TempDirectory)/terraform.tfvars"
+                      mv $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
                       terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
                       terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                       terraform apply -auto-approve "${{ environment.name }}.tfplan"
