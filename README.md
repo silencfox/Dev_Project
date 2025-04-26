@@ -1,6 +1,6 @@
 # 🚀 Dev_Project
 
-¡Bienvenido a Dev_Project! 👋  
+¡Bienvenido a Dev_Project (Proyecto de evaluacion Kelvin D. Alcala Grassal)! 👋  
 Este proyecto es un ejemplo práctico que combina **Docker**, **Terraform**, **AKS**, **Azure Pipelines** y **Node JS** para levantar una aplicación de manera eficiente y ordenada.
 
 ## Notas importantes
@@ -29,7 +29,7 @@ Este proyecto es un ejemplo práctico que combina **Docker**, **Terraform**, **A
 - **Docker** 🐳
 - **Terraform** ☁️
 - **Azure DevOps Pipelines** 🔵
-- **NGINX** 🌐
+- **Azure Kubernetes Services ** 🌐
 - **Node.js** ⚡
 
 ## 🚀 Cómo ejecutar el proyecto
@@ -80,7 +80,12 @@ Las plantillas de Terraform (`*.tf`) utilizan variables para parametrizar el des
   - `SonarCloud`
   - `Azure Subscripcion`
 
-- ** Flujo del despliegue:**
+## 🔥 Flujo de trabajo de despliegue
+
+
+[<img src="assets/Diagram.png?raw=true">]
+
+
 ```mermaid
 graph TD;
     A[GitHub - Push/Pull Request] --> B[Azure DevOps - CI]
@@ -110,22 +115,6 @@ graph TD;
 ```bash
 
 
-## 🔥 Flujo de trabajo de despliegue
-
-```mermaid
-flowchart TD
-    A[Developer hace push o pull request a main en GitHub] --> B[Azure DevOps detecta el cambio]
-    B --> C[Se ejecuta el Pipeline CI/CD]
-    C --> D{¿Hay cambios en infraestructura?}
-    D -- Sí --> E[Terraform aplica cambios en Azure]
-    D -- No --> F[No se aplican cambios en Azure]
-    E --> G[Continúa el despliegue de la app en AKS ☁️]
-    F --> G
-    G --> H[¿Pruebas Funcionales 🚀?]
-    H -- Sí --> I[Solicita aprobacion para el proximo Stage (Dev, QA, PROD)]
-    H -- No --> A[Ejecuta proceso Rollback]
-
-    I --> J[Aplicación desplegada y lista 🚀]
 
 
 
