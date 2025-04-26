@@ -355,7 +355,7 @@ stages:
                     clean: false
                     fetchDepth: 0
 
-                  - script: echo "Desplegando a QA"
+                  - script: echo "Rollback a QA"
 
                   - task: DownloadSecureFile@1
                     enabled: true
@@ -418,7 +418,7 @@ stages:
                     clean: false
                     fetchDepth: 0
 
-                  - script: echo "Desplegando a QA"
+                  - script: echo "Post Task a QA"
 
                   - task: DownloadSecureFile@1
                     enabled: true
@@ -436,6 +436,10 @@ stages:
                     inputs:
                       artifact: 'kubeconfig'
                       path: 'kubeconfig'
+                  - task: NodeTool@0
+                    inputs:
+                      versionSpec: '18.x'
+                    displayName: 'Install Node.js'
 
                   - task: TerraformInstaller@1
                     inputs:
@@ -487,3 +491,13 @@ stages:
                         terraform refresh
                         terraform destroy -auto-approve
 
+
+                  - script: |
+                      echo "hola"
+                      #npm install -g newman
+                    displayName: 'Install Newman'
+
+                  - script: |
+                      echo "hola"
+                      #newman run collection.json -e environment.json --reporters cli,junit --reporter-junit-export results.xml
+                    displayName: 'Run Postman Collection'
