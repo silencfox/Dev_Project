@@ -55,6 +55,18 @@ stages:
         inputs:
           versionSpec: '18.x'
 
+      - task: SonarCloudPrepare@3
+        inputs:
+          SonarQube: 'SonarSerConn_Devsu'
+          organization: 'silencfox'
+          scannerMode: 'cli'
+          configMode: 'file'
+          extraProperties: |
+            # Additional properties that will be passed to the scanner, 
+            # Put one key=value per line, example:
+            # sonar.exclusions=**/*.bin
+            #sonar.or
+
       - task: Bash@3
         enabled: true
         displayName: "Run Unit Tests Jest"
@@ -95,22 +107,12 @@ stages:
           failIfCoverageEmpty: true
 
 
-      - task: SonarCloudPrepare@3
-        inputs:
-          SonarQube: 'sonarcloud'
-          organization: 'silencfox'
-          scannerMode: 'cli'
-          configMode: 'file'
 
       - task: SonarCloudAnalyze@3
-        continueOnError: true
-        enabled: true
         inputs:
           jdkversion: 'JAVA_HOME'
 
-      - task: SonarCloudPublish@3
-        inputs:
-          pollingTimeoutSec: '300'
+
 
       - task: Bash@3
         enabled: false
@@ -131,6 +133,10 @@ stages:
             ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
             ARM_TENANT_ID: $(ARM_TENANT_ID)
 
+      - task: SonarCloudPublish@3
+        inputs:
+          pollingTimeoutSec: '300'
+          
       - task: Docker@2
         enabled: false
         name: "Docker_Build"
