@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: node-service  
-        image: acrdevsu.azurecr.io/devsudemo:latest
+        image: silencfox/devsudemo:latest
         env:
         - name: DATABASE_NAME
           valueFrom:
@@ -46,4 +46,14 @@ spec:
           httpGet:
             path: /api/users
             port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          failureThreshold: 2
+        readinessProbe:
+          httpGet:
+            path: /api/users
+            port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          failureThreshold: 3
       automountServiceAccountToken: false
