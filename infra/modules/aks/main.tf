@@ -62,7 +62,6 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
       load_balancer_sku = "standard"
   }
 
-
     
   }
 
