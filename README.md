@@ -1,9 +1,14 @@
 # 🚀 Dev_Project
 
 ¡Bienvenido a Dev_Project! 👋  
-Este proyecto es un ejemplo práctico que combina **Docker**, **Terraform**, **Azure Pipelines** y **NGINX** para levantar una aplicación de manera eficiente y ordenada.
+Este proyecto es un ejemplo práctico que combina **Docker**, **Terraform**, **AKS**, **Azure Pipelines** y **Node JS** para levantar una aplicación de manera eficiente y ordenada.
+
+## Notas importantes
+- Se recomienda crear la infraestructura en un repositorio separado a las fuentes de la aplicacion.
+- Por motivo de la evaluacion vigente en esta practica se crean los ambientes desde Cero incluyendo el kluster de AKS (Caso que no debe hacerse en produccion).
 
 ## Main
+
 [![Build Status](https://dev.azure.com/the-punisher01/gitops/_apis/build/status%2Fsilencfox.Dev_Project?branchName=main)](https://dev.azure.com/the-punisher01/gitops/_build/latest?definitionId=46&branchName=main)
 
 ## Develop
@@ -78,23 +83,24 @@ Las plantillas de Terraform (`*.tf`) utilizan variables para parametrizar el des
 - ** Flujo del despliegue:**
 ```mermaid
 graph TD;
-    A[Developer hace push o pull request a main en GitHub] --> B[Azure DevOps detecta el cambio]
-    B --> C[Se ejecuta el Pipeline CI]
-    C --> D[Build de la aplicación]
-    D --> E[Análisis de código: SonarQube / ESLint]
-    E --> F[Pruebas unitarias]
-    F --> G{¿Build exitoso y pruebas pasaron?}
-    G -- No --> H[Pipeline falla ❌]
-    G -- Sí --> I[Se ejecuta el Pipeline CD]
-    I --> J{¿Hay cambios en infraestructura?}
-    J -- Sí --> K[Terraform aplica cambios en Azure]
-    J -- No --> L[No se aplican cambios en Azure]
-    K --> M[Continúa el despliegue de la app en AKS ☁️]
-    L --> M
-    M --> N[¿Pruebas Funcionales superadas? 🚀]
-    N -- Sí --> O[Solicita aprobación para el próximo Stage Dev, QA, PROD]
-    N -- No --> P[Ejecuta proceso de Rollback]
-    O --> Q[Aplicación desplegada y lista 🚀]
+    A[GitHub - Push/Pull Request] --> B[Azure DevOps - CI]
+    B --> E[Análisis de código (SonarQube, etc.)]
+    B --> F[Pruebas unitarias]
+    B --> G[Build de la app]
+    G --> H{¿Build y pruebas exitosas?}
+    H -- No --> I[Pipeline Falla ❌]
+    H -- Sí --> J[Creación de imagen Docker]
+    J --> K[Publicar imagen en Azure Container Registry (ACR)]
+    K --> L[Azure DevOps - CD]
+    L --> M[Terraform despliega Infraestructura en Azure]
+    M --> N[Terraform guarda estados en Azure Blob Storage]
+    N --> O[Azure DevOps despliega App en AKS usando imagen de ACR]
+    O --> P[Pruebas Funcionales (Newman)]
+    P --> Q{¿Pruebas exitosas?}
+    Q -- No --> R[Rollback]
+    Q -- Sí --> S[Solicitar aprobación para siguiente Stage]
+    S --> T[Aplicación desplegada 🚀]
+
 
 
 
