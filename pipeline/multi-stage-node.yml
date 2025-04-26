@@ -38,8 +38,8 @@ stages:
             chmod go-r "$(terraformtfvars.secureFilePath)"
             cat "$(terraform_alonetfvars.secureFilePath)"
             cat "$(terraformtfvars.secureFilePath)"
-            mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
-            mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
+            cp $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+            cp $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
           workingDirectory: '$(Build.SourcesDirectory)'
 
       - task: DockerInstaller@0
@@ -118,8 +118,9 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            mv terraform.tmptfvars terraform.tfvars
+            cp terraform.tmptfvars terraform.tfvars
             terraform init
+            terraform refresh
             terraform plan
             terraform apply --auto-approve
           workingDirectory: '$(Build.SourcesDirectory)/tfstate'
@@ -184,8 +185,8 @@ stages:
                   inputs:
                     targetType: 'inline'
                     script: |
-                      mv ./infra/terraform.tmptfvars ./infra/terraform.tfvars
-                      mv ./tfstate/terraform.tmptfvars ./tfstate/terraform.tfvars
+                      cp ./infra/terraform.tmptfvars ./infra/terraform.tfvars
+                      cp ./tfstate/terraform.tmptfvars ./tfstate/terraform.tfvars
                     workingDirectory: '$(Build.SourcesDirectory)'
 
                 - task: replacetokens@6
@@ -201,8 +202,9 @@ stages:
                     targetType: 'inline'
                     script: |
                       chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
-                      mv $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                      cp $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                       terraform init
+                      terraform refresh
                       terraform plan
                       terraform apply --auto-approve
                     workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
@@ -260,13 +262,13 @@ stages:
                   inputs:
                     targetType: 'inline'
                     script: |
-                      mv $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
-                      mv $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
+                      cp $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                      cp $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
 
                       chmod go-r "$(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars"
                       chmod go-r "$(Build.SourcesDirectory)/infra/terraform.tfvars"
-                      ls -lrt "$(terraform_alonetfvars.secureFilePath)/infra/standalone/acr/terraform.tfvars"
-                      ls -lrt "$(terraformtfvars.secureFilePath)/infra/terraform.tfvars"
+                      ls -lrt "./standalone/acr/terraform.tfvars"
+                      ls -lrt "./terraform.tfvars"
                     workingDirectory: '$(Build.SourcesDirectory)/infra'
 
                 - task: replacetokens@6
@@ -283,7 +285,8 @@ stages:
                     script: |
                       ls -lrt 
                       terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
-                      terraform destroy -auto-approve
+                      terraform refresh
+                      #terraform destroy -auto-approve
                       $terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                       $terraform apply -auto-approve "${{ environment.name }}.tfplan"
                       #terraform plan -destroy -out="${{ environment.name }}.tfplan"
@@ -390,10 +393,11 @@ stages:
 
                         #cat "$(terraform_alonetfvars.secureFilePath)"
                         #cat "$(terraformtfvars.secureFilePath)"
-                        mv $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
-                        mv $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
+                        cp $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                        cp $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
                         kubectl get nodes
                         terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        terraform refresh
                         terraform destroy -auto-approve
                       workingDirectory: '$(Build.SourcesDirectory)'
 
@@ -405,6 +409,7 @@ stages:
                       targetType: 'inline'
                       script: |
                         terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        terraform refresh
                         terraform destroy -auto-approve 
                 success:
                   steps:
@@ -455,9 +460,10 @@ stages:
 
                         #cat "$(terraform_alonetfvars.secureFilePath)"
                         #cat "$(terraformtfvars.secureFilePath)"
-                        mv $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
-                        mv $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
-                        #terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        cp $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                        cp $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
+                        terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        terraform refresh
                         #terraform destroy -auto-approve
                         #terraform output
 
@@ -478,5 +484,6 @@ stages:
                         echo "Successfully deployed to ${{ environment.name }}"    
                         echo "Retaining build..."
                         terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        terraform refresh
                         terraform destroy -auto-approve
 
