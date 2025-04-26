@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-service
+spec:
+  selector:
+    matchLabels:
+      run: node-service  # Cambiado de desunode a node-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: node-service  # Cambiado de desunode a node-service
+    spec:
+      containers:
+      - name: node-service  # Cambiado de desunode a node-service
+        image: silencfox/devsudemo:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m

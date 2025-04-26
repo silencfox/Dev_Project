@@ -15,4 +15,8 @@ $env:ARM_SUBSCRIPTION_ID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 $env:ARM_TENANT_ID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
 
+Develop
+[![Build Status](https://dev.azure.com/the-punisher01/gitops/_apis/build/status%2Fsilencfox.Dev_Project?branchName=develop)](https://dev.azure.com/the-punisher01/gitops/_build/latest?definitionId=46&branchName=develop)
 
+Main
+[![Build Status](https://dev.azure.com/the-punisher01/gitops/_apis/build/status%2Fsilencfox.Dev_Project?branchName=main)](https://dev.azure.com/the-punisher01/gitops/_build/latest?definitionId=46&branchName=main)

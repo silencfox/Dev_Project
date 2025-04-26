@@ -149,7 +149,6 @@ stages:
         dependsOn: ${{ environment.dependsOn }}
 
         jobs: 
-
         - deployment: Deploy${{ environment.name }}
           environment: ${{ environment.name }}
           workspace:
@@ -560,3 +559,5 @@ stages:
                         #terraform refresh -input=false
                         #terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                         #terraform destroy -auto-approve "${{ environment.name }}.tfplan"
+
+
