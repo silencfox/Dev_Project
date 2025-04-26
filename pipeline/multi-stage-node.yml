@@ -30,14 +30,12 @@ stages:
           secureFile: 'terraform_alone.tfvars'
 
       - task: Bash@3
-
+        displayName: 'setting vars'
         inputs:
           targetType: 'inline'
           script: |
             chmod go-r "$(terraform_alonetfvars.secureFilePath)"
             chmod go-r "$(terraformtfvars.secureFilePath)"
-            cat "$(terraform_alonetfvars.secureFilePath)"
-            cat "$(terraformtfvars.secureFilePath)"
             cp $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
             cp $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
           workingDirectory: '$(Build.SourcesDirectory)'
@@ -90,7 +88,6 @@ stages:
             npm install
             npm test
             npx jest --reporters=default --reporters=jest-junit
-
           workingDirectory: '$(Build.SourcesDirectory)/app'
           bashEnvValue: |
             'JEST_JUNIT_OUTPUT_DIR: test-results'
@@ -243,10 +240,6 @@ stages:
                       echo "ACR es: $acrLoginServer2"
                     workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
                     
-                - script: |
-                    echo "ACR es: $acrLoginServer2"
-                  displayName: 'acr servs'
-
 
                 - task: AzureCLI@2
                   name: "Docker_Build_And_Push"
@@ -271,7 +264,6 @@ stages:
                   persistCredentials: true
                   clean: true
                   fetchDepth: 0
-                - script: echo "Desplegando a QA"
 
                 - task: DownloadSecureFile@1
                   name: 'terraformtfvars'
@@ -410,7 +402,6 @@ stages:
                     testResultsFormat: 'JUnit'
                     testResultsFiles: |
                       ${{ environment.name }}.xml
-                      ${{ environment.name }}.html
                     searchFolder: '$(Pipeline.Workspace)/TestResults/Newman'
                     mergeTestResults: true
                     testRunTitle: 'NewmanTests - ${{ environment.name }}'
