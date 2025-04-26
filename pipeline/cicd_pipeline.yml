@@ -6,6 +6,16 @@
 trigger:
 - main
 
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - app/*
+      - deployment/*
+      - infra/*
+
 pool:
   vmImage: ubuntu-latest
 
