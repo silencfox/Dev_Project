@@ -78,7 +78,6 @@ Las plantillas de Terraform (`*.tf`) utilizan variables para parametrizar el des
 - ** Flujo del despliegue:**
 ```mermaid
 graph TD;
-graph TD;
     A[Developer hace push o pull request a main en GitHub] --> B[Azure DevOps detecta el cambio]
     B --> C[Se ejecuta el Pipeline CI]
     C --> D[Build de la aplicación]
