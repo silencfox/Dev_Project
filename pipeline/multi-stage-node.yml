@@ -68,6 +68,17 @@ stages:
             # sonar.exclusions=**/*.bin
             #sonar.or
 
+
+      - task: SonarCloudAnalyze@3
+        continueOnError: true
+        inputs:
+          jdkversion: 'JAVA_HOME'
+
+      - task: SonarCloudPublish@3
+        continueOnError: true
+        inputs:
+          pollingTimeoutSec: '300'
+
       - task: Bash@3
         enabled: true
         displayName: "Run Unit Tests Jest"
@@ -110,10 +121,6 @@ stages:
 
 
 
-      - task: SonarCloudAnalyze@3
-        inputs:
-          jdkversion: 'JAVA_HOME'
-
 
 
       - task: Bash@3
@@ -135,9 +142,7 @@ stages:
             ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
             ARM_TENANT_ID: $(ARM_TENANT_ID)
 
-      - task: SonarCloudPublish@3
-        inputs:
-          pollingTimeoutSec: '300'
+
 
       - task: Docker@2
         enabled: false
