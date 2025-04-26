@@ -198,7 +198,6 @@ stages:
                   enabled: true
                   name: ACR
                   displayName: "Create Azure ACR"
-                  continueOnError: true
                   inputs:
                     targetType: 'inline'
                     script: |
@@ -365,6 +364,7 @@ stages:
 
                 - task: Bash@3
                   displayName: "Funtional Test"
+                  continueOnError: true
                   inputs:
                     targetType: 'inline'
                     script: |
