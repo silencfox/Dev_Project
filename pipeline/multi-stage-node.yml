@@ -375,7 +375,7 @@ stages:
                     recursive: true
 
                 - task: Bash@3
-                  displayName: "Funtional Test"
+                  displayName: "Functional Test - Newman"
                   continueOnError: true
                   inputs:
                     targetType: 'inline'
@@ -387,7 +387,8 @@ stages:
                       cd '$(System.DefaultWorkingDirectory)/deployment/test'
                       newman run Devsu.postman_collection.json --reporters cli,junit,html --reporter-junit-export $(Pipeline.Workspace)/TestResults/Newman/${{ environment.name }}.xml --reporter-html-export $(Pipeline.Workspace)/TestResults/Newman/${{ environment.name }}.html
                       #--working-dir "$env:WORKING_DIR" -d $csvDataFile -r "cli,junit,html" --reporter-junit-export "$(Pipeline.Workspace)/TestResults/Newman/JUnitResults/${{ environment.name }}.xml" --reporter-html-export "$(Pipeline.Workspace)/TestResults/Newman/HtmlResults/${{ environment.name }}.html"
-
+                      echo "newman report"
+                      ls -lrt $(Pipeline.Workspace)/TestResults/Newman
                       #newman run Devsu.postman_collection.json -e environment.json --reporters cli,junit --reporter-junit-export results.xml
                     workingDirectory: '$(System.DefaultWorkingDirectory)/deployment/test'
 
@@ -395,10 +396,12 @@ stages:
                 - task: PublishTestResults@2
                   displayName: Publish Test Results
                   inputs:
-                    testResultsFiles: '**\*${{ environment.name }}.xml'
-                    searchFolder: $(Pipeline.Workspace)/TestResults/Newman
+                    testResultsFormat: 'JUnit'
+                    testResultsFiles: |
+                      ${{ environment.name }}.xml
+                      ${{ environment.name }}.html
+                    searchFolder: '$(Pipeline.Workspace)/TestResults/Newman'
                     mergeTestResults: true
-                    failTaskOnFailedTests: false
                     testRunTitle: 'NewmanTests - ${{ environment.name }}'
 
                 - script: |
