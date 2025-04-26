@@ -290,23 +290,20 @@ stages:
                       ls -lrt 
                       set -euo pipefail
                       echo "Entorno: ${{ environment.name }}"
-                      terraform version
                       terraform init -reconfigure -backend-config="backend-${{ environment.name }}.tfvars"
                       terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                       terraform apply -auto-approve "${{ environment.name }}.tfplan"
+                      terraform version
                       terraform validate
                       terraform refresh
-                      #terraform destroy -auto-approve
-                      #terraform plan -destroy -out="${{ environment.name }}.tfplan"
 
-                      #terraform apply --auto-approve -var="TF_VAR_ghtoken=$(TF_VAR_ghtoken)" -var="environment=${{ environment.name }}"
                     workingDirectory: '$(Build.SourcesDirectory)/infra'
-                    #bashEnvValue: |
-                    #  ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-                    #  ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-                    #  ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-                    #  ARM_TENANT_ID: $(ARM_TENANT_ID)
-                    #  TF_VAR_ghtoken: $(TF_VAR_ghtoken)
+                    bashEnvValue: |
+                      ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+                      ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+                      ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+                      ARM_TENANT_ID: $(ARM_TENANT_ID)
+                      TF_VAR_ghtoken: $(TF_VAR_ghtoken)
 
                 - task: Bash@3
                   enabled: true
