@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: node-service  # Cambiado de desunode a node-service
-        image: silencfox/devsudemo:latest
+        image: acrdevsu.azurecr.io/devsudemo:latest
         ports:
         - containerPort: 8000
         resources:
