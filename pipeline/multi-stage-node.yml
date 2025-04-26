@@ -354,9 +354,20 @@ stages:
                     curl http://$(ipadds):$(port)
                     npm install -g newman
                     cd '$(System.DefaultWorkingDirectory)/deployment/test'
-                    newman run Devsu.postman_collection.json --reporters cli,junit --reporter-junit-export results.xml
+                    newman run Devsu.postman_collection.json --reporters cli,junit,html --reporter-junit-export $(Pipeline.Workspace)/TestResults/Newman/${{ environment.name }}.xml --reporter-html-export $(Pipeline.Workspace)/TestResults/Newman/${{ environment.name }}.html
+                    #--working-dir "$env:WORKING_DIR" -d $csvDataFile -r "cli,junit,html" --reporter-junit-export "$(Pipeline.Workspace)/TestResults/Newman/JUnitResults/${{ environment.name }}.xml" --reporter-html-export "$(Pipeline.Workspace)/TestResults/Newman/HtmlResults/${{ environment.name }}.html"
+
                     #newman run Devsu.postman_collection.json -e environment.json --reporters cli,junit --reporter-junit-export results.xml
                   displayName: 'Run Postman Collection'
+
+                - task: PublishTestResults@2
+                  displayName: Publish Test Results
+                  inputs:
+                    testResultsFiles: '**\*.${{ environment.name }}.xml'
+                    searchFolder: $(Pipeline.Workspace)\TestResults\Newman
+                    mergeTestResults: true
+                    failTaskOnFailedTests: false
+                    testRunTitle: 'NewmanTests - ${{ environment.name }}'
 
                 - script: |
                     echo "service ip: $(ipadds)"
@@ -512,3 +523,4 @@ stages:
                         terraform refresh -input=false
                         terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                         terraform destroy -auto-approve "${{ environment.name }}.tfplan"
+
