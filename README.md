@@ -92,7 +92,7 @@ graph TD;
     K --> M[Continúa el despliegue de la app en AKS ☁️]
     L --> M
     M --> N[¿Pruebas Funcionales superadas? 🚀]
-    N -- Sí --> O[Solicita aprobación para el próximo Stage (Dev, QA, PROD)]
+    N -- Sí --> O[Solicita aprobación para el próximo Stage Dev, QA, PROD]
     N -- No --> P[Ejecuta proceso de Rollback]
     O --> Q[Aplicación desplegada y lista 🚀]
 
