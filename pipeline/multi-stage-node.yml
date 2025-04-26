@@ -327,24 +327,33 @@ stages:
                       kubectl get services -n $(K8S_NAMESPACE)
 
                       for i in {1..20}; do
-                        ipaddrs=$(kubectl get svc node-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+                        ipaddrs=$(kubectl get svc node-service -n devsu -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
                         if [ -n "$ipaddrs" ]; then
+                          port=$(kubectl get svc node-service -n devsu -o jsonpath='{.spec.ports[0].port}')
                           echo "Service ip: $ipaddrs"
-                          echo "##vso[task.setvariable variable=publicIP]$ipaddrs"
+                          echo "Service port: $port"
+                          echo "##vso[task.setvariable variable=ipadds]$ipaddrs"
+                          echo "##vso[task.setvariable variable=port]$port"
                           #echo "##vso[task.setvariable variable=publicIP;isOutput=true]$ipaddrs"
                           break
                         fi
                         echo "waiting for public ip"
                         sleep 15
                       done
-
-
                     workingDirectory: '$(Build.SourcesDirectory)/deployment'
+
+                - task: replacetokens@6
+                  inputs:
+                    root: '$(System.DefaultWorkingDirectory)/deployment/test'
+                    sources: 'collection.json'
+                    recursive: true
 
                 - script: |
                     echo "hola"
                     npm install -g newman
-                    newman run collection.json -e environment.json --reporters cli,junit --reporter-junit-export results.xml
+                    cd '$(System.DefaultWorkingDirectory)/deployment/test'
+                    newman run collection.json --reporters cli,junit --reporter-junit-export results.xml
+                    #newman run collection.json -e environment.json --reporters cli,junit --reporter-junit-export results.xml
                   displayName: 'Run Postman Collection'
 
                 - script: |
