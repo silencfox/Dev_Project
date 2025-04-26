@@ -38,3 +38,15 @@ resource "local_file" "kubeconfig" {
   content      = module.aks.kube_config
   
 }
+
+
+resource "azurerm_role_assignment" "aks_acr_pull" {
+  principal_id         = module.aks.aks_principal_id
+  role_definition_name = "AcrPull"
+  scope                = azurerm_container_registry.acr.id
+
+  depends_on = [
+    module.aks
+  ]
+
+}
