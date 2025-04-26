@@ -1,6 +1,6 @@
 
 resource "azurerm_container_registry" "acr" {
-  public_network_access_enabled = true
+  public_network_access_enabled = false
   name                = var.acr_name
   resource_group_name = var.rgname
   location            = var.location
