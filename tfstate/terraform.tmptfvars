@@ -1,0 +1,12 @@
+
+tenant_id                = ""
+subscription_id          = ""
+client_id                = ""
+client_secret            = ""
+
+location                 = "brazilsouth"
+rgname                   = "rg-devsu-tfstate"
+storeacount              = "tfdevsublobstorage007011"
+
+
+                         

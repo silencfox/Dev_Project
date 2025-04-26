@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-service
+  namespace: devsu
+spec:
+  selector:
+    matchLabels:
+      run: node-service 
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: node-service 
+    spec:
+      containers:
+      - name: node-service  
+        image: silencfox/devsudemo:latest
+        env:
+        - name: DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: envs
+              key: DATABASE
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: envs
+              key: USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: envs
+              key: PASS
+        resources:
+          limits:
+            cpu: 500m
+            memory: 100Mi
+          requests:
+            cpu: 200m
+            memory: 100Mi
+
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /api/users
+            port: 8000
+      automountServiceAccountToken: false

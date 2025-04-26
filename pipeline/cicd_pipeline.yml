@@ -1,0 +1,40 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - app/*
+      - deployment/*
+      - infra/*
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - name: application_name
+    value: 'Node_Devsu'
+
+
+lockBehavior: sequential
+extends:
+  template: multi-stage-node.yml
+  parameters:
+    environments:
+      - name: Dev
+        dependsOn: Build_And_Analyze
+        environment: DEV
+      - name: QA
+        dependsOn: DeployDev
+        environment: QA
+      - name: Prod
+        dependsOn: DeployQA
+        environment: PROD

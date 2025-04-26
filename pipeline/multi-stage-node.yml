@@ -1,0 +1,499 @@
+parameters:
+- name: environments
+  type: object
+  default: ""
+stages:
+  - stage: Build_And_Analyze
+    displayName: Build And Analyze
+    jobs: 
+    - job: 'Build_app'
+      timeoutInMinutes: 120       
+      cancelTimeoutInMinutes: 2 
+
+      steps:
+      - checkout: self
+        persistCredentials: true
+        clean: true
+        fetchDepth: 0
+
+
+      - task: DownloadSecureFile@1
+        name: 'terraformtfvars'
+        displayName: 'download tfvars'
+        inputs:
+          secureFile: 'terraform.tfvars'
+
+      - task: DownloadSecureFile@1
+        name: 'terraform_alonetfvars'
+        displayName: 'download alone tfvars'
+        inputs:
+          secureFile: 'terraform_alone.tfvars'
+
+      - task: Bash@3
+
+        inputs:
+          targetType: 'inline'
+          script: |
+            chmod go-r "$(terraform_alonetfvars.secureFilePath)"
+            chmod go-r "$(terraformtfvars.secureFilePath)"
+            cat "$(terraform_alonetfvars.secureFilePath)"
+            cat "$(terraformtfvars.secureFilePath)"
+            cp $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+            cp $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
+          workingDirectory: '$(Build.SourcesDirectory)'
+
+      - task: DockerInstaller@0
+        inputs:
+          dockerVersion: '17.09.0-ce'
+
+      - task: TerraformInstaller@1
+        inputs:
+          terraformVersion: 'latest'
+
+
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '18.x'
+
+      - task: SonarCloudPrepare@3
+        continueOnError: true
+        inputs:
+          SonarQube: 'SonarSerConn_Devsu'
+          organization: 'silencfox'
+          scannerMode: 'cli'
+          configMode: 'manual'
+          cliProjectKey: 'silencfox_Dev_Project'
+          cliProjectName: 'Dev_Project'
+          cliSources: '.'
+          extraProperties: |
+            Dsonar.sources=.
+            Dsonar.host.url=https://sonarcloud.io
+
+
+      - task: SonarCloudAnalyze@3
+        continueOnError: true
+        inputs:
+          jdkversion: 'JAVA_HOME'
+
+      - task: SonarCloudPublish@3
+        continueOnError: true
+        inputs:
+          pollingTimeoutSec: '300'
+
+      - task: Bash@3
+        enabled: true
+        displayName: "Run Unit Tests Jest"
+        inputs:
+          targetType: 'inline'
+          script: |
+            npm install --save-dev jest-junit
+            npm install
+            npm test
+            npx jest --reporters=default --reporters=jest-junit
+
+          workingDirectory: '$(Build.SourcesDirectory)/app'
+          bashEnvValue: |
+            'JEST_JUNIT_OUTPUT_DIR: test-results'
+            JEST_JUNIT_OUTPUT_NAME: test_results.xml
+
+
+      - task: PublishTestResults@2
+        enabled: true
+        condition: succeededOrFailed()
+        displayName: "Publish JUnit Test Results"
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'junit.xml'
+          searchFolder: '$(Build.SourcesDirectory)/app'
+          mergeTestResults: true
+          failTaskOnFailedTests: true
+          testRunTitle: 'Unit Tests'
+
+      - task: PublishCodeCoverageResults@2
+        continueOnError: true
+        enabled: true
+        displayName: "Publish Code Coverage HTML"
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '$(Build.SourcesDirectory)/app/coverage/lcov.info'
+          reportDirectory: '$(Build.SourcesDirectory)/app/coverage/lcov-report'
+          pathToSources: '$(Build.SourcesDirectory)/app'
+          failIfCoverageEmpty: true
+
+
+
+
+
+      - task: Bash@3
+        enabled: false
+        name: tfstates
+        displayName: "Create_TF_Storage"
+        inputs:
+          targetType: 'inline'
+          script: |
+            cp terraform.tmptfvars terraform.tfvars
+            terraform init
+            terraform refresh
+            terraform plan
+            terraform apply --auto-approve
+          workingDirectory: '$(Build.SourcesDirectory)/tfstate'
+          bashEnvValue: |
+            ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+            ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+            ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+            ARM_TENANT_ID: $(ARM_TENANT_ID)
+
+
+
+      - task: Docker@2
+        enabled: false
+        name: "Docker_Build"
+        displayName: "Build and Push"
+        inputs:
+          containerRegistry: 'DOckerHub'
+          repository: 'silencfox/devsudemo'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: |
+            $(Build.BuildId)
+            latest
+
+  - ${{ each environment in parameters.environments }}:
+      - stage: Deploy${{ environment.name }}
+        displayName: Deploy ${{ environment.name }}
+        dependsOn: ${{ environment.dependsOn }}
+
+        jobs: 
+        - deployment: Deploy${{ environment.name }}
+          environment: ${{ environment.name }}
+          workspace:
+            clean: all
+          strategy:
+            runOnce:
+              preDeploy:
+                steps:
+
+                - checkout: self
+                  persistCredentials: true
+                  clean: true
+                  fetchDepth: 0
+
+                - task: DownloadSecureFile@1
+                  enabled: true
+                  displayName: 'download tfvars'
+                  inputs:
+                    secureFile: 'terraform.tfvars'
+
+                - task: DownloadSecureFile@1
+                  enabled: true
+                  displayName: 'download alone tfvars'
+                  inputs:
+                    secureFile: 'terraform_alone.tfvars'
+                - task: TerraformInstaller@1
+                  inputs:
+                    terraformVersion: 'latest'
+                - task: Bash@3
+                  enabled: false
+                  name: replacevar
+                  displayName: "replace var"
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      cp ./infra/terraform.tmptfvars ./infra/terraform.tfvars
+                      cp ./tfstate/terraform.tmptfvars ./tfstate/terraform.tfvars
+                    workingDirectory: '$(Build.SourcesDirectory)'
+
+                - task: replacetokens@6
+                  inputs:
+                    root: '$(Build.SourcesDirectory)/infra'
+                    sources: 'terraform.tfvars'
+
+                - task: Bash@3
+                  enabled: true
+                  name: ACR
+                  displayName: "Create Azure ACR"
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
+                      cp $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                      terraform init
+                      terraform refresh -input=false 
+                      terraform plan
+                      terraform apply --auto-approve
+
+                      echo "vamos a parsear"
+                      if ! command -v jq >/dev/null 2>&1; then
+                        sudo apt-get update
+                        sudo apt-get install -y jq
+                      fi
+                      jq --version
+
+                      terraform_outputs=$(terraform output -json)
+
+                      acr_name=$(echo "$terraform_outputs" | jq -r '.container_registry_name.value')
+                      acr_server=$(echo "$terraform_outputs" | jq -r '.container_registry_login_server.value')
+
+                      echo "Nombre del registry: $acr_name"
+                      echo "Servidor del registry: $acr_server"
+
+                   
+                      echo "##vso[task.setvariable variable=acrLoginServer;isOutput=true]$acr_server"
+                      echo "##vso[task.setvariable variable=acrLoginServer2]$acr_server"
+                      echo "ACR es: $acrLoginServer2"
+                    workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
+                    
+                - script: |
+                    echo "ACR es: $acrLoginServer2"
+                  displayName: 'acr servs'
+
+
+                - task: AzureCLI@2
+                  name: "Docker_Build_And_Push"
+                  displayName: "Docker Build And Push"
+                  enabled: true
+                  inputs:
+                    azureSubscription: 'Azure subscription 1(2)(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"        
+                      docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .        
+                      ARM_ACR_LOGIN_SERVER="acrdevsu.azurecr.io"        
+                      docker push acrdevsu.azurecr.io/devsudemo:latest
+                    addSpnToEnvironment: true
+                    useGlobalConfig: true
+                    workingDirectory: '$(Build.SourcesDirectory)/app'
+
+              deploy:
+                steps:
+                - checkout: self
+                  persistCredentials: true
+                  clean: true
+                  fetchDepth: 0
+                - script: echo "Desplegando a QA"
+
+                - task: DownloadSecureFile@1
+                  name: 'terraformtfvars'
+                  displayName: 'download tfvars'
+                  inputs:
+                    secureFile: 'terraform.tfvars'
+
+                - task: DownloadSecureFile@1
+                  name: 'terraform_alonetfvars'
+                  displayName: 'download alone tfvars'
+                  inputs:
+                    secureFile: 'terraform_alone.tfvars'
+                - task: NodeTool@0
+                  inputs:
+                    versionSpec: '18.x'
+                  displayName: 'Install Node.js'
+
+                - task: TerraformInstaller@1
+                  inputs:
+                    terraformVersion: 'latest'
+
+                - task: KubectlInstaller@0
+                  displayName: Install kubectl
+                  inputs:
+                    kubectlVersion: 'latest'
+
+                - task: Bash@3
+                  displayName: "getting vars"
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      echo "ACR es: $(acrLoginServer)"
+                      cp $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                      cp $(terraformtfvars.secureFilePath) $(Build.SourcesDirectory)/infra/terraform.tfvars
+
+                      chmod go-r "$(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars"
+                      chmod go-r "$(Build.SourcesDirectory)/infra/terraform.tfvars"
+                      ls -lrt "./standalone/acr/terraform.tfvars"
+                      ls -lrt "./terraform.tfvars"
+                    workingDirectory: '$(Build.SourcesDirectory)/infra'
+
+                - task: replacetokens@6
+                  inputs:
+                    root: '$(Build.SourcesDirectory)/infra'
+                    sources: 'terraform.tfvars'
+
+                - task: Bash@3
+                  enabled: true
+                  name: Crear_AKS
+                  displayName: "Crear AKS"
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      ls -lrt 
+                      set -euo pipefail
+                      echo "Entorno: ${{ environment.name }}"
+                      terraform init -reconfigure -backend-config="backend-${{ environment.name }}.tfvars"
+                      terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
+                      terraform apply -auto-approve "${{ environment.name }}.tfplan"
+
+
+                    workingDirectory: '$(Build.SourcesDirectory)/infra'
+                    bashEnvValue: |
+                      ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+                      ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+                      ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+                      ARM_TENANT_ID: $(ARM_TENANT_ID)
+                      TF_VAR_ghtoken: $(TF_VAR_ghtoken)
+
+                - task: Bash@3
+                  enabled: true
+                  name: create_deployment
+                  displayName: "Create Deployment"
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      mkdir -p ~/.kube
+                      cp $(Build.SourcesDirectory)/infra/kubeconfig kubeconfig.yaml
+                      cp $(Build.SourcesDirectory)/infra/kubeconfig ~/.kube/config
+                      chmod 600 ~/.kube/config
+                      ls -lrt ~/.kube
+                      export KUBECONFIG=$(Build.SourcesDirectory)/infra/kubeconfig
+                      kubectl get nodes
+                      kubectl create namespace $(K8S_NAMESPACE)
+                      kubectl apply -f secrect.yml -n $(K8S_NAMESPACE)
+                      kubectl apply -f deployment.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f service_balance.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f hpa.yaml -n $(K8S_NAMESPACE)
+                      
+                      kubectl get deployments -n $(K8S_NAMESPACE)
+                      kubectl get services -n $(K8S_NAMESPACE)
+
+                      for i in {1..20}; do
+                        ipaddrs=$(kubectl get svc node-service -n devsu -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+                        if [ -n "$ipaddrs" ]; then
+                          port=$(kubectl get svc node-service -n devsu -o jsonpath='{.spec.ports[0].port}')
+                          echo "Service ip: $ipaddrs"
+                          echo "Service port: $port"
+                          echo "##vso[task.setvariable variable=ipadds]$ipaddrs"
+                          echo "##vso[task.setvariable variable=port]$port"
+                          break
+                        fi
+                        echo "waiting for public ip"
+                        sleep 15
+                      done
+                    workingDirectory: '$(Build.SourcesDirectory)/deployment'
+
+                - task: replacetokens@6
+                  inputs:
+                    root: '$(System.DefaultWorkingDirectory)/deployment/test'
+                    sources: 'Devsu.postman_collection.json'
+                    recursive: true
+
+                - task: Bash@3
+                  displayName: "Functional Test - Newman"
+                  continueOnError: true
+                  timeoutInMinutes: 1
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      echo "service ip: $(ipadds)"
+                      curl http://$(ipadds):$(port)
+                      npm install -g newman
+                      npm install -g newman-reporter-html
+                      cd '$(System.DefaultWorkingDirectory)/deployment/test'
+                      newman run Devsu.postman_collection.json --reporters cli,junit,html --reporter-junit-export $(Pipeline.Workspace)/TestResults/Newman/${{ environment.name }}.xml --reporter-html-export $(Pipeline.Workspace)/TestResults/Newman/${{ environment.name }}.html
+                      echo "newman report"
+                      ls -lrt $(Pipeline.Workspace)/TestResults/Newman
+                     
+                    workingDirectory: '$(System.DefaultWorkingDirectory)/deployment/test'
+
+
+                - task: PublishTestResults@2
+                  displayName: Publish Test Results
+                  inputs:
+                    testResultsFormat: 'JUnit'
+                    testResultsFiles: |
+                      ${{ environment.name }}.xml
+                      ${{ environment.name }}.html
+                    searchFolder: '$(Pipeline.Workspace)/TestResults/Newman'
+                    mergeTestResults: true
+                    testRunTitle: 'NewmanTests - ${{ environment.name }}'
+
+                - script: |
+                    echo "service ip: $(ipadds)"
+                    curl http://$(ipadds):$(port)/api/users
+                  displayName: 'ip publica del servicio'
+
+                - task: PublishPipelineArtifact@1
+                  inputs:
+                    targetPath: '$(Build.SourcesDirectory)/infra/kubeconfig'
+                    artifact: 'kubeconfig'
+
+              on:
+                failure:
+                  steps:
+                  - checkout: self
+                    persistCredentials: true
+                    clean: false
+                    fetchDepth: 0
+
+                  - script: echo "Rollback a QA"
+
+                  - task: DownloadSecureFile@1
+                    enabled: true
+                    displayName: 'download tfvars'
+                    inputs:
+                      secureFile: 'terraform.tfvars'
+
+                  - task: DownloadSecureFile@1
+                    enabled: true
+                    displayName: 'download alone tfvars'
+                    inputs:
+                      secureFile: 'terraform_alone.tfvars'
+
+                  - task: DownloadPipelineArtifact@2
+                    inputs:
+                      artifact: 'kubeconfig'
+                      path: 'kubeconfig'
+
+                  - task: TerraformInstaller@1
+                    inputs:
+                      terraformVersion: 'latest'
+
+                  - task: Bash@3
+                    inputs:
+                      targetType: 'inline'
+                      script: |
+                        mkdir -p ~/.kube
+
+                        cp $(Build.SourcesDirectory)/kubeconfig ~/.kube/config
+                        chmod 600 ~/.kube/config
+                        kubectl get nodes
+
+                        chmod go-r "$(Agent.TempDirectory)/terraform.tfvars"
+                        chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
+
+                        cp $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                        cp $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
+                        kubectl get nodes
+                        terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        terraform refresh
+                        terraform destroy -auto-approve
+                      workingDirectory: '$(Build.SourcesDirectory)'
+
+
+                  - task: Bash@3
+                    enabled: true
+                    displayName: "Roll Back AKS"
+                    inputs:
+                      targetType: 'inline'
+                      script: |
+                        terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        terraform refresh
+                        terraform destroy -auto-approve 
+                success:
+                  steps:
+                  - checkout: self
+                    persistCredentials: true
+                    clean: true
+                    fetchDepth: 0
+
+                  - script: |
+                      echo "Successfully deployed to ${{ environment.name }}"    
+                      echo "Retaining build..."

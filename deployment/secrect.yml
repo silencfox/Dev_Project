@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: envs
+type: Opaque
+data:
+  DATABASE: Li9kZXYuc3FsaXRl  
+  USER: dXNlcg==
+  PASS: cGFzc3dvcmQ=
