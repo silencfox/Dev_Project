@@ -6,16 +6,32 @@ metadata:
 spec:
   selector:
     matchLabels:
-      run: node-service  # Cambiado de desunode a node-service
+      run: node-service 
   replicas: 2
   template:
     metadata:
       labels:
-        run: node-service  # Cambiado de desunode a node-service
+        run: node-service 
     spec:
       containers:
-      - name: node-service  # Cambiado de desunode a node-service
-        image: silencfox/devsudemo:512
+      - name: node-service  
+        image: silencfox/devsudemo:latest
+        env:
+        - name: DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: envs
+              key: DATABASE
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: envs
+              key: USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: envs
+              key: PASS
         resources:
           limits:
             cpu: 500m

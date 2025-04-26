@@ -1,6 +1,6 @@
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
-  name: nginx-example  # El mismo nombre que usamos en ingressClassName
+  name: nginx-example 
 spec:
   controller: nginx.org/ingress-controller  # Define qué controlador maneja este tipo de Ingress
