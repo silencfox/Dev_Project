@@ -62,6 +62,21 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
       load_balancer_sku = "standard"
   }
 
+  flux {
+    git_repository {
+      name      = "Dev_Project"
+      url       = "https://github.com/silencfox/Dev_Project.git"
+      branch    = "main"
+      sync_interval_in_seconds = 60
+    }
+
+    kustomization {
+      name  = "infra"
+      path  = "./deployment"  
+      prune = true
+      interval_in_seconds = 120
+    }
+  }
     
   }
 

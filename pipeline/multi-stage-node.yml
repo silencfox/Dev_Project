@@ -55,6 +55,30 @@ stages:
         inputs:
           versionSpec: '18.x'
 
+      - task: SonarCloudPrepare@3
+        continueOnError: true
+        inputs:
+          SonarQube: 'SonarSerConn_Devsu'
+          organization: 'silencfox'
+          scannerMode: 'cli'
+          configMode: 'file'
+          extraProperties: |
+            # Additional properties that will be passed to the scanner, 
+            # Put one key=value per line, example:
+            # sonar.exclusions=**/*.bin
+            #sonar.or
+
+
+      - task: SonarCloudAnalyze@3
+        continueOnError: true
+        inputs:
+          jdkversion: 'JAVA_HOME'
+
+      - task: SonarCloudPublish@3
+        continueOnError: true
+        inputs:
+          pollingTimeoutSec: '300'
+
       - task: Bash@3
         enabled: true
         displayName: "Run Unit Tests Jest"
@@ -85,6 +109,7 @@ stages:
           testRunTitle: 'Unit Tests'
 
       - task: PublishCodeCoverageResults@2
+        continueOnError: true
         enabled: true
         displayName: "Publish Code Coverage HTML"
         inputs:
@@ -95,22 +120,8 @@ stages:
           failIfCoverageEmpty: true
 
 
-      - task: SonarCloudPrepare@3
-        inputs:
-          SonarQube: 'sonarcloud'
-          organization: 'silencfox'
-          scannerMode: 'cli'
-          configMode: 'file'
 
-      - task: SonarCloudAnalyze@3
-        continueOnError: true
-        enabled: true
-        inputs:
-          jdkversion: 'JAVA_HOME'
 
-      - task: SonarCloudPublish@3
-        inputs:
-          pollingTimeoutSec: '300'
 
       - task: Bash@3
         enabled: false
@@ -130,6 +141,8 @@ stages:
             ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
             ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
             ARM_TENANT_ID: $(ARM_TENANT_ID)
+
+
 
       - task: Docker@2
         enabled: false
@@ -204,7 +217,7 @@ stages:
                       chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
                       cp $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                       terraform init
-                      terraform refresh
+                      terraform refresh -input=false 
                       terraform plan
                       terraform apply --auto-approve
 

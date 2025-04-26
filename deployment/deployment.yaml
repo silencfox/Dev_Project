@@ -2,11 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: node-service
+  namespace: devsu
 spec:
   selector:
     matchLabels:
       run: node-service  # Cambiado de desunode a node-service
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -15,10 +16,21 @@ spec:
       containers:
       - name: node-service  # Cambiado de desunode a node-service
         image: silencfox/devsudemo:latest
-        ports:
-        - containerPort: 8000
         resources:
           limits:
             cpu: 500m
           requests:
             cpu: 200m
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /api/users
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        tcpSocket:
+          port: 8000
+        initialDelaySeconds: 30
+        periodSeconds: 5
+
