@@ -78,10 +78,11 @@ Las plantillas de Terraform (`*.tf`) utilizan variables para parametrizar el des
 - ** Flujo del despliegue:**
 ```mermaid
 graph TD;
+graph TD;
     A[Developer hace push o pull request a main en GitHub] --> B[Azure DevOps detecta el cambio]
     B --> C[Se ejecuta el Pipeline CI]
     C --> D[Build de la aplicación]
-    D --> E[Análisis de código (SonarQube, ESLint, etc.)]
+    D --> E[Análisis de código: SonarQube / ESLint]
     E --> F[Pruebas unitarias]
     F --> G{¿Build exitoso y pruebas pasaron?}
     G -- No --> H[Pipeline falla ❌]
@@ -91,10 +92,11 @@ graph TD;
     J -- No --> L[No se aplican cambios en Azure]
     K --> M[Continúa el despliegue de la app en AKS ☁️]
     L --> M
-    M --> N[¿Pruebas Funcionales 🚀?]
+    M --> N[¿Pruebas Funcionales superadas? 🚀]
     N -- Sí --> O[Solicita aprobación para el próximo Stage (Dev, QA, PROD)]
     N -- No --> P[Ejecuta proceso de Rollback]
     O --> Q[Aplicación desplegada y lista 🚀]
+
 
 
 ```
