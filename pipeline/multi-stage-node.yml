@@ -330,6 +330,7 @@ stages:
                       set -euo pipefail
                       echo "Entorno: ${{ environment.name }}"
                       terraform init -reconfigure -backend-config="backend-${{ environment.name }}.tfvars"
+                      terraform refresh -input=false
                       terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                       terraform apply -auto-approve "${{ environment.name }}.tfplan"
                       #terraform version
