@@ -56,7 +56,7 @@ stages:
           versionSpec: '18.x'
 
       - task: Bash@3
-        enabled: false
+        enabled: true
         displayName: "Run Unit Tests Jest"
         inputs:
           targetType: 'inline'
@@ -73,7 +73,7 @@ stages:
 
 
       - task: PublishTestResults@2
-        enabled: false
+        enabled: true
         condition: succeededOrFailed()
         displayName: "Publish JUnit Test Results"
         inputs:
@@ -82,10 +82,10 @@ stages:
           searchFolder: '$(Build.SourcesDirectory)/app'
           mergeTestResults: true
           failTaskOnFailedTests: true
-          testRunTitle: 'Pruebas unitarias'
+          testRunTitle: 'Unit Tests'
 
       - task: PublishCodeCoverageResults@2
-        enabled: false
+        enabled: true
         displayName: "Publish Code Coverage HTML"
         inputs:
           codeCoverageTool: 'Cobertura'
