@@ -346,20 +346,21 @@ stages:
                 - task: replacetokens@6
                   inputs:
                     root: '$(System.DefaultWorkingDirectory)/deployment/test'
-                    sources: 'collection.json'
+                    sources: 'Devsu.postman_collection.json'
                     recursive: true
 
                 - script: |
-                    echo "hola"
+                    echo "service ip: $(ipadds)"
+                    curl http://$(ipadds):$(port)
                     npm install -g newman
                     cd '$(System.DefaultWorkingDirectory)/deployment/test'
-                    newman run collection.json --reporters cli,junit --reporter-junit-export results.xml
-                    #newman run collection.json -e environment.json --reporters cli,junit --reporter-junit-export results.xml
+                    newman run Devsu.postman_collection.json --reporters cli,junit --reporter-junit-export results.xml
+                    #newman run Devsu.postman_collection.json -e environment.json --reporters cli,junit --reporter-junit-export results.xml
                   displayName: 'Run Postman Collection'
 
                 - script: |
-                    echo "service ip: $(publicIP)"
-                    curl http://$(publicIP):8000
+                    echo "service ip: $(ipadds)"
+                    curl http://$(ipadds):$(port)
                   displayName: 'ip publica del servicio'
 
                 - task: PublishPipelineArtifact@1
