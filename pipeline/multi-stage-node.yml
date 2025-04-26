@@ -372,6 +372,7 @@ stages:
                       echo "service ip: $(ipadds)"
                       curl http://$(ipadds):$(port)
                       npm install -g newman
+                      npm install -g newman-reporter-html
                       cd '$(System.DefaultWorkingDirectory)/deployment/test'
                       newman run Devsu.postman_collection.json --reporters cli,junit,html --reporter-junit-export $(Pipeline.Workspace)/TestResults/Newman/${{ environment.name }}.xml --reporter-html-export $(Pipeline.Workspace)/TestResults/Newman/${{ environment.name }}.html
                       #--working-dir "$env:WORKING_DIR" -d $csvDataFile -r "cli,junit,html" --reporter-junit-export "$(Pipeline.Workspace)/TestResults/Newman/JUnitResults/${{ environment.name }}.xml" --reporter-html-export "$(Pipeline.Workspace)/TestResults/Newman/HtmlResults/${{ environment.name }}.html"
