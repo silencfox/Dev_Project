@@ -20,6 +20,25 @@ Este proyecto es un ejemplo práctico que combina **Docker**, **Terraform**, **A
 
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=silencfox_Dev_Project)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
 
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=bugs)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
+
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
+
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
+
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
+
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
+
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
+
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
+
+
 ## 📦 ¿Qué hay dentro?
 
 - `app/` ➡️ Código de la aplicación Node.js 🍃
