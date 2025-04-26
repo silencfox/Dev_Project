@@ -488,7 +488,7 @@ stages:
                         cp $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                         cp $(Agent.TempDirectory)/terraform.tfvars $(Build.SourcesDirectory)/infra/terraform.tfvars
                         terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
-                        terraform refresh
+                        terraform refresh -input=false -var="environment=${{ environment.name }}" -var-file="terraform.tfvars"
                         #terraform destroy -auto-approve
                         #terraform output
 
