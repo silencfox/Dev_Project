@@ -285,7 +285,7 @@ stages:
                     script: |
                       ls -lrt 
                       terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
-                      terraform refresh
+                      #terraform refresh
                       #terraform destroy -auto-approve
                       $terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
                       $terraform apply -auto-approve "${{ environment.name }}.tfplan"
