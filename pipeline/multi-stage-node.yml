@@ -216,15 +216,13 @@ stages:
                       jq --version
 
                       terraform_outputs=$(terraform output -json)
-                      echo $terraform_outputs
-
 
                       # Extraer los valores usando jq
-                      container_registry_name=$(echo "$terraform_outputs" | jq -r '.container_registry_name.value')
-                      container_registry_login_server=$(echo "$terraform_outputs" | jq -r '.container_registry_login_server.value')
+                      acr_name=$(echo "$terraform_outputs" | jq -r '.container_registry_name.value')
+                      acr_server=$(echo "$terraform_outputs" | jq -r '.container_registry_login_server.value')
 
-                      echo "Nombre del registry: $container_registry_name"
-                      echo "Servidor del registry: $container_registry_login_server"
+                      echo "Nombre del registry: $acr_name"
+                      echo "Servidor del registry: $acr_server"
 
 
 
