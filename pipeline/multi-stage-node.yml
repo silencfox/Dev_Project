@@ -107,8 +107,8 @@ stages:
           testRunTitle: 'Unit Tests'
 
       - task: PublishCodeCoverageResults@2
-        continueOnError: false
-        enabled: true
+        continueOnError: true
+        enabled: false
         displayName: "Publish Code Coverage HTML"
         inputs:
           codeCoverageTool: 'Cobertura'
