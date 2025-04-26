@@ -519,8 +519,8 @@ stages:
                       script: |
                         echo "Successfully deployed to ${{ environment.name }}"    
                         echo "Retaining build..."
-                        terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
-                        terraform refresh -input=false
-                        terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
-                        terraform destroy -auto-approve "${{ environment.name }}.tfplan"
+                        #terraform init -backend-config="backend-${{ environment.name }}.tfvars" -reconfigure
+                        #terraform refresh -input=false
+                        #terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
+                        #terraform destroy -auto-approve "${{ environment.name }}.tfplan"
 
