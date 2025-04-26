@@ -371,7 +371,7 @@ stages:
 
                 - script: |
                     echo "service ip: $(ipadds)"
-                    curl http://$(ipadds):$(port)
+                    curl http://$(ipadds):$(port)/api/users
                   displayName: 'ip publica del servicio'
 
                 - task: PublishPipelineArtifact@1
