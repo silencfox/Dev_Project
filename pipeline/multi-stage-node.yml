@@ -209,7 +209,12 @@ stages:
                       terraform apply --auto-approve
 
                       echo "vamos a parsear"
+                      if ! command -v jq >/dev/null 2>&1; then
+                        sudo apt-get update
+                        sudo apt-get install -y jq
+                      fi
                       jq --version
+
                       terraform_outputs=$(terraform output -json)
                       echo $terraform_outputs
 
