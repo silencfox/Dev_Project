@@ -83,8 +83,7 @@ Las plantillas de Terraform (`*.tf`) utilizan variables para parametrizar el des
 ## 🔥 Flujo de trabajo de despliegue
 
 
-[<img src="assets/Diagram.png?raw=true">]
-
+<img src="assets/Diagram.png?raw=true" width="70%" height="70%">
 
 ```mermaid
 graph TD;
