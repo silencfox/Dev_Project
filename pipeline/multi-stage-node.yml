@@ -232,7 +232,9 @@ stages:
                       echo "ACR es: $acrLoginServer2"
                     workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
                     
-
+                - script: |
+                    echo "ACR es: $acrLoginServer2"
+                  displayName: 'acr servs'
 
 
                 - task: AzureCLI@2
