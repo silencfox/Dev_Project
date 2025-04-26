@@ -75,19 +75,27 @@ Las plantillas de Terraform (`*.tf`) utilizan variables para parametrizar el des
   - `SonarCloud`
   - `Azure Subscripcion`
 
+- ** Flujo del despliegue:**
 ```mermaid
-flowchart TD
+graph TD;
     A[Developer hace push o pull request a main en GitHub] --> B[Azure DevOps detecta el cambio]
-    B --> C[Se ejecuta el Pipeline CI/CD]
-    C --> D{¿Hay cambios en infraestructura?}
-    D -- Sí --> E[Terraform aplica cambios en Azure]
-    D -- No --> F[No se aplican cambios en Azure]
-    E --> G[Continúa el despliegue de la app en AKS ☁️]
-    F --> G
-    G --> H[¿Pruebas Funcionales Exitosas 🚀?]
-    H -- Sí --> I[Solicita aprobación para el próximo Stage]
-    H -- No --> J[Ejecuta proceso de Rollback]
-    I --> K[Aplicación desplegada y lista 🚀]
+    B --> C[Se ejecuta el Pipeline CI]
+    C --> D[Build de la aplicación]
+    D --> E[Análisis de código (SonarQube, ESLint, etc.)]
+    E --> F[Pruebas unitarias]
+    F --> G{¿Build exitoso y pruebas pasaron?}
+    G -- No --> H[Pipeline falla ❌]
+    G -- Sí --> I[Se ejecuta el Pipeline CD]
+    I --> J{¿Hay cambios en infraestructura?}
+    J -- Sí --> K[Terraform aplica cambios en Azure]
+    J -- No --> L[No se aplican cambios en Azure]
+    K --> M[Continúa el despliegue de la app en AKS ☁️]
+    L --> M
+    M --> N[¿Pruebas Funcionales 🚀?]
+    N -- Sí --> O[Solicita aprobación para el próximo Stage (Dev, QA, PROD)]
+    N -- No --> P[Ejecuta proceso de Rollback]
+    O --> Q[Aplicación desplegada y lista 🚀]
+
 
 ```
 
