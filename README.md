@@ -14,6 +14,11 @@ Este proyecto es un ejemplo práctico que combina **Docker**, **Terraform**, **A
 ## Develop
 [![Build Status](https://dev.azure.com/the-punisher01/gitops/_apis/build/status%2Fsilencfox.Dev_Project?branchName=develop)](https://dev.azure.com/the-punisher01/gitops/_build/latest?definitionId=46&branchName=develop)
 
+## SonarCloud 
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
+
+
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=silencfox_Dev_Project)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
 
 ## 📦 ¿Qué hay dentro?
 
