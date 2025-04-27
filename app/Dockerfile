@@ -22,5 +22,5 @@ COPY --from=build /node-app /node-app
 #USER devsu
 
 EXPOSE 8000
-
+ 
 CMD ["npm", "run", "start"]
