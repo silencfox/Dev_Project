@@ -1,0 +1,206 @@
+2025-04-27T05:24:25.6734994Z ##[section]Starting: Create Azure ACR
+2025-04-27T05:24:25.6741275Z ==============================================================================
+2025-04-27T05:24:25.6741686Z Task         : Bash
+2025-04-27T05:24:25.6741852Z Description  : Run a Bash script on macOS, Linux, or Windows
+2025-04-27T05:24:25.6742356Z Version      : 3.250.1
+2025-04-27T05:24:25.6742520Z Author       : Microsoft Corporation
+2025-04-27T05:24:25.6742691Z Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/utility/bash
+2025-04-27T05:24:25.6742880Z ==============================================================================
+2025-04-27T05:24:26.3582948Z Generating script.
+2025-04-27T05:24:26.3583607Z ========================== Starting Command Output ===========================
+2025-04-27T05:24:26.3584074Z [command]/usr/bin/bash /home/vsts/work/_temp/05fe68de-4a83-4ef4-98e1-0acd7190eb1d.sh
+2025-04-27T05:24:26.3712740Z [0m[1mInitializing the backend...[0m
+2025-04-27T05:24:27.4465261Z [0m[32m
+2025-04-27T05:24:27.4466937Z Successfully configured the backend "azurerm"! Terraform will automatically
+2025-04-27T05:24:27.4472030Z use this backend unless the backend configuration changes.[0m
+2025-04-27T05:24:34.5678267Z [0m[1mInitializing modules...[0m
+2025-04-27T05:24:34.5711252Z - acr in ../../modules/acr
+2025-04-27T05:24:34.5713667Z [0m[1mInitializing provider plugins...[0m
+2025-04-27T05:24:34.5714901Z - Finding latest version of hashicorp/azurerm...
+2025-04-27T05:24:34.7417217Z - Installing hashicorp/azurerm v4.27.0...
+2025-04-27T05:24:37.0668327Z - Installed hashicorp/azurerm v4.27.0 (signed by HashiCorp)
+2025-04-27T05:24:37.0670337Z Terraform has created a lock file [1m.terraform.lock.hcl[0m to record the provider
+2025-04-27T05:24:37.0671467Z selections it made above. Include this file in your version control repository
+2025-04-27T05:24:37.0671843Z so that Terraform can guarantee to make the same selections by default when
+2025-04-27T05:24:37.0672131Z you run "terraform init" in the future.[0m
+2025-04-27T05:24:37.0672278Z 
+2025-04-27T05:24:37.0672623Z [0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+2025-04-27T05:24:37.0672920Z [0m[32m
+2025-04-27T05:24:37.0673249Z You may now begin working with Terraform. Try running "terraform plan" to see
+2025-04-27T05:24:37.0673559Z any changes that are required for your infrastructure. All Terraform commands
+2025-04-27T05:24:37.0673832Z should now work.
+2025-04-27T05:24:37.0673934Z 
+2025-04-27T05:24:37.0674192Z If you ever set or change modules or backend configuration for Terraform,
+2025-04-27T05:24:37.0674500Z rerun this command to reinitialize your working directory. If you forget, other
+2025-04-27T05:24:37.0674814Z commands will detect it and remind you to do so if necessary.[0m
+2025-04-27T05:24:39.4676084Z Acquiring state lock. This may take a few moments...
+2025-04-27T05:24:44.8628728Z [33m╷[0m[0m
+2025-04-27T05:24:44.8632257Z [33m│[0m [0m[1m[33mWarning: [0m[0m[1mEmpty or non-existent state[0m
+2025-04-27T05:24:44.8632758Z [33m│[0m [0m
+2025-04-27T05:24:44.8633237Z [33m│[0m [0m[0mThere are currently no remote objects tracked in the state, so there is
+2025-04-27T05:24:44.8633637Z [33m│[0m [0mnothing to refresh.
+2025-04-27T05:24:44.8633940Z [33m╵[0m[0m
+2025-04-27T05:24:45.8633056Z Releasing state lock. This may take a few moments...
+2025-04-27T05:24:47.3633489Z [0m[1m[32m
+2025-04-27T05:24:47.3640702Z Outputs:
+2025-04-27T05:24:47.3641039Z 
+2025-04-27T05:24:47.3641528Z [0mcontainer_registry_name = "acrdevsu"
+2025-04-27T05:24:49.3676045Z Acquiring state lock. This may take a few moments...
+2025-04-27T05:24:54.0045557Z 
+2025-04-27T05:24:54.0048855Z Terraform used the selected providers to generate the following execution
+2025-04-27T05:24:54.0049433Z plan. Resource actions are indicated with the following symbols:
+2025-04-27T05:24:54.0050009Z   [32m+[0m create[0m
+2025-04-27T05:24:54.0050415Z 
+2025-04-27T05:24:54.0055776Z Terraform will perform the following actions:
+2025-04-27T05:24:54.0056529Z 
+2025-04-27T05:24:54.0058809Z [1m  # azurerm_resource_group.rg1[0m will be created
+2025-04-27T05:24:54.0060559Z [0m  [32m+[0m[0m resource "azurerm_resource_group" "rg1" {
+2025-04-27T05:24:54.0060994Z       [32m+[0m[0m id       = (known after apply)
+2025-04-27T05:24:54.0061329Z       [32m+[0m[0m location = "brazilsouth"
+2025-04-27T05:24:54.0061635Z       [32m+[0m[0m name     = "Devsu_acr"
+2025-04-27T05:24:54.0061865Z     }
+2025-04-27T05:24:54.0061953Z 
+2025-04-27T05:24:54.0062295Z [1m  # module.acr.azurerm_container_registry.acr[0m will be created
+2025-04-27T05:24:54.0062663Z [0m  [32m+[0m[0m resource "azurerm_container_registry" "acr" {
+2025-04-27T05:24:54.0063121Z       [32m+[0m[0m admin_enabled                 = false
+2025-04-27T05:24:54.0063482Z       [32m+[0m[0m admin_password                = (sensitive value)
+2025-04-27T05:24:54.0063835Z       [32m+[0m[0m admin_username                = (known after apply)
+2025-04-27T05:24:54.0064202Z       [32m+[0m[0m encryption                    = (known after apply)
+2025-04-27T05:24:54.0064541Z       [32m+[0m[0m export_policy_enabled         = true
+2025-04-27T05:24:54.0064893Z       [32m+[0m[0m id                            = (known after apply)
+2025-04-27T05:24:54.0065220Z       [32m+[0m[0m location                      = "brazilsouth"
+2025-04-27T05:24:54.0065576Z       [32m+[0m[0m login_server                  = (known after apply)
+2025-04-27T05:24:54.0065919Z       [32m+[0m[0m name                          = "acrdevsu"
+2025-04-27T05:24:54.0066261Z       [32m+[0m[0m network_rule_bypass_option    = "AzureServices"
+2025-04-27T05:24:54.0066920Z       [32m+[0m[0m network_rule_set              = (known after apply)
+2025-04-27T05:24:54.0067281Z       [32m+[0m[0m public_network_access_enabled = true
+2025-04-27T05:24:54.0067637Z       [32m+[0m[0m resource_group_name           = "Devsu_acr"
+2025-04-27T05:24:54.0067959Z       [32m+[0m[0m sku                           = "Basic"
+2025-04-27T05:24:54.0068292Z       [32m+[0m[0m trust_policy_enabled          = false
+2025-04-27T05:24:54.0068641Z       [32m+[0m[0m zone_redundancy_enabled       = false
+2025-04-27T05:24:54.0068867Z     }
+2025-04-27T05:24:54.0069514Z 
+2025-04-27T05:24:54.0070679Z [1m  # module.acr.azurerm_container_registry_task.acr_task[0m will be created
+2025-04-27T05:24:54.0071438Z [0m  [32m+[0m[0m resource "azurerm_container_registry_task" "acr_task" {
+2025-04-27T05:24:54.0072104Z       [32m+[0m[0m container_registry_id = (known after apply)
+2025-04-27T05:24:54.0072691Z       [32m+[0m[0m enabled               = true
+2025-04-27T05:24:54.0073180Z       [32m+[0m[0m id                    = (known after apply)
+2025-04-27T05:24:54.0073791Z       [32m+[0m[0m is_system_task        = false
+2025-04-27T05:24:54.0074335Z       [32m+[0m[0m name                  = "acr_task"
+2025-04-27T05:24:54.0074796Z       [32m+[0m[0m timeout_in_seconds    = 3600
+2025-04-27T05:24:54.0075158Z 
+2025-04-27T05:24:54.0075559Z       [32m+[0m[0m docker_step {
+2025-04-27T05:24:54.0076242Z           [32m+[0m[0m cache_enabled        = true
+2025-04-27T05:24:54.0076903Z           [32m+[0m[0m context_access_token = (sensitive value)
+2025-04-27T05:24:54.0077483Z           [32m+[0m[0m context_path         = "https://github.com/silencfox/Dev_Project#main:app"
+2025-04-27T05:24:54.0077892Z           [32m+[0m[0m dockerfile_path      = "Dockerfile"
+2025-04-27T05:24:54.0078257Z           [32m+[0m[0m image_names          = [
+2025-04-27T05:24:54.0078614Z               [32m+[0m[0m "devsudemo:latest",
+2025-04-27T05:24:54.0078890Z             ]
+2025-04-27T05:24:54.0079220Z           [32m+[0m[0m push_enabled         = true
+2025-04-27T05:24:54.0079483Z         }
+2025-04-27T05:24:54.0079612Z 
+2025-04-27T05:24:54.0079894Z       [32m+[0m[0m platform {
+2025-04-27T05:24:54.0080224Z           [32m+[0m[0m os = "Linux"
+2025-04-27T05:24:54.0080464Z         }
+2025-04-27T05:24:54.0080696Z     }
+2025-04-27T05:24:54.0080803Z 
+2025-04-27T05:24:54.0081136Z [1mPlan:[0m 3 to add, 0 to change, 0 to destroy.
+2025-04-27T05:24:54.0081612Z [0m
+2025-04-27T05:24:54.0081869Z Changes to Outputs:
+2025-04-27T05:24:54.0082249Z   [32m+[0m[0m container_registry_login_server = (known after apply)
+2025-04-27T05:24:54.0082565Z [90m
+2025-04-27T05:24:54.0083192Z ─────────────────────────────────────────────────────────────────────────────[0m
+2025-04-27T05:24:54.0083366Z 
+2025-04-27T05:24:54.0083638Z Note: You didn't use the -out option to save this plan, so Terraform can't
+2025-04-27T05:24:54.0084187Z guarantee to take exactly these actions if you run "terraform apply" now.
+2025-04-27T05:24:54.4060216Z Releasing state lock. This may take a few moments...
+2025-04-27T05:24:58.2419951Z Acquiring state lock. This may take a few moments...
+2025-04-27T05:25:03.5163371Z 
+2025-04-27T05:25:03.5167248Z Terraform used the selected providers to generate the following execution
+2025-04-27T05:25:03.5169998Z plan. Resource actions are indicated with the following symbols:
+2025-04-27T05:25:03.5174860Z   [32m+[0m create[0m
+2025-04-27T05:25:03.5177674Z 
+2025-04-27T05:25:03.5180277Z Terraform will perform the following actions:
+2025-04-27T05:25:03.5181578Z 
+2025-04-27T05:25:03.5182098Z [1m  # azurerm_resource_group.rg1[0m will be created
+2025-04-27T05:25:03.5183271Z [0m  [32m+[0m[0m resource "azurerm_resource_group" "rg1" {
+2025-04-27T05:25:03.5185493Z       [32m+[0m[0m id       = (known after apply)
+2025-04-27T05:25:03.5186836Z       [32m+[0m[0m location = "brazilsouth"
+2025-04-27T05:25:03.5187811Z       [32m+[0m[0m name     = "Devsu_acr"
+2025-04-27T05:25:03.5188053Z     }
+2025-04-27T05:25:03.5188498Z 
+2025-04-27T05:25:03.5188838Z [1m  # module.acr.azurerm_container_registry.acr[0m will be created
+2025-04-27T05:25:03.5189228Z [0m  [32m+[0m[0m resource "azurerm_container_registry" "acr" {
+2025-04-27T05:25:03.5189585Z       [32m+[0m[0m admin_enabled                 = false
+2025-04-27T05:25:03.5189934Z       [32m+[0m[0m admin_password                = (sensitive value)
+2025-04-27T05:25:03.5190309Z       [32m+[0m[0m admin_username                = (known after apply)
+2025-04-27T05:25:03.5190667Z       [32m+[0m[0m encryption                    = (known after apply)
+2025-04-27T05:25:03.5191019Z       [32m+[0m[0m export_policy_enabled         = true
+2025-04-27T05:25:03.5191362Z       [32m+[0m[0m id                            = (known after apply)
+2025-04-27T05:25:03.5191712Z       [32m+[0m[0m location                      = "brazilsouth"
+2025-04-27T05:25:03.5192073Z       [32m+[0m[0m login_server                  = (known after apply)
+2025-04-27T05:25:03.5192401Z       [32m+[0m[0m name                          = "acrdevsu"
+2025-04-27T05:25:03.5192761Z       [32m+[0m[0m network_rule_bypass_option    = "AzureServices"
+2025-04-27T05:25:03.5193121Z       [32m+[0m[0m network_rule_set              = (known after apply)
+2025-04-27T05:25:03.5193472Z       [32m+[0m[0m public_network_access_enabled = true
+2025-04-27T05:25:03.5193817Z       [32m+[0m[0m resource_group_name           = "Devsu_acr"
+2025-04-27T05:25:03.5194154Z       [32m+[0m[0m sku                           = "Basic"
+2025-04-27T05:25:03.5194482Z       [32m+[0m[0m trust_policy_enabled          = false
+2025-04-27T05:25:03.5194811Z       [32m+[0m[0m zone_redundancy_enabled       = false
+2025-04-27T05:25:03.5195047Z     }
+2025-04-27T05:25:03.5195133Z 
+2025-04-27T05:25:03.5195496Z [1m  # module.acr.azurerm_container_registry_task.acr_task[0m will be created
+2025-04-27T05:25:03.5195893Z [0m  [32m+[0m[0m resource "azurerm_container_registry_task" "acr_task" {
+2025-04-27T05:25:03.5196274Z       [32m+[0m[0m container_registry_id = (known after apply)
+2025-04-27T05:25:03.5196619Z       [32m+[0m[0m enabled               = true
+2025-04-27T05:25:03.5197047Z       [32m+[0m[0m id                    = (known after apply)
+2025-04-27T05:25:03.5197383Z       [32m+[0m[0m is_system_task        = false
+2025-04-27T05:25:03.5197699Z       [32m+[0m[0m name                  = "acr_task"
+2025-04-27T05:25:03.5198029Z       [32m+[0m[0m timeout_in_seconds    = 3600
+2025-04-27T05:25:03.5198294Z 
+2025-04-27T05:25:03.5198578Z       [32m+[0m[0m docker_step {
+2025-04-27T05:25:03.5198906Z           [32m+[0m[0m cache_enabled        = true
+2025-04-27T05:25:03.5199248Z           [32m+[0m[0m context_access_token = (sensitive value)
+2025-04-27T05:25:03.5199688Z           [32m+[0m[0m context_path         = "https://github.com/silencfox/Dev_Project#main:app"
+2025-04-27T05:25:03.5200056Z           [32m+[0m[0m dockerfile_path      = "Dockerfile"
+2025-04-27T05:25:03.5200385Z           [32m+[0m[0m image_names          = [
+2025-04-27T05:25:03.5200709Z               [32m+[0m[0m "devsudemo:latest",
+2025-04-27T05:25:03.5200952Z             ]
+2025-04-27T05:25:03.5201245Z           [32m+[0m[0m push_enabled         = true
+2025-04-27T05:25:03.5201475Z         }
+2025-04-27T05:25:03.5201575Z 
+2025-04-27T05:25:03.5201828Z       [32m+[0m[0m platform {
+2025-04-27T05:25:03.5202125Z           [32m+[0m[0m os = "Linux"
+2025-04-27T05:25:03.5202332Z         }
+2025-04-27T05:25:03.5202539Z     }
+2025-04-27T05:25:03.5202622Z 
+2025-04-27T05:25:03.5202937Z [1mPlan:[0m 3 to add, 0 to change, 0 to destroy.
+2025-04-27T05:25:03.5203185Z [0m
+2025-04-27T05:25:03.5203405Z Changes to Outputs:
+2025-04-27T05:25:03.5203746Z   [32m+[0m[0m container_registry_login_server = (known after apply)
+2025-04-27T05:25:05.3888163Z [0m[1mazurerm_resource_group.rg1: Creating...[0m[0m
+2025-04-27T05:25:05.3906367Z [0m[1mmodule.acr.azurerm_container_registry.acr: Creating...[0m[0m
+2025-04-27T05:25:15.8765927Z [0m[1mazurerm_resource_group.rg1: Still creating... [10s elapsed][0m[0m
+2025-04-27T05:25:16.8772604Z [0m[1mmodule.acr.azurerm_container_registry.acr: Still creating... [10s elapsed][0m[0m
+2025-04-27T05:25:16.8779465Z [0m[1mazurerm_resource_group.rg1: Creation complete after 11s [id=/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/Devsu_acr][0m
+2025-04-27T05:25:25.3924774Z [0m[1mmodule.acr.azurerm_container_registry.acr: Still creating... [20s elapsed][0m[0m
+2025-04-27T05:25:29.7438542Z [0m[1mmodule.acr.azurerm_container_registry.acr: Creation complete after 25s [id=/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/Devsu_acr/providers/Microsoft.ContainerRegistry/registries/acrdevsu][0m
+2025-04-27T05:25:29.7499543Z [0m[1mmodule.acr.azurerm_container_registry_task.acr_task: Creating...[0m[0m
+2025-04-27T05:25:39.7513608Z [0m[1mmodule.acr.azurerm_container_registry_task.acr_task: Still creating... [10s elapsed][0m[0m
+2025-04-27T05:25:44.3650435Z [0m[1mmodule.acr.azurerm_container_registry_task.acr_task: Creation complete after 14s [id=/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/Devsu_acr/providers/Microsoft.ContainerRegistry/registries/acrdevsu/tasks/acr_task][0m
+2025-04-27T05:25:45.8859403Z Releasing state lock. This may take a few moments...
+2025-04-27T05:25:47.2195880Z [0m[1m[32m
+2025-04-27T05:25:47.2197895Z Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+2025-04-27T05:25:47.2198341Z [0m[0m[1m[32m
+2025-04-27T05:25:47.2198594Z Outputs:
+2025-04-27T05:25:47.2198718Z 
+2025-04-27T05:25:47.2199106Z [0mcontainer_registry_login_server = "acrdevsu.azurecr.io"
+2025-04-27T05:25:47.2199436Z container_registry_name = "acrdevsu"
+2025-04-27T05:25:47.2218736Z vamos a parsear
+2025-04-27T05:25:47.3548171Z jq-1.7
+2025-04-27T05:25:49.9700878Z Nombre del registry: acrdevsu
+2025-04-27T05:25:49.9708066Z Servidor del registry: acrdevsu.azurecr.io
+2025-04-27T05:25:49.9715199Z ACR es: 
+2025-04-27T05:25:49.9715420Z 
+2025-04-27T05:25:49.9769427Z ##[section]Finishing: Create Azure ACR

@@ -31,6 +31,7 @@ Este proyecto es un ejemplo práctico que combina **Docker**, **Terraform**, **A
 
 ## Objetivos cumplidos
 - **Azure pipeline con Stages de Ambientes Dev, QA, Prod**
+- **Division de Cluster AKS porgit  ambiente Produccion y Desarrollo**
 - **Generacion de imagen**
 - **Compilacion de codigo**
 - **Pruebas unitarias**

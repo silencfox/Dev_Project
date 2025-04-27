@@ -1,0 +1,420 @@
+2025-04-27T05:28:06.4764627Z ##[section]Starting: Crear AKS
+2025-04-27T05:28:06.4769881Z ==============================================================================
+2025-04-27T05:28:06.4770146Z Task         : Bash
+2025-04-27T05:28:06.4770272Z Description  : Run a Bash script on macOS, Linux, or Windows
+2025-04-27T05:28:06.4770410Z Version      : 3.250.1
+2025-04-27T05:28:06.4770532Z Author       : Microsoft Corporation
+2025-04-27T05:28:06.4770649Z Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/utility/bash
+2025-04-27T05:28:06.4770813Z ==============================================================================
+2025-04-27T05:28:06.6273223Z Generating script.
+2025-04-27T05:28:06.6284351Z ========================== Starting Command Output ===========================
+2025-04-27T05:28:06.6292889Z [command]/usr/bin/bash /home/vsts/work/_temp/67080264-810b-4096-92a2-acee8330099d.sh
+2025-04-27T05:28:06.6358591Z total 348
+2025-04-27T05:28:06.6362799Z -rw-r--r-- 1 vsts docker    169 Apr 27 05:27 backend-Prod.tfvars
+2025-04-27T05:28:06.6363388Z -rw-r--r-- 1 vsts docker    167 Apr 27 05:27 backend-Dev.tfvars
+2025-04-27T05:28:06.6363744Z -rw-r--r-- 1 vsts docker 291450 Apr 27 05:27 aks_arch.png
+2025-04-27T05:28:06.6364094Z -rw-r--r-- 1 vsts docker    738 Apr 27 05:27 variables.tf
+2025-04-27T05:28:06.6364426Z drwxr-xr-x 2 vsts docker   4096 Apr 27 05:27 values
+2025-04-27T05:28:06.6364763Z -rw-r--r-- 1 vsts docker    598 Apr 27 05:27 terraform.tmptfvars
+2025-04-27T05:28:06.6365302Z drwxr-xr-x 3 vsts docker   4096 Apr 27 05:27 standalone
+2025-04-27T05:28:06.6365646Z -rw-r--r-- 1 vsts docker    818 Apr 27 05:27 provider.tf
+2025-04-27T05:28:06.6365988Z -rw-r--r-- 1 vsts docker    690 Apr 27 05:27 output.tf
+2025-04-27T05:28:06.6366323Z -rw-r--r-- 1 vsts docker    990 Apr 27 05:27 nginx-ingress.tft
+2025-04-27T05:28:06.6366672Z drwxr-xr-x 6 vsts docker   4096 Apr 27 05:27 modules
+2025-04-27T05:28:06.6367000Z -rw-r--r-- 1 vsts docker   1405 Apr 27 05:27 main.tf
+2025-04-27T05:28:06.6367336Z -rw-r--r-- 1 vsts docker    304 Apr 27 05:27 cert-manager.tft
+2025-04-27T05:28:06.6367683Z -rw-r--r-- 1 vsts docker    266 Apr 27 05:27 backend.tf
+2025-04-27T05:28:06.6368016Z -rw-r--r-- 1 vsts docker    168 Apr 27 05:27 backend-QA.tfvars
+2025-04-27T05:28:06.6368370Z -rw------- 1 vsts docker    897 Apr 27 05:28 terraform.tfvars
+2025-04-27T05:28:06.6368662Z Entorno: Dev
+2025-04-27T05:28:06.6815553Z [0m[1mInitializing the backend...[0m
+2025-04-27T05:28:08.5988947Z [0m[32m
+2025-04-27T05:28:08.5993003Z Successfully configured the backend "azurerm"! Terraform will automatically
+2025-04-27T05:28:08.5993991Z use this backend unless the backend configuration changes.[0m
+2025-04-27T05:28:15.8770308Z [0m[1mInitializing modules...[0m
+2025-04-27T05:28:15.8778010Z - ServicePrincipal in modules/ServicePrincipal
+2025-04-27T05:28:15.8778560Z - aks in modules/aks
+2025-04-27T05:28:15.8779560Z [0m[1mInitializing provider plugins...[0m
+2025-04-27T05:28:15.8780516Z - Finding hashicorp/azurerm versions matching "~> 4.12.0"...
+2025-04-27T05:28:15.8780876Z - Finding hashicorp/azuread versions matching "~> 3.0.2"...
+2025-04-27T05:28:15.8781191Z - Finding hashicorp/helm versions matching ">= 2.1.0"...
+2025-04-27T05:28:15.8781513Z - Finding latest version of hashicorp/local...
+2025-04-27T05:28:15.8781806Z - Finding latest version of hashicorp/tls...
+2025-04-27T05:28:15.8842617Z - Installing hashicorp/azurerm v4.12.0...
+2025-04-27T05:28:18.2344596Z - Installed hashicorp/azurerm v4.12.0 (signed by HashiCorp)
+2025-04-27T05:28:18.2576361Z - Installing hashicorp/azuread v3.0.2...
+2025-04-27T05:28:18.8376842Z - Installed hashicorp/azuread v3.0.2 (signed by HashiCorp)
+2025-04-27T05:28:18.8588983Z - Installing hashicorp/helm v2.17.0...
+2025-04-27T05:28:19.5974494Z - Installed hashicorp/helm v2.17.0 (signed by HashiCorp)
+2025-04-27T05:28:19.6176934Z - Installing hashicorp/local v2.5.2...
+2025-04-27T05:28:19.8387916Z - Installed hashicorp/local v2.5.2 (signed by HashiCorp)
+2025-04-27T05:28:19.8598163Z - Installing hashicorp/tls v4.1.0...
+2025-04-27T05:28:20.1317211Z - Installed hashicorp/tls v4.1.0 (signed by HashiCorp)
+2025-04-27T05:28:20.1324185Z Terraform has created a lock file [1m.terraform.lock.hcl[0m to record the provider
+2025-04-27T05:28:20.1324745Z selections it made above. Include this file in your version control repository
+2025-04-27T05:28:20.1325119Z so that Terraform can guarantee to make the same selections by default when
+2025-04-27T05:28:20.1325476Z you run "terraform init" in the future.[0m
+2025-04-27T05:28:20.1330497Z 
+2025-04-27T05:28:20.1331255Z [0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+2025-04-27T05:28:20.1331656Z [0m[32m
+2025-04-27T05:28:20.1332013Z You may now begin working with Terraform. Try running "terraform plan" to see
+2025-04-27T05:28:20.1332398Z any changes that are required for your infrastructure. All Terraform commands
+2025-04-27T05:28:20.1332747Z should now work.
+2025-04-27T05:28:20.1332913Z 
+2025-04-27T05:28:20.1333248Z If you ever set or change modules or backend configuration for Terraform,
+2025-04-27T05:28:20.1333627Z rerun this command to reinitialize your working directory. If you forget, other
+2025-04-27T05:28:20.1333992Z commands will detect it and remind you to do so if necessary.[0m
+2025-04-27T05:28:23.4706312Z Acquiring state lock. This may take a few moments...
+2025-04-27T05:28:29.1650271Z [0m[1mdata.azurerm_container_registry.acr: Reading...[0m[0m
+2025-04-27T05:28:29.1657407Z [0m[1mdata.azurerm_client_config.current: Reading...[0m[0m
+2025-04-27T05:28:29.1678844Z [0m[1mdata.azurerm_client_config.current: Read complete after 0s [id=Y2xpZW50Q29uZmlncy9jbGllbnRJZD01MjQwNzM4Ni1lY2U1LTQzNjEtYmMxZi0xNjEzNTg2NzhhMDY7b2JqZWN0SWQ9YmUzZWIxNjItZDkwYS00MGE3LWJiNjItYThhMzZkYTBhOWM1O3N1YnNjcmlwdGlvbklkPTk0YWY1NDMwLWI4MDQtNGRkMC1hZTIxLTZiZDJhNWZlYWVkZjt0ZW5hbnRJZD0xYTBhZDE3Ni1lNGRhLTRlZmEtYTBiOS1jZWY1Y2ViMjBiYzQ=][0m
+2025-04-27T05:28:29.7144449Z [0m[1mdata.azurerm_container_registry.acr: Read complete after 1s [id=/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/Devsu_acr/providers/Microsoft.ContainerRegistry/registries/acrdevsu][0m
+2025-04-27T05:28:29.7639929Z 
+2025-04-27T05:28:29.7640918Z Terraform used the selected providers to generate the following execution
+2025-04-27T05:28:29.7641251Z plan. Resource actions are indicated with the following symbols:
+2025-04-27T05:28:29.7641850Z   [32m+[0m create[0m
+2025-04-27T05:28:29.7642249Z  [36m<=[0m read (data resources)[0m
+2025-04-27T05:28:29.7642507Z 
+2025-04-27T05:28:29.7642829Z Terraform will perform the following actions:
+2025-04-27T05:28:29.7642977Z 
+2025-04-27T05:28:29.7643435Z [1m  # azurerm_resource_group.rg1[0m will be created
+2025-04-27T05:28:29.7643900Z [0m  [32m+[0m[0m resource "azurerm_resource_group" "rg1" {
+2025-04-27T05:28:29.7644330Z       [32m+[0m[0m id       = (known after apply)
+2025-04-27T05:28:29.7644754Z       [32m+[0m[0m location = "brazilsouth"
+2025-04-27T05:28:29.7645148Z       [32m+[0m[0m name     = "Devsu-Dev"
+2025-04-27T05:28:29.7645461Z     }
+2025-04-27T05:28:29.7645572Z 
+2025-04-27T05:28:29.7645929Z [1m  # azurerm_role_assignment.aks_acr_pull[0m will be created
+2025-04-27T05:28:29.7646332Z [0m  [32m+[0m[0m resource "azurerm_role_assignment" "aks_acr_pull" {
+2025-04-27T05:28:29.7651798Z       [32m+[0m[0m condition_version                = (known after apply)
+2025-04-27T05:28:29.7660376Z       [32m+[0m[0m id                               = (known after apply)
+2025-04-27T05:28:29.7661180Z       [32m+[0m[0m name                             = (known after apply)
+2025-04-27T05:28:29.7661884Z       [32m+[0m[0m principal_id                     = (known after apply)
+2025-04-27T05:28:29.7662673Z       [32m+[0m[0m principal_type                   = (known after apply)
+2025-04-27T05:28:29.7663115Z       [32m+[0m[0m role_definition_id               = (known after apply)
+2025-04-27T05:28:29.7663570Z       [32m+[0m[0m role_definition_name             = "AcrPull"
+2025-04-27T05:28:29.7664223Z       [32m+[0m[0m scope                            = "/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/Devsu_acr/providers/Microsoft.ContainerRegistry/registries/acrdevsu"
+2025-04-27T05:28:29.7664821Z       [32m+[0m[0m skip_service_principal_aad_check = (known after apply)
+2025-04-27T05:28:29.7665140Z     }
+2025-04-27T05:28:29.7665306Z 
+2025-04-27T05:28:29.7665677Z [1m  # local_file.kubeconfig[0m will be created
+2025-04-27T05:28:29.7666108Z [0m  [32m+[0m[0m resource "local_file" "kubeconfig" {
+2025-04-27T05:28:29.7666527Z       [32m+[0m[0m content              = (sensitive value)
+2025-04-27T05:28:29.7666974Z       [32m+[0m[0m content_base64sha256 = (known after apply)
+2025-04-27T05:28:29.7667410Z       [32m+[0m[0m content_base64sha512 = (known after apply)
+2025-04-27T05:28:29.7667829Z       [32m+[0m[0m content_md5          = (known after apply)
+2025-04-27T05:28:29.7668256Z       [32m+[0m[0m content_sha1         = (known after apply)
+2025-04-27T05:28:29.7668673Z       [32m+[0m[0m content_sha256       = (known after apply)
+2025-04-27T05:28:29.7669105Z       [32m+[0m[0m content_sha512       = (known after apply)
+2025-04-27T05:28:29.7669662Z       [32m+[0m[0m directory_permission = "0777"
+2025-04-27T05:28:29.7670112Z       [32m+[0m[0m file_permission      = "0777"
+2025-04-27T05:28:29.7670512Z       [32m+[0m[0m filename             = "./kubeconfig"
+2025-04-27T05:28:29.7670907Z       [32m+[0m[0m id                   = (known after apply)
+2025-04-27T05:28:29.7671176Z     }
+2025-04-27T05:28:29.7671429Z 
+2025-04-27T05:28:29.7671858Z [1m  # module.ServicePrincipal.data.azuread_client_config.current[0m will be read during apply
+2025-04-27T05:28:29.7672208Z   # (depends on a resource or a module with changes pending)
+2025-04-27T05:28:29.7672603Z [0m [36m<=[0m[0m data "azuread_client_config" "current" {
+2025-04-27T05:28:29.7672973Z       [32m+[0m[0m client_id = (known after apply)
+2025-04-27T05:28:29.7673339Z       [32m+[0m[0m id        = (known after apply)
+2025-04-27T05:28:29.7673694Z       [32m+[0m[0m object_id = (known after apply)
+2025-04-27T05:28:29.7674308Z       [32m+[0m[0m tenant_id = (known after apply)
+2025-04-27T05:28:29.7674548Z     }
+2025-04-27T05:28:29.7674634Z 
+2025-04-27T05:28:29.7674987Z [1m  # module.ServicePrincipal.azuread_application.main[0m will be created
+2025-04-27T05:28:29.7675360Z [0m  [32m+[0m[0m resource "azuread_application" "main" {
+2025-04-27T05:28:29.7675727Z       [32m+[0m[0m app_role_ids                = (known after apply)
+2025-04-27T05:28:29.7676083Z       [32m+[0m[0m client_id                   = (known after apply)
+2025-04-27T05:28:29.7676455Z       [32m+[0m[0m disabled_by_microsoft       = (known after apply)
+2025-04-27T05:28:29.7676793Z       [32m+[0m[0m display_name                = "sp-Devsu"
+2025-04-27T05:28:29.7677127Z       [32m+[0m[0m id                          = (known after apply)
+2025-04-27T05:28:29.7677478Z       [32m+[0m[0m logo_url                    = (known after apply)
+2025-04-27T05:28:29.7677833Z       [32m+[0m[0m oauth2_permission_scope_ids = (known after apply)
+2025-04-27T05:28:29.7678233Z       [32m+[0m[0m object_id                   = (known after apply)
+2025-04-27T05:28:29.7678608Z       [32m+[0m[0m owners                      = (known after apply)
+2025-04-27T05:28:29.7679030Z       [32m+[0m[0m prevent_duplicate_names     = false
+2025-04-27T05:28:29.7679522Z       [32m+[0m[0m publisher_domain            = (known after apply)
+2025-04-27T05:28:29.7679911Z       [32m+[0m[0m sign_in_audience            = "AzureADMyOrg"
+2025-04-27T05:28:29.7680308Z       [32m+[0m[0m tags                        = (known after apply)
+2025-04-27T05:28:29.7680813Z       [32m+[0m[0m template_id                 = (known after apply)
+2025-04-27T05:28:29.7680978Z 
+2025-04-27T05:28:29.7681277Z       [32m+[0m[0m feature_tags (known after apply)
+2025-04-27T05:28:29.7681441Z 
+2025-04-27T05:28:29.7681759Z       [32m+[0m[0m password (known after apply)
+2025-04-27T05:28:29.7682026Z     }
+2025-04-27T05:28:29.7682140Z 
+2025-04-27T05:28:29.7682538Z [1m  # module.ServicePrincipal.azuread_service_principal.main[0m will be created
+2025-04-27T05:28:29.7682955Z [0m  [32m+[0m[0m resource "azuread_service_principal" "main" {
+2025-04-27T05:28:29.7683342Z       [32m+[0m[0m account_enabled              = true
+2025-04-27T05:28:29.7683705Z       [32m+[0m[0m app_role_assignment_required = true
+2025-04-27T05:28:29.7684092Z       [32m+[0m[0m app_role_ids                 = (known after apply)
+2025-04-27T05:28:29.7684496Z       [32m+[0m[0m app_roles                    = (known after apply)
+2025-04-27T05:28:29.7684889Z       [32m+[0m[0m application_tenant_id        = (known after apply)
+2025-04-27T05:28:29.7685295Z       [32m+[0m[0m client_id                    = (known after apply)
+2025-04-27T05:28:29.7685674Z       [32m+[0m[0m display_name                 = (known after apply)
+2025-04-27T05:28:29.7686073Z       [32m+[0m[0m homepage_url                 = (known after apply)
+2025-04-27T05:28:29.7686450Z       [32m+[0m[0m id                           = (known after apply)
+2025-04-27T05:28:29.7686821Z       [32m+[0m[0m logout_url                   = (known after apply)
+2025-04-27T05:28:29.7687230Z       [32m+[0m[0m oauth2_permission_scope_ids  = (known after apply)
+2025-04-27T05:28:29.7687630Z       [32m+[0m[0m oauth2_permission_scopes     = (known after apply)
+2025-04-27T05:28:29.7688030Z       [32m+[0m[0m object_id                    = (known after apply)
+2025-04-27T05:28:29.7688402Z       [32m+[0m[0m owners                       = (known after apply)
+2025-04-27T05:28:29.7688887Z       [32m+[0m[0m redirect_uris                = (known after apply)
+2025-04-27T05:28:29.7689280Z       [32m+[0m[0m saml_metadata_url            = (known after apply)
+2025-04-27T05:28:29.7689827Z       [32m+[0m[0m service_principal_names      = (known after apply)
+2025-04-27T05:28:29.7690230Z       [32m+[0m[0m sign_in_audience             = (known after apply)
+2025-04-27T05:28:29.7690608Z       [32m+[0m[0m tags                         = (known after apply)
+2025-04-27T05:28:29.7690996Z       [32m+[0m[0m type                         = (known after apply)
+2025-04-27T05:28:29.7691152Z 
+2025-04-27T05:28:29.7691482Z       [32m+[0m[0m feature_tags (known after apply)
+2025-04-27T05:28:29.7691630Z 
+2025-04-27T05:28:29.7691940Z       [32m+[0m[0m features (known after apply)
+2025-04-27T05:28:29.7692191Z     }
+2025-04-27T05:28:29.7692322Z 
+2025-04-27T05:28:29.7692719Z [1m  # module.ServicePrincipal.azuread_service_principal_password.main[0m will be created
+2025-04-27T05:28:29.7693185Z [0m  [32m+[0m[0m resource "azuread_service_principal_password" "main" {
+2025-04-27T05:28:29.7693574Z       [32m+[0m[0m display_name         = (known after apply)
+2025-04-27T05:28:29.7693965Z       [32m+[0m[0m end_date             = (known after apply)
+2025-04-27T05:28:29.7694336Z       [32m+[0m[0m id                   = (known after apply)
+2025-04-27T05:28:29.7694696Z       [32m+[0m[0m key_id               = (known after apply)
+2025-04-27T05:28:29.7695084Z       [32m+[0m[0m service_principal_id = (known after apply)
+2025-04-27T05:28:29.7695461Z       [32m+[0m[0m start_date           = (known after apply)
+2025-04-27T05:28:29.7695836Z       [32m+[0m[0m value                = (sensitive value)
+2025-04-27T05:28:29.7696085Z     }
+2025-04-27T05:28:29.7696211Z 
+2025-04-27T05:28:29.7696619Z [1m  # module.aks.data.azurerm_kubernetes_service_versions.current[0m will be read during apply
+2025-04-27T05:28:29.7696980Z   # (depends on a resource or a module with changes pending)
+2025-04-27T05:28:29.7697490Z [0m [36m<=[0m[0m data "azurerm_kubernetes_service_versions" "current" {
+2025-04-27T05:28:29.7697882Z       [32m+[0m[0m default_version = (known after apply)
+2025-04-27T05:28:29.7698264Z       [32m+[0m[0m id              = (known after apply)
+2025-04-27T05:28:29.7698612Z       [32m+[0m[0m include_preview = false
+2025-04-27T05:28:29.7698992Z       [32m+[0m[0m latest_version  = (known after apply)
+2025-04-27T05:28:29.7699432Z       [32m+[0m[0m location        = "brazilsouth"
+2025-04-27T05:28:29.7699821Z       [32m+[0m[0m versions        = (known after apply)
+2025-04-27T05:28:29.7700076Z     }
+2025-04-27T05:28:29.7700199Z 
+2025-04-27T05:28:29.7700540Z [1m  # module.aks.azurerm_kubernetes_cluster.aks-cluster[0m will be created
+2025-04-27T05:28:29.7700966Z [0m  [32m+[0m[0m resource "azurerm_kubernetes_cluster" "aks-cluster" {
+2025-04-27T05:28:29.7701433Z       [32m+[0m[0m current_kubernetes_version          = (known after apply)
+2025-04-27T05:28:29.7701841Z       [32m+[0m[0m dns_prefix                          = "Devsu-Dev-cluster"
+2025-04-27T05:28:29.7702243Z       [32m+[0m[0m fqdn                                = (known after apply)
+2025-04-27T05:28:29.7702645Z       [32m+[0m[0m http_application_routing_zone_name  = (known after apply)
+2025-04-27T05:28:29.7703057Z       [32m+[0m[0m id                                  = (known after apply)
+2025-04-27T05:28:29.7703437Z       [32m+[0m[0m kube_admin_config                   = (sensitive value)
+2025-04-27T05:28:29.7703828Z       [32m+[0m[0m kube_admin_config_raw               = (sensitive value)
+2025-04-27T05:28:29.7704234Z       [32m+[0m[0m kube_config                         = (sensitive value)
+2025-04-27T05:28:29.7704611Z       [32m+[0m[0m kube_config_raw                     = (sensitive value)
+2025-04-27T05:28:29.7705014Z       [32m+[0m[0m kubernetes_version                  = (known after apply)
+2025-04-27T05:28:29.7705485Z       [32m+[0m[0m location                            = "brazilsouth"
+2025-04-27T05:28:29.7705894Z       [32m+[0m[0m name                                = "Devsu-aks-cluster-Dev"
+2025-04-27T05:28:29.7706285Z       [32m+[0m[0m node_os_upgrade_channel             = "NodeImage"
+2025-04-27T05:28:29.7706689Z       [32m+[0m[0m node_resource_group                 = "Devsu-Dev-nrg"
+2025-04-27T05:28:29.7707088Z       [32m+[0m[0m node_resource_group_id              = (known after apply)
+2025-04-27T05:28:29.7707484Z       [32m+[0m[0m oidc_issuer_url                     = (known after apply)
+2025-04-27T05:28:29.7707887Z       [32m+[0m[0m portal_fqdn                         = (known after apply)
+2025-04-27T05:28:29.7708259Z       [32m+[0m[0m private_cluster_enabled             = false
+2025-04-27T05:28:29.7708653Z       [32m+[0m[0m private_cluster_public_fqdn_enabled = false
+2025-04-27T05:28:29.7709057Z       [32m+[0m[0m private_dns_zone_id                 = (known after apply)
+2025-04-27T05:28:29.7709582Z       [32m+[0m[0m private_fqdn                        = (known after apply)
+2025-04-27T05:28:29.7709978Z       [32m+[0m[0m resource_group_name                 = "Devsu-Dev"
+2025-04-27T05:28:29.7710374Z       [32m+[0m[0m role_based_access_control_enabled   = true
+2025-04-27T05:28:29.7710751Z       [32m+[0m[0m run_command_enabled                 = true
+2025-04-27T05:28:29.7711108Z       [32m+[0m[0m sku_tier                            = "Free"
+2025-04-27T05:28:29.7711500Z       [32m+[0m[0m support_plan                        = "KubernetesOfficial"
+2025-04-27T05:28:29.7711883Z       [32m+[0m[0m workload_identity_enabled           = false
+2025-04-27T05:28:29.7712047Z 
+2025-04-27T05:28:29.7712378Z       [32m+[0m[0m auto_scaler_profile (known after apply)
+2025-04-27T05:28:29.7712546Z 
+2025-04-27T05:28:29.7712844Z       [32m+[0m[0m default_node_pool {
+2025-04-27T05:28:29.7713211Z           [32m+[0m[0m auto_scaling_enabled = true
+2025-04-27T05:28:29.7713592Z           [32m+[0m[0m kubelet_disk_type    = (known after apply)
+2025-04-27T05:28:29.7714059Z           [32m+[0m[0m max_count            = 3
+2025-04-27T05:28:29.7714425Z           [32m+[0m[0m max_pods             = (known after apply)
+2025-04-27T05:28:29.7714774Z           [32m+[0m[0m min_count            = 1
+2025-04-27T05:28:29.7715131Z           [32m+[0m[0m name                 = "defaultpool"
+2025-04-27T05:28:29.7715504Z           [32m+[0m[0m node_count           = (known after apply)
+2025-04-27T05:28:29.7715861Z           [32m+[0m[0m node_labels          = {
+2025-04-27T05:28:29.7716200Z               [32m+[0m[0m "environment"   = "Dev"
+2025-04-27T05:28:29.7716560Z               [32m+[0m[0m "nodepool-type" = "system"
+2025-04-27T05:28:29.7716909Z               [32m+[0m[0m "nodepoolos"    = "linux"
+2025-04-27T05:28:29.7717157Z             }
+2025-04-27T05:28:29.7717524Z           [32m+[0m[0m orchestrator_version = (known after apply)
+2025-04-27T05:28:29.7717887Z           [32m+[0m[0m os_disk_size_gb      = 30
+2025-04-27T05:28:29.7718258Z           [32m+[0m[0m os_disk_type         = "Managed"
+2025-04-27T05:28:29.7718632Z           [32m+[0m[0m os_sku               = (known after apply)
+2025-04-27T05:28:29.7719003Z           [32m+[0m[0m scale_down_mode      = "Delete"
+2025-04-27T05:28:29.7719417Z           [32m+[0m[0m tags                 = {
+2025-04-27T05:28:29.7719764Z               [32m+[0m[0m "environment"   = "Dev"
+2025-04-27T05:28:29.7720123Z               [32m+[0m[0m "nodepool-type" = "system"
+2025-04-27T05:28:29.7720469Z               [32m+[0m[0m "nodepoolos"    = "linux"
+2025-04-27T05:28:29.7720729Z             }
+2025-04-27T05:28:29.7721078Z           [32m+[0m[0m type                 = "VirtualMachineScaleSets"
+2025-04-27T05:28:29.7721439Z           [32m+[0m[0m ultra_ssd_enabled    = false
+2025-04-27T05:28:29.7721821Z           [32m+[0m[0m vm_size              = "Standard_DS2_v2"
+2025-04-27T05:28:29.7722198Z           [32m+[0m[0m workload_runtime     = (known after apply)
+2025-04-27T05:28:29.7722642Z           [32m+[0m[0m zones                = [
+2025-04-27T05:28:29.7722954Z               [32m+[0m[0m "1",
+2025-04-27T05:28:29.7723269Z               [32m+[0m[0m "2",
+2025-04-27T05:28:29.7723566Z               [32m+[0m[0m "3",
+2025-04-27T05:28:29.7723801Z             ]
+2025-04-27T05:28:29.7724034Z         }
+2025-04-27T05:28:29.7724149Z 
+2025-04-27T05:28:29.7724428Z       [32m+[0m[0m identity {
+2025-04-27T05:28:29.7724781Z           [32m+[0m[0m principal_id = (known after apply)
+2025-04-27T05:28:29.7725161Z           [32m+[0m[0m tenant_id    = (known after apply)
+2025-04-27T05:28:29.7725522Z           [32m+[0m[0m type         = "SystemAssigned"
+2025-04-27T05:28:29.7725771Z         }
+2025-04-27T05:28:29.7725902Z 
+2025-04-27T05:28:29.7726221Z       [32m+[0m[0m kubelet_identity (known after apply)
+2025-04-27T05:28:29.7726389Z 
+2025-04-27T05:28:29.7726679Z       [32m+[0m[0m linux_profile {
+2025-04-27T05:28:29.7727037Z           [32m+[0m[0m admin_username = "ubuntu"
+2025-04-27T05:28:29.7727184Z 
+2025-04-27T05:28:29.7727486Z           [32m+[0m[0m ssh_key {
+2025-04-27T05:28:29.7727836Z               [32m+[0m[0m key_data = (known after apply)
+2025-04-27T05:28:29.7728104Z             }
+2025-04-27T05:28:29.7728324Z         }
+2025-04-27T05:28:29.7728438Z 
+2025-04-27T05:28:29.7728728Z       [32m+[0m[0m network_profile {
+2025-04-27T05:28:29.7729095Z           [32m+[0m[0m dns_service_ip     = (known after apply)
+2025-04-27T05:28:29.7729566Z           [32m+[0m[0m ip_versions        = (known after apply)
+2025-04-27T05:28:29.7729950Z           [32m+[0m[0m load_balancer_sku  = "standard"
+2025-04-27T05:28:29.7730321Z           [32m+[0m[0m network_data_plane = "azure"
+2025-04-27T05:28:29.7730693Z           [32m+[0m[0m network_mode       = (known after apply)
+2025-04-27T05:28:29.7731049Z           [32m+[0m[0m network_plugin     = "azure"
+2025-04-27T05:28:29.7731434Z           [32m+[0m[0m network_policy     = (known after apply)
+2025-04-27T05:28:29.7731807Z           [32m+[0m[0m outbound_type      = "loadBalancer"
+2025-04-27T05:28:29.7732282Z           [32m+[0m[0m pod_cidr           = (known after apply)
+2025-04-27T05:28:29.7732659Z           [32m+[0m[0m pod_cidrs          = (known after apply)
+2025-04-27T05:28:29.7733047Z           [32m+[0m[0m service_cidr       = (known after apply)
+2025-04-27T05:28:29.7733427Z           [32m+[0m[0m service_cidrs      = (known after apply)
+2025-04-27T05:28:29.7733593Z 
+2025-04-27T05:28:29.7733932Z           [32m+[0m[0m load_balancer_profile (known after apply)
+2025-04-27T05:28:29.7734105Z 
+2025-04-27T05:28:29.7734440Z           [32m+[0m[0m nat_gateway_profile (known after apply)
+2025-04-27T05:28:29.7734699Z         }
+2025-04-27T05:28:29.7734827Z 
+2025-04-27T05:28:29.7735141Z       [32m+[0m[0m windows_profile (known after apply)
+2025-04-27T05:28:29.7735410Z     }
+2025-04-27T05:28:29.7735524Z 
+2025-04-27T05:28:29.7735855Z [1m  # module.aks.tls_private_key.aks[0m will be created
+2025-04-27T05:28:29.7736230Z [0m  [32m+[0m[0m resource "tls_private_key" "aks" {
+2025-04-27T05:28:29.7736604Z       [32m+[0m[0m algorithm                     = "RSA"
+2025-04-27T05:28:29.7736954Z       [32m+[0m[0m ecdsa_curve                   = "P224"
+2025-04-27T05:28:29.7737323Z       [32m+[0m[0m id                            = (known after apply)
+2025-04-27T05:28:29.7737726Z       [32m+[0m[0m private_key_openssh           = (sensitive value)
+2025-04-27T05:28:29.7738113Z       [32m+[0m[0m private_key_pem               = (sensitive value)
+2025-04-27T05:28:29.7738516Z       [32m+[0m[0m private_key_pem_pkcs8         = (sensitive value)
+2025-04-27T05:28:29.7738918Z       [32m+[0m[0m public_key_fingerprint_md5    = (known after apply)
+2025-04-27T05:28:29.7739441Z       [32m+[0m[0m public_key_fingerprint_sha256 = (known after apply)
+2025-04-27T05:28:29.7739854Z       [32m+[0m[0m public_key_openssh            = (known after apply)
+2025-04-27T05:28:29.7740249Z       [32m+[0m[0m public_key_pem                = (known after apply)
+2025-04-27T05:28:29.7740761Z       [32m+[0m[0m rsa_bits                      = 4096
+2025-04-27T05:28:29.7741007Z     }
+2025-04-27T05:28:29.7741136Z 
+2025-04-27T05:28:29.7741452Z [1mPlan:[0m 8 to add, 0 to change, 0 to destroy.
+2025-04-27T05:28:29.7741747Z [0m
+2025-04-27T05:28:29.7741986Z Changes to Outputs:
+2025-04-27T05:28:29.7742543Z   [32m+[0m[0m acr                 = "/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/Devsu_acr/providers/Microsoft.ContainerRegistry/registries/acrdevsu"
+2025-04-27T05:28:29.7743020Z   [32m+[0m[0m client_secret       = (sensitive value)
+2025-04-27T05:28:29.7743436Z   [32m+[0m[0m current_client_id   = "52407386-ece5-4361-bc1f-161358678a06"
+2025-04-27T05:28:29.7743840Z   [32m+[0m[0m kube_config         = (sensitive value)
+2025-04-27T05:28:29.7744207Z   [32m+[0m[0m new_client_id       = (known after apply)
+2025-04-27T05:28:29.7744629Z   [32m+[0m[0m object_id           = "be3eb162-d90a-40a7-bb62-a8a36da0a9c5"
+2025-04-27T05:28:29.7745009Z   [32m+[0m[0m resource_group_name = "Devsu-Dev"
+2025-04-27T05:28:29.7745433Z   [32m+[0m[0m tenant_id           = "1a0ad176-e4da-4efa-a0b9-cef5ceb20bc4"
+2025-04-27T05:28:29.7745914Z [33m╷[0m[0m
+2025-04-27T05:28:29.7746323Z [33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+2025-04-27T05:28:29.7746634Z [33m│[0m [0m
+2025-04-27T05:28:29.7747008Z [33m│[0m [0m[0mThe root module does not declare a variable named "SUB_ID" but a value was
+2025-04-27T05:28:29.7747445Z [33m│[0m [0mfound in file "terraform.tfvars". If you meant to use this value, add a
+2025-04-27T05:28:29.7747811Z [33m│[0m [0m"variable" block to the configuration.
+2025-04-27T05:28:29.7748102Z [33m│[0m [0m
+2025-04-27T05:28:29.7748475Z [33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+2025-04-27T05:28:29.7748905Z [33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+2025-04-27T05:28:29.7749430Z [33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+2025-04-27T05:28:29.7749848Z [33m╵[0m[0m
+2025-04-27T05:28:29.7750099Z [90m
+2025-04-27T05:28:29.7750501Z ─────────────────────────────────────────────────────────────────────────────[0m
+2025-04-27T05:28:29.7750648Z 
+2025-04-27T05:28:29.7750862Z Saved the plan to: Dev.tfplan
+2025-04-27T05:28:29.7750984Z 
+2025-04-27T05:28:29.7751253Z To perform exactly these actions, run the following command to apply:
+2025-04-27T05:28:29.7751529Z     terraform apply "Dev.tfplan"
+2025-04-27T05:28:30.1655006Z Releasing state lock. This may take a few moments...
+2025-04-27T05:28:35.3852379Z Acquiring state lock. This may take a few moments...
+2025-04-27T05:28:39.3632055Z [0m[1mazurerm_resource_group.rg1: Creating...[0m[0m
+2025-04-27T05:28:49.3643100Z [0m[1mazurerm_resource_group.rg1: Still creating... [10s elapsed][0m[0m
+2025-04-27T05:28:50.5891252Z [0m[1mazurerm_resource_group.rg1: Creation complete after 12s [id=/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/Devsu-Dev][0m
+2025-04-27T05:28:50.5907558Z [0m[1mmodule.ServicePrincipal.data.azuread_client_config.current: Reading...[0m[0m
+2025-04-27T05:28:50.5912650Z [0m[1mmodule.ServicePrincipal.data.azuread_client_config.current: Read complete after 0s [id=1a0ad176-e4da-4efa-a0b9-cef5ceb20bc4-52407386-ece5-4361-bc1f-161358678a06-be3eb162-d90a-40a7-bb62-a8a36da0a9c5][0m
+2025-04-27T05:28:50.5993058Z [0m[1mmodule.ServicePrincipal.azuread_application.main: Creating...[0m[0m
+2025-04-27T05:28:52.8486203Z [0m[1mmodule.ServicePrincipal.azuread_application.main: Creation complete after 2s [id=/applications/ac0a6cf8-037e-4abf-9ed3-36f2099dab51][0m
+2025-04-27T05:28:52.8518081Z [0m[1mmodule.ServicePrincipal.azuread_service_principal.main: Creating...[0m[0m
+2025-04-27T05:28:54.3095999Z [0m[1mmodule.ServicePrincipal.azuread_service_principal.main: Creation complete after 1s [id=/servicePrincipals/b29b8c08-c055-4193-8b41-f68c2c829085][0m
+2025-04-27T05:28:54.3121851Z [0m[1mmodule.ServicePrincipal.azuread_service_principal_password.main: Creating...[0m[0m
+2025-04-27T05:29:04.3136718Z [0m[1mmodule.ServicePrincipal.azuread_service_principal_password.main: Still creating... [10s elapsed][0m[0m
+2025-04-27T05:29:14.3156484Z [0m[1mmodule.ServicePrincipal.azuread_service_principal_password.main: Still creating... [20s elapsed][0m[0m
+2025-04-27T05:29:15.3570570Z [0m[1mmodule.ServicePrincipal.azuread_service_principal_password.main: Creation complete after 21s [id=b29b8c08-c055-4193-8b41-f68c2c829085/password/f8250329-79f0-46bd-80c4-d88d522caa93][0m
+2025-04-27T05:29:16.4241576Z [0m[1mmodule.aks.data.azurerm_kubernetes_service_versions.current: Reading...[0m[0m
+2025-04-27T05:29:16.4255105Z [0m[1mmodule.aks.tls_private_key.aks: Creating...[0m[0m
+2025-04-27T05:29:16.9812376Z [0m[1mmodule.aks.data.azurerm_kubernetes_service_versions.current: Read complete after 1s [id=/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/providers/Microsoft.ContainerService/locations/brazilsouth][0m
+2025-04-27T05:29:17.3753857Z [0m[1mmodule.aks.tls_private_key.aks: Creation complete after 1s [id=edf50251090a655c778c45d7c1b53f77e5ae0ec3][0m
+2025-04-27T05:29:17.3970053Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Creating...[0m[0m
+2025-04-27T05:29:27.9049868Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [10s elapsed][0m[0m
+2025-04-27T05:29:37.3985776Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [20s elapsed][0m[0m
+2025-04-27T05:29:47.3994680Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [30s elapsed][0m[0m
+2025-04-27T05:29:57.3998947Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [40s elapsed][0m[0m
+2025-04-27T05:30:07.4004237Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [50s elapsed][0m[0m
+2025-04-27T05:30:17.4011552Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [1m0s elapsed][0m[0m
+2025-04-27T05:30:27.4018156Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [1m10s elapsed][0m[0m
+2025-04-27T05:30:37.4022088Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [1m20s elapsed][0m[0m
+2025-04-27T05:30:47.4028422Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [1m30s elapsed][0m[0m
+2025-04-27T05:30:57.9379684Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [1m40s elapsed][0m[0m
+2025-04-27T05:31:07.4042413Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [1m50s elapsed][0m[0m
+2025-04-27T05:31:17.4041821Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [2m0s elapsed][0m[0m
+2025-04-27T05:31:27.4051383Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [2m10s elapsed][0m[0m
+2025-04-27T05:31:37.4056076Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [2m20s elapsed][0m[0m
+2025-04-27T05:31:47.4066714Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [2m30s elapsed][0m[0m
+2025-04-27T05:31:57.4070835Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [2m40s elapsed][0m[0m
+2025-04-27T05:32:07.4083081Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [2m50s elapsed][0m[0m
+2025-04-27T05:32:17.4089989Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [3m0s elapsed][0m[0m
+2025-04-27T05:32:27.4092209Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [3m10s elapsed][0m[0m
+2025-04-27T05:32:37.4101791Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [3m20s elapsed][0m[0m
+2025-04-27T05:32:47.4108087Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [3m30s elapsed][0m[0m
+2025-04-27T05:32:57.4116095Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [3m40s elapsed][0m[0m
+2025-04-27T05:33:07.4125602Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Still creating... [3m50s elapsed][0m[0m
+2025-04-27T05:33:11.6967363Z [0m[1mmodule.aks.azurerm_kubernetes_cluster.aks-cluster: Creation complete after 3m55s [id=/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/Devsu-Dev/providers/Microsoft.ContainerService/managedClusters/Devsu-aks-cluster-Dev][0m
+2025-04-27T05:33:12.8845083Z [0m[1mazurerm_role_assignment.aks_acr_pull: Creating...[0m[0m
+2025-04-27T05:33:12.8918951Z [0m[1mlocal_file.kubeconfig: Creating...[0m[0m
+2025-04-27T05:33:12.8946535Z [0m[1mlocal_file.kubeconfig: Creation complete after 0s [id=7d08df210f841c7bc19dd98a892758478cdd4772][0m
+2025-04-27T05:33:22.8856472Z [0m[1mazurerm_role_assignment.aks_acr_pull: Still creating... [10s elapsed][0m[0m
+2025-04-27T05:33:32.8862433Z [0m[1mazurerm_role_assignment.aks_acr_pull: Still creating... [20s elapsed][0m[0m
+2025-04-27T05:33:38.4715496Z [0m[1mazurerm_role_assignment.aks_acr_pull: Creation complete after 25s [id=/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/Devsu_acr/providers/Microsoft.ContainerRegistry/registries/acrdevsu/providers/Microsoft.Authorization/roleAssignments/ce461883-d6b1-c92b-e219-520e3e88eb97][0m
+2025-04-27T05:33:39.6547455Z [33m╷[0m[0m
+2025-04-27T05:33:39.6549104Z [33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+2025-04-27T05:33:39.6551486Z [33m│[0m [0m
+2025-04-27T05:33:39.6553605Z [33m│[0m [0m[0mThe root module does not declare a variable named "SUB_ID" but a value was
+2025-04-27T05:33:39.6555280Z [33m│[0m [0mfound in file "terraform.tfvars". If you meant to use this value, add a
+2025-04-27T05:33:39.6555734Z [33m│[0m [0m"variable" block to the configuration.
+2025-04-27T05:33:39.6556051Z [33m│[0m [0m
+2025-04-27T05:33:39.6556458Z [33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+2025-04-27T05:33:39.6556949Z [33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+2025-04-27T05:33:39.6557660Z [33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+2025-04-27T05:33:39.6558014Z [33m╵[0m[0m
+2025-04-27T05:33:40.0551535Z Releasing state lock. This may take a few moments...
+2025-04-27T05:33:41.5460742Z [0m[1m[32m
+2025-04-27T05:33:41.5465764Z Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
+2025-04-27T05:33:41.5466888Z [0m[0m[1m[32m
+2025-04-27T05:33:41.5467781Z Outputs:
+2025-04-27T05:33:41.5468123Z 
+2025-04-27T05:33:41.5468939Z [0macr = "/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/Devsu_acr/providers/Microsoft.ContainerRegistry/registries/acrdevsu"
+2025-04-27T05:33:41.5469832Z client_secret = <sensitive>
+2025-04-27T05:33:41.5470599Z current_client_id = "52407386-ece5-4361-bc1f-161358678a06"
+2025-04-27T05:33:41.5471255Z kube_config = <sensitive>
+2025-04-27T05:33:41.5471821Z new_client_id = "1c25e5ed-ca73-4698-bfe7-d057443b6d9d"
+2025-04-27T05:33:41.5472401Z object_id = "be3eb162-d90a-40a7-bb62-a8a36da0a9c5"
+2025-04-27T05:33:41.5474698Z resource_group_name = "Devsu-Dev"
+2025-04-27T05:33:41.5475086Z tenant_id = "1a0ad176-e4da-4efa-a0b9-cef5ceb20bc4"
+2025-04-27T05:33:41.5500639Z 
+2025-04-27T05:33:41.5554742Z ##[section]Finishing: Crear AKS

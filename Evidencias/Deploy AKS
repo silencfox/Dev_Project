@@ -1,0 +1,51 @@
+2025-04-27T05:36:15.5849576Z ##[section]Starting: Create Deployment
+2025-04-27T05:36:15.5855126Z ==============================================================================
+2025-04-27T05:36:15.5864223Z Task         : Bash
+2025-04-27T05:36:15.5864761Z Description  : Run a Bash script on macOS, Linux, or Windows
+2025-04-27T05:36:15.5864990Z Version      : 3.250.1
+2025-04-27T05:36:15.5865193Z Author       : Microsoft Corporation
+2025-04-27T05:36:15.5865375Z Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/utility/bash
+2025-04-27T05:36:15.5865679Z ==============================================================================
+2025-04-27T05:36:16.5474119Z Generating script.
+2025-04-27T05:36:16.5474794Z ========================== Starting Command Output ===========================
+2025-04-27T05:36:16.5475254Z [command]/usr/bin/bash /home/vsts/work/_temp/07a90653-f3e1-4983-90ba-97a7e073f405.sh
+2025-04-27T05:36:16.5476139Z total 16
+2025-04-27T05:36:16.5480798Z drwxr-x--- 4 vsts docker 4096 Apr 27 05:36 cache
+2025-04-27T05:36:16.5481712Z -rw------- 1 vsts docker 9763 Apr 27 05:36 config
+2025-04-27T05:36:16.5482120Z NAME                                  STATUS   ROLES    AGE     VERSION
+2025-04-27T05:36:18.7013564Z aks-defaultpool-34515528-vmss000000   Ready    <none>   3m58s   v1.32.3
+2025-04-27T05:36:18.7014200Z namespace/ingress-nginx created
+2025-04-27T05:36:19.0603845Z serviceaccount/ingress-nginx created
+2025-04-27T05:36:19.4265574Z serviceaccount/ingress-nginx-admission created
+2025-04-27T05:36:19.7885845Z role.rbac.authorization.k8s.io/ingress-nginx created
+2025-04-27T05:36:20.1477622Z role.rbac.authorization.k8s.io/ingress-nginx-admission created
+2025-04-27T05:36:21.0468430Z clusterrole.rbac.authorization.k8s.io/ingress-nginx created
+2025-04-27T05:36:21.0473777Z clusterrole.rbac.authorization.k8s.io/ingress-nginx-admission created
+2025-04-27T05:36:21.0474881Z rolebinding.rbac.authorization.k8s.io/ingress-nginx created
+2025-04-27T05:36:21.3697186Z rolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+2025-04-27T05:36:21.6095384Z clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx created
+2025-04-27T05:36:21.8499915Z clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+2025-04-27T05:36:22.2137199Z configmap/ingress-nginx-controller created
+2025-04-27T05:36:22.5960388Z service/ingress-nginx-controller created
+2025-04-27T05:36:22.9699959Z service/ingress-nginx-controller-admission created
+2025-04-27T05:36:23.3485597Z deployment.apps/ingress-nginx-controller created
+2025-04-27T05:36:23.7403073Z job.batch/ingress-nginx-admission-create created
+2025-04-27T05:36:24.1063295Z job.batch/ingress-nginx-admission-patch created
+2025-04-27T05:36:24.3496012Z ingressclass.networking.k8s.io/nginx created
+2025-04-27T05:36:24.5917362Z validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission created
+2025-04-27T05:36:25.0227052Z namespace/devsu created
+2025-04-27T05:36:25.8655517Z secret/envs created
+2025-04-27T05:36:27.0485291Z deployment.apps/node-service created
+2025-04-27T05:36:27.7729011Z service/node-service created
+2025-04-27T05:36:28.7543450Z The Service "node-service2" is invalid: spec.ports[0].nodePort: Invalid value: 31110: provided port is already allocated
+2025-04-27T05:36:30.0059762Z horizontalpodautoscaler.autoscaling/node-service created
+2025-04-27T05:36:30.9337094Z Error from server (InternalError): error when creating "ingress.yml": Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": failed to call webhook: Post "https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s": no endpoints available for service "ingress-nginx-controller-admission"
+2025-04-27T05:36:31.3801850Z NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+2025-04-27T05:36:31.3803563Z node-service   0/2     2            0           5s
+2025-04-27T05:36:31.9226630Z NAME           TYPE           CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
+2025-04-27T05:36:31.9227654Z node-service   LoadBalancer   10.0.33.70   <pending>     8000:31110/TCP   4s
+2025-04-27T05:36:32.3551827Z waiting for public ip
+2025-04-27T05:36:48.2389845Z Service ip: 4.228.121.231
+2025-04-27T05:36:48.2400748Z Service port: 8000
+2025-04-27T05:36:48.2406187Z 
+2025-04-27T05:36:48.2459173Z ##[section]Finishing: Create Deployment

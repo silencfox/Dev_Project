@@ -1,0 +1,87 @@
+2025-04-27T05:20:55.1293911Z ##[section]Starting: Run Unit Tests Jest
+2025-04-27T05:20:55.1300438Z ==============================================================================
+2025-04-27T05:20:55.1300794Z Task         : Bash
+2025-04-27T05:20:55.1300966Z Description  : Run a Bash script on macOS, Linux, or Windows
+2025-04-27T05:20:55.1301156Z Version      : 3.250.1
+2025-04-27T05:20:55.1301332Z Author       : Microsoft Corporation
+2025-04-27T05:20:55.1301514Z Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/utility/bash
+2025-04-27T05:20:55.1301713Z ==============================================================================
+2025-04-27T05:20:55.3401089Z Generating script.
+2025-04-27T05:20:55.3401984Z ========================== Starting Command Output ===========================
+2025-04-27T05:20:55.3410750Z [command]/usr/bin/bash /home/vsts/work/_temp/e1702b0e-7f9e-4506-8a52-d4dffe96cf8d.sh
+2025-04-27T05:21:01.6404998Z npm warn deprecated @npmcli/move-file@1.1.2: This functionality has been moved to @npmcli/fs
+2025-04-27T05:21:05.9490310Z 
+2025-04-27T05:21:05.9491455Z added 564 packages, and audited 565 packages in 10s
+2025-04-27T05:21:05.9491655Z 
+2025-04-27T05:21:05.9491944Z 44 packages are looking for funding
+2025-04-27T05:21:05.9492257Z   run `npm fund` for details
+2025-04-27T05:21:05.9662168Z 
+2025-04-27T05:21:05.9666317Z 17 vulnerabilities (3 low, 4 moderate, 9 high, 1 critical)
+2025-04-27T05:21:05.9666950Z 
+2025-04-27T05:21:05.9667384Z To address issues that do not require attention, run:
+2025-04-27T05:21:05.9667795Z   npm audit fix
+2025-04-27T05:21:05.9668017Z 
+2025-04-27T05:21:05.9668389Z To address all issues, run:
+2025-04-27T05:21:05.9668787Z   npm audit fix --force
+2025-04-27T05:21:05.9669292Z 
+2025-04-27T05:21:05.9669868Z Run `npm audit` for details.
+2025-04-27T05:21:07.9903816Z 
+2025-04-27T05:21:07.9911291Z up to date, audited 565 packages in 2s
+2025-04-27T05:21:07.9911549Z 
+2025-04-27T05:21:07.9911864Z 44 packages are looking for funding
+2025-04-27T05:21:07.9912202Z   run `npm fund` for details
+2025-04-27T05:21:08.0160313Z 
+2025-04-27T05:21:08.0161416Z 17 vulnerabilities (3 low, 4 moderate, 9 high, 1 critical)
+2025-04-27T05:21:08.0161732Z 
+2025-04-27T05:21:08.0162097Z To address issues that do not require attention, run:
+2025-04-27T05:21:08.0162445Z   npm audit fix
+2025-04-27T05:21:08.0162678Z 
+2025-04-27T05:21:08.0162984Z To address all issues, run:
+2025-04-27T05:21:08.0163391Z   npm audit fix --force
+2025-04-27T05:21:08.0163628Z 
+2025-04-27T05:21:08.0163942Z Run `npm audit` for details.
+2025-04-27T05:21:08.2081375Z 
+2025-04-27T05:21:08.2082327Z > demo@1.0.0 test
+2025-04-27T05:21:08.2082608Z > jest --coverage
+2025-04-27T05:21:08.2082731Z 
+2025-04-27T05:21:11.1502211Z PASS ./index.test.js
+2025-04-27T05:21:11.1510609Z   User
+2025-04-27T05:21:11.1512622Z     ✓ Get users (100 ms)
+2025-04-27T05:21:11.1513977Z     ✓ Get user (17 ms)
+2025-04-27T05:21:11.1520339Z     ✓ Create user (19 ms)
+2025-04-27T05:21:11.1520794Z 
+2025-04-27T05:21:11.1680888Z -----------------------|---------|----------|---------|---------|------------------------
+2025-04-27T05:21:11.1687365Z File                   | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s      
+2025-04-27T05:21:11.1688413Z -----------------------|---------|----------|---------|---------|------------------------
+2025-04-27T05:21:11.1695671Z All files              |   79.59 |       50 |    87.5 |   78.72 |                        
+2025-04-27T05:21:11.1698119Z  app                   |     100 |      100 |     100 |     100 |                        
+2025-04-27T05:21:11.1700156Z   index.js             |     100 |      100 |     100 |     100 |                        
+2025-04-27T05:21:11.1701769Z  app/shared/database   |     100 |      100 |     100 |     100 |                        
+2025-04-27T05:21:11.1702362Z   database.js          |     100 |      100 |     100 |     100 |                        
+2025-04-27T05:21:11.1708204Z  app/shared/middleware |   71.42 |      100 |   66.66 |   66.66 |                        
+2025-04-27T05:21:11.1709360Z   validateSchema.js    |   71.42 |      100 |   66.66 |   66.66 | 13-15                  
+2025-04-27T05:21:11.1719594Z  app/shared/schema     |     100 |      100 |     100 |     100 |                        
+2025-04-27T05:21:11.1720710Z   users.js             |     100 |      100 |     100 |     100 |                        
+2025-04-27T05:21:11.1721139Z  app/users             |   73.33 |       50 |     100 |   73.33 |                        
+2025-04-27T05:21:11.1721589Z   controller.js        |      68 |       50 |     100 |      68 | 9-10,20,25-26,36,43-44 
+2025-04-27T05:21:11.1722047Z   model.js             |     100 |      100 |     100 |     100 |                        
+2025-04-27T05:21:11.1722625Z   router.js            |     100 |      100 |     100 |     100 |                        
+2025-04-27T05:21:11.1723152Z -----------------------|---------|----------|---------|---------|------------------------
+2025-04-27T05:21:11.1898425Z Test Suites: 1 passed, 1 total
+2025-04-27T05:21:11.1900424Z Tests:       3 passed, 3 total
+2025-04-27T05:21:11.1900974Z Snapshots:   0 total
+2025-04-27T05:21:11.1904269Z Time:        2.416 s
+2025-04-27T05:21:11.1905647Z Ran all test suites.
+2025-04-27T05:21:14.3899080Z PASS ./index.test.js
+2025-04-27T05:21:14.3903071Z   User
+2025-04-27T05:21:14.3908918Z     ✓ Get users (92 ms)
+2025-04-27T05:21:14.3909685Z     ✓ Get user (17 ms)
+2025-04-27T05:21:14.3910177Z     ✓ Create user (28 ms)
+2025-04-27T05:21:14.3910424Z 
+2025-04-27T05:21:14.3965854Z Test Suites: 1 passed, 1 total
+2025-04-27T05:21:14.3970793Z Tests:       3 passed, 3 total
+2025-04-27T05:21:14.3971168Z Snapshots:   0 total
+2025-04-27T05:21:14.3971485Z Time:        2.044 s, estimated 3 s
+2025-04-27T05:21:14.3971806Z Ran all test suites.
+2025-04-27T05:21:14.5272311Z 
+2025-04-27T05:21:14.5338042Z ##[section]Finishing: Run Unit Tests Jest
