@@ -30,6 +30,7 @@ Este proyecto es un ejemplo práctico que combina **Docker**, **Terraform**, **A
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
 
 ## Objetivos cumplidos
+- **Azure pipeline con Stages de Ambientes Dev, QA, Prod**
 - **Generacion de imagen**
 - **Compilacion de codigo**
 - **Pruebas unitarias**
