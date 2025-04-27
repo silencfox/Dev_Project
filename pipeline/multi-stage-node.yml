@@ -59,13 +59,9 @@ stages:
           SonarQube: 'SonarSerConn_Devsu'
           organization: 'silencfox'
           scannerMode: 'cli'
-          configMode: 'manual'
-          cliProjectKey: 'silencfox_Dev_Project'
-          cliProjectName: 'Dev_Project'
-          cliSources: '.'
-          extraProperties: |
-            Dsonar.sources=.
-            Dsonar.host.url=https://sonarcloud.io
+          cliScannerVersion: '7.1.0.4889'
+          configMode: 'file'
+          extraProperties: 
 
 
       - task: SonarCloudAnalyze@3
