@@ -121,7 +121,7 @@ stages:
 
 
       - task: Bash@3
-        enabled: false
+        enabled: true
         name: tfstates
         displayName: "Create_TF_Storage"
         inputs:
