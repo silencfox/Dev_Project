@@ -70,18 +70,18 @@ stages:
 
       - task: SonarCloudAnalyze@3
         continueOnError: true
-        enabled: false
+        enabled: true
         inputs:
           jdkversion: 'JAVA_HOME'
 
       - task: SonarCloudPublish@3
         continueOnError: true
-        enabled: false
+        enabled: true
         inputs:
           pollingTimeoutSec: '300'
 
       - task: Bash@3
-        enabled: false
+        enabled: true
         displayName: "Run Unit Tests Jest"
         inputs:
           targetType: 'inline'
@@ -98,7 +98,7 @@ stages:
 
       - task: PublishTestResults@2
         continueOnError: true
-        enabled: false
+        enabled: true
         condition: succeededOrFailed()
         displayName: "Publish JUnit Test Results"
         inputs:
@@ -111,7 +111,7 @@ stages:
 
       - task: PublishCodeCoverageResults@2
         continueOnError: true
-        enabled: false
+        enabled: true
         displayName: "Publish Code Coverage HTML"
         inputs:
           codeCoverageTool: 'Cobertura'
