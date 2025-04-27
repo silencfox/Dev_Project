@@ -332,16 +332,22 @@ stages:
                       ARM_TENANT_ID: $(ARM_TENANT_ID)
                       TF_VAR_ghtoken: $(TF_VAR_ghtoken)
 
-                - task: AzureCLI@2
+                - task: Bash@3
+                  displayName: 'Grant ACRPULL to AKS'
                   inputs:
-                    azureSubscription: 'Azure subscription 1(1)(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
-                    scriptType: 'bash'
-                    scriptLocation: 'inlineScript'
-                    inlineScript: |
-                      kubelet_id=$(az aks show --resource-group $(k8srg) --name $(k8sname) --query "identityProfile.kubeletidentity.objectId" --output tsv)
-                      acr_id=$(az acr show --name $(acrname) --query "id" --output tsv)
-                      az role assignment create --assignee-object-id $kubelet_id --role AcrPull --scope $acr_id
-                    addSpnToEnvironment: true
+                    targetType: 'inline'
+                    script: |
+                      az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
+                      az account set --subscription $(ARM_SUBSCRIPTION_ID)
+                      az aks get-credentials --resource-group $(k8srg) --name $(k8sname)
+                      az aks update --name $(k8sname) --resource-group $(k8srg) --attach-acr $(acrname)
+                      az aks check-acr --name $(k8sname) --resource-group $(k8srg) --acr $(acrname)
+                  env:
+                    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+                    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+                    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+                    ARM_TENANT_ID: $(ARM_TENANT_ID)
+                    TF_VAR_ghtoken: $(TF_VAR_ghtoken)
 
                 - task: Bash@3
                   enabled: true
