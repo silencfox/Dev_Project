@@ -21,7 +21,7 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /node-app /usr/share/nginx/html
 COPY --from=build /node-app /node-app
 
-USER nodeusr
+#USER nodeusr
 
 EXPOSE 8000
  
