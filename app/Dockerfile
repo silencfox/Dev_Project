@@ -8,6 +8,8 @@ COPY . .
 
 FROM node:18.15.0
 
+RUN useradd -m nodeusr
+
 RUN apt-get update && apt-get install -y nginx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
@@ -19,7 +21,7 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /node-app /usr/share/nginx/html
 COPY --from=build /node-app /node-app
 
-#USER devsu
+USER nodeusr
 
 EXPOSE 8000
  
