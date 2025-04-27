@@ -332,6 +332,16 @@ stages:
                       ARM_TENANT_ID: $(ARM_TENANT_ID)
                       TF_VAR_ghtoken: $(TF_VAR_ghtoken)
 
+                - task: AzureCLI@2
+                  inputs:
+                    azureSubscription: 'Azure subscription 1(1)(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: 'az aks update --name Devsu-aks-cluster-Dev --resource-group Devsu-Dev --attach-acr acrdevsu'
+                    addSpnToEnvironment: true
+                    useGlobalConfig: true
+
+
                 - task: Bash@3
                   enabled: true
                   name: create_deployment
