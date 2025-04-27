@@ -29,6 +29,20 @@ Este proyecto es un ejemplo práctico que combina **Docker**, **Terraform**, **A
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project) 
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=silencfox_Dev_Project&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=silencfox_Dev_Project)
 
+## Objetivos cumplidos
+- **Generacion de imagen**
+- **Compilacion de codigo**
+- **Pruebas unitarias**
+- **Analisis de codigo (SonarCloud)**
+- **healcheck de contenedores ckubernetes Probes**
+- **Code coverage (Junit y SonarCloud)**
+- **Analisis de vulnerabilidad (SonarCloud)**
+- **Pruebas Funcionales (Newman Test)**
+- **Push imagen a ACR y Docker Hub**
+- **Generacion de secretos de AKS**
+- **Ingress de AKS**
+- **Diagrama del flujo**
+- **Flujo en nube publica Azure**
 
 ## 📦 ¿Qué hay dentro?
 
@@ -44,7 +58,7 @@ Este proyecto es un ejemplo práctico que combina **Docker**, **Terraform**, **A
 - **Docker** 🐳
 - **Terraform** ☁️
 - **Azure DevOps Pipelines** 🔵
-- **Azure Kubernetes Services ** 🌐
+- **Azure Kubernetes Services** 🌐
 - **Node.js** ⚡
 
 ## 🚀 Cómo ejecutar el proyecto
