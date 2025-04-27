@@ -332,6 +332,17 @@ stages:
                       ARM_TENANT_ID: $(ARM_TENANT_ID)
                       TF_VAR_ghtoken: $(TF_VAR_ghtoken)
 
+                - task: AzureCLI@2
+                  inputs:
+                    azureSubscription: 'Azure subscription 1(1)(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      kubelet_id=$(az aks show --resource-group $(k8srg) --name $(k8sname) --query "identityProfile.kubeletidentity.objectId" --output tsv)
+                      acr_id=$(az acr show --name $(acrname) --query "id" --output tsv)
+                      az role assignment create --assignee-object-id $kubelet_id --role AcrPull --scope $acr_id
+                    addSpnToEnvironment: true
+
                 - task: Bash@3
                   enabled: true
                   name: create_deployment
@@ -346,12 +357,15 @@ stages:
                       ls -lrt ~/.kube
                       export KUBECONFIG=$(Build.SourcesDirectory)/infra/kubeconfig
                       kubectl get nodes
+                      kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
                       kubectl create namespace $(K8S_NAMESPACE)
                       kubectl apply -f secrect.yml -n $(K8S_NAMESPACE)
                       kubectl apply -f deployment.yaml -n $(K8S_NAMESPACE)
                       kubectl apply -f service_balance.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f service_balance2.yaml -n $(K8S_NAMESPACE)
                       kubectl apply -f hpa.yaml -n $(K8S_NAMESPACE)
-                      
+                      kubectl apply -f ingress.yml -n $(K8S_NAMESPACE)
+                     
                       kubectl get deployments -n $(K8S_NAMESPACE)
                       kubectl get services -n $(K8S_NAMESPACE)
 
