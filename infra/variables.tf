@@ -17,10 +17,6 @@ variable "keyvault_name" {
   type = string
 }
 
-#variable "SUB_ID" {
-#  type = string
-#}
-
 
 variable "aks_name" {
   type = string

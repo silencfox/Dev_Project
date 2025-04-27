@@ -5,6 +5,7 @@ resource "azurerm_container_registry" "acr" {
   resource_group_name = var.rgname
   location            = var.location
   sku                 = var.sku
+  admin_enabled       = false
 }
 
 resource "azurerm_container_registry_task" "acr_task" {
@@ -18,7 +19,7 @@ resource "azurerm_container_registry_task" "acr_task" {
     dockerfile_path      = "Dockerfile"
     context_path         = var.ghpathfile
     context_access_token = var.TF_VAR_ghtoken
-    image_names          = ["devsudemo:{{.Run.ID}}"]
+    image_names          = ["devsudemo:latest"]
   }
 }
 

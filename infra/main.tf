@@ -8,6 +8,8 @@ data "azurerm_container_registry" "acr" {
   resource_group_name = "Devsu_acr"                 
 }
 
+data "azurerm_client_config" "current" {}
+
 module "ServicePrincipal" {
   source                 = "./modules/ServicePrincipal"
   service_principal_name = var.service_principal_name
