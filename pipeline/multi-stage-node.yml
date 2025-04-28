@@ -132,7 +132,7 @@ stages:
             terraform refresh
             terraform plan
             terraform apply --auto-approve
-          workingDirectory: '$(Build.SourcesDirectory)/tfstate'
+          workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
           bashEnvValue: |
             ARM_CLIENT_ID: $(ARM_CLIENT_ID)
             ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
