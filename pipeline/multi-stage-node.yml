@@ -133,7 +133,9 @@ stages:
             terraform init
             terraform refresh
             terraform plan
-            terraform apply --auto-approve
+            terraform plan -out="${{ environment.name }}.tfplan"
+            terraform apply -auto-approve "${{ environment.name }}.tfplan"
+            
           workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
           bashEnvValue: |
             ARM_CLIENT_ID: $(ARM_CLIENT_ID)
