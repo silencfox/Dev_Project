@@ -132,8 +132,8 @@ stages:
             cp terraform.tmptfvars terraform.tfvars
             terraform init
             terraform refresh
-            terraform plan -out="${{ environment.name }}.tfplan"
-            terraform apply -auto-approve "${{ environment.name }}.tfplan"
+            terraform plan -out="blobs.tfplan"
+            terraform apply -auto-approve "blobs.tfplan"
             
           workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
           bashEnvValue: |
