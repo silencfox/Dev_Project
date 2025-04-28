@@ -2,17 +2,19 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
+  namespace: devsu
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClassName: nginx-example
+  ingressClassName: nginx
   rules:
-  - http:
+  - host: v1.devsu.local
+    http:
       paths:
-      - path: /testpath
+      - path: /api(/|$)(.*)
         pathType: Prefix
         backend:
           service:
-            name: node-service  
+            name: node-service
             port:
               number: 8000
