@@ -303,7 +303,7 @@ stages:
                       ls -lrt "./standalone/acr/terraform.tfvars"
                       ls -lrt "./terraform.tfvars"
                       variable="_mi_valor"  # Define tu variable aquí
-                      find $(Build.SourcesDirectory)/infra -type f -name "*.yaml" -exec sed -i "s/node-service/node-service${{ environment.name }/g" {} +
+                      find $(Build.SourcesDirectory)/infra -type f -name "*.yaml" -exec sed -i "s/node-service/node-service${{ environment.name }}/g" {} +
 
                     workingDirectory: '$(Build.SourcesDirectory)/infra'
 
