@@ -129,6 +129,7 @@ stages:
           script: |
             az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
             az account set --subscription $(ARM_SUBSCRIPTION_ID)
+            terraform import module.ablobs.azurerm_resource_group.tfstate "/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/rg-devsu-tfstate"
             cp terraform.tmptfvars terraform.tfvars
             terraform init
             terraform refresh
