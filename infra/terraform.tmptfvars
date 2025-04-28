@@ -1,22 +1,31 @@
-
-rgname                   = "Devsu"
-location                 = "brazilsouth"
-service_principal_name   = "sp-Devsu"
-keyvault_name            = "kv-Devsu"
-SUB_ID                   = ""
-aks_name                = "aks-Devsu"
-sku                      = "Basic"
-acr_name                 = "acrdevsu"
-ghpathfile               = "https://github.com/silencfox/Dev_Project#main:app"
-TF_VAR_ghtoken           = "#{TF_VAR_ghtoken}#"
-                         
-tenant_id                = ""
-subscription_id          = ""
-client_id                = ""
-client_secret            = ""
+rgname                  	 = "Devsu"
+location                	 = "brazilsouth"
+service_principal_name  	 = "sp-Devsu"
+keyvault_name           	 = "kv-Devsu"
+aks_name                	 = "aks-Devsu"
+sku                     	 = "Basic"
+acr_name                	 = "acrdevsu"
+ghpathfile              	 = "https://github.com/silencfox/Dev_Project#main:app"
+TF_VAR_ghtoken          	 = "#{TF_VAR_ghtoken}#"                
 
 
 
+storeacount		 	 	     = #{storeacount}#
+rgname		 	 	 	 	 = #{rgname}#
+location		 	 	 	 = #{location}#
+service_principal_name		 = #{service_principal_name}#
+keyvault_name		 	 	 = #{keyvault_name}#
+aks_name		 	 	 	 = #{aks_name}#
+TF_VAR_ghtoken		 	 	 = #{TF_VAR_ghtoken}#
+ghpathfile		 	 	 	 = #{ghpathfile}#
+sku		 	 	 	 	 = #{sku}#
+acr_name		 	 	 	 = #{acr_name}#
+create_acr		 	 	 	 = #{create_acr}#
+namespace                    = #{namespace}#
+environment                  = #{environment}#
 
-
+#tenant_id               	 = ""
+#subscription_id         	 = ""
+#client_id               	 = ""
+#client_secret           	 = ""
                          

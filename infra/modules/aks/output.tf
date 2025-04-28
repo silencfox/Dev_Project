@@ -10,3 +10,8 @@ output "aks_principal_id" {
 output "aks_id" {
   value = azurerm_kubernetes_cluster.aks-cluster.id
 }
+
+
+output "kubelet_identity" {
+  value = azurerm_kubernetes_cluster.aks-cluster.kubelet_identity
+}

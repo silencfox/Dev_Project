@@ -1,5 +1,5 @@
 
- variable "rgname" {}
+variable "rgname" {}
 
 variable "TF_VAR_ghtoken" {
   type        = string

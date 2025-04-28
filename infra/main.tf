@@ -48,7 +48,8 @@ resource "local_file" "kubeconfig" {
 
 
 resource "azurerm_role_assignment" "aks_acr_pull" {
-  principal_id         = module.aks.aks_principal_id
+  #principal_id         = module.aks.aks_principal_id
+  principal_id         = module.aks.kubelet_identity[0].object_id
   role_definition_name = "AcrPull"
   scope                = data.azurerm_container_registry.acr.id
 
@@ -56,4 +57,11 @@ resource "azurerm_role_assignment" "aks_acr_pull" {
     module.aks
   ]
 
+}
+
+
+resource "azurerm_role_assignment" "acr_Push" {
+  scope                = data.azurerm_container_registry.acr.id
+  role_definition_name = "AcrPush"
+  principal_id         = data.azurerm_client_config.current.object_id
 }
