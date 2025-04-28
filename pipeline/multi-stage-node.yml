@@ -132,7 +132,6 @@ stages:
             cp terraform.tmptfvars terraform.tfvars
             terraform init
             terraform refresh
-            terraform plan
             terraform plan -out="${{ environment.name }}.tfplan"
             terraform apply -auto-approve "${{ environment.name }}.tfplan"
             
@@ -189,6 +188,7 @@ stages:
                   displayName: 'download alone tfvars'
                   inputs:
                     secureFile: 'terraform_alone.tfvars'
+
                 - task: TerraformInstaller@1
                   inputs:
                     terraformVersion: 'latest'
