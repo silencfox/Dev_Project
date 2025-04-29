@@ -142,42 +142,39 @@ stages:
 
             terraform show -json blobs.tfplan > plan.json
 
-            # Buscar los recursos que terraform planea crear
-            created_resources=$(jq -r '.resource_changes[] | select(.change.actions[] == "create") | "\(.address) \(.type) \(.change.after.name)"' plan.json)
+            set +e
 
-            while read -r address type name; do
-              if [ ! -z "$name" ]; then
-                echo "Procesando recurso $type llamado $name..."
+            echo "Intentando terraform apply..."
+            terraform apply "blobs.tfplan" > apply_output.txt 2>&1
+            exit_code=$?
 
-                case "$type" in
-                  "azurerm_resource_group")
-                    echo "Validando existencia del resource group $name..."
-                    if az group exists --name "$name" | grep -q true; then
-                      echo "Resource Group $name ya existe. Importando..."
-                      terraform import "$address" "/subscriptions/$(az account show --query id -o tsv)/resourceGroups/$name"
-                    else
-                      echo "Resource Group $name no existe, no se importa."
-                    fi
-                    ;;
-                  "azurerm_storage_account")
-                    rg_name=$(jq -r ".resource_changes[] | select(.address == \"$address\") | .change.after.resource_group_name" plan.json)
-                    echo "Validando existencia del storage account $name en resource group $rg_name..."
-                    if az storage account show --name "$name" --resource-group "$rg_name" &> /dev/null; then
-                      echo "Storage account $name ya existe. Importando..."
-                      terraform import "$address" "/subscriptions/$(az account show --query id -o tsv)/resourceGroups/$rg_name/providers/Microsoft.Storage/storageAccounts/$name"
-                    else
-                      echo "Storage account $name no existe, no se importa."
-                    fi
-                    ;;
-                  # Aquí puedes seguir agregando otros tipos de recursos como quieras
-                  *)
-                    echo "Tipo de recurso $type no manejado automáticamente. Ignorando."
-                    ;;
-                esac
-              fi
-            done <<< "$created_resources"
+            if [ $exit_code -ne 0 ]; then
+              echo "Terraform apply falló. Analizando errores para intentar auto-importar recursos existentes..."
 
-            terraform apply -auto-approve "blobs.tfplan"
+              grep "already exists" apply_output.txt > exists_errors.txt || true
+
+              while read -r line; do
+                echo "Procesando error: $line"
+
+                resource_id=$(echo "$line" | grep -oP "/subscriptions/[^\"]+")
+                resource_address=$(grep -B5 "$line" apply_output.txt | grep -oP 'module\.[^\s]+' | head -n1)
+
+                if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
+                  echo "Importando recurso $resource_address con ID $resource_id"
+                  terraform import "$resource_address" "$resource_id"
+                fi
+
+              done < exists_errors.txt
+
+              echo "El state cambió después del import. Regenerando plan..."
+
+              terraform plan -out blobs.tfplan
+
+              echo "Aplicando nuevo plan..."
+              terraform apply "blobs.tfplan"
+            else
+              echo "Terraform apply exitoso a la primera."
+            fi
             
           workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
           bashEnvValue: |
