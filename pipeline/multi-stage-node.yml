@@ -121,12 +121,17 @@ stages:
           pathToSources: '$(Build.SourcesDirectory)/app'
           failIfCoverageEmpty: true
 
-
+      - task: Bash@3
+        inputs:
+          filePath: '$(Build.SourcesDirectory)/infra/terraform.sh'
+          arguments: '$(Build.SourcesDirectory)/infra/standalone/ablobs $(ARM_CLIENT_ID) $(ARM_CLIENT_SECRET) $(ARM_TENANT_ID) $(ARM_SUBSCRIPTION_ID)'
+          workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
+          bashEnvValue: 'env'
 
 
 
       - task: Bash@3
-        enabled: true
+        enabled: false
         name: tfstates
         displayName: "Create_TF_Storage"
         inputs:
