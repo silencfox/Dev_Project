@@ -275,6 +275,8 @@ stages:
                   inputs:
                     targetType: 'inline'
                     script: |
+                      az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
+                      az account set --subscription $(ARM_SUBSCRIPTION_ID)
                       chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
                       cp $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                       terraform init
