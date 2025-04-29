@@ -134,7 +134,7 @@ stages:
           script: |
             az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
             az account set --subscription $(ARM_SUBSCRIPTION_ID)
-            terraform import module.ablobs.azurerm_resource_group.tfstate "/subscriptions/94af5430-b804-4dd0-ae21-6bd2a5feaedf/resourceGroups/rg-devsu-tfstate"
+
             cp terraform.tmptfvars terraform.tfvars
             terraform init
             terraform refresh
@@ -143,13 +143,37 @@ stages:
             terraform show -json blobs.tfplan > plan.json
 
             # Buscar los recursos que terraform planea crear
-            created_resources=$(jq -r '.resource_changes[] | select(.change.actions[] == "create") | "\(.address) \(.change.after.id)"' plan.json)
+            created_resources=$(jq -r '.resource_changes[] | select(.change.actions[] == "create") | "\(.address) \(.type) \(.change.after.name)"' plan.json)
 
-            # Por cada recurso que quiere crear, intentar hacer terraform import
-            while read -r address id; do
-              if [ ! -z "$id" ]; then
-                echo "Intentando importar $address con ID $id..."
-                terraform import "$address" "$id" || echo "No se pudo importar (quizá no existe todavía): $address"
+            while read -r address type name; do
+              if [ ! -z "$name" ]; then
+                echo "Procesando recurso $type llamado $name..."
+
+                case "$type" in
+                  "azurerm_resource_group")
+                    echo "Validando existencia del resource group $name..."
+                    if az group exists --name "$name" | grep -q true; then
+                      echo "Resource Group $name ya existe. Importando..."
+                      terraform import "$address" "/subscriptions/$(az account show --query id -o tsv)/resourceGroups/$name"
+                    else
+                      echo "Resource Group $name no existe, no se importa."
+                    fi
+                    ;;
+                  "azurerm_storage_account")
+                    rg_name=$(jq -r ".resource_changes[] | select(.address == \"$address\") | .change.after.resource_group_name" plan.json)
+                    echo "Validando existencia del storage account $name en resource group $rg_name..."
+                    if az storage account show --name "$name" --resource-group "$rg_name" &> /dev/null; then
+                      echo "Storage account $name ya existe. Importando..."
+                      terraform import "$address" "/subscriptions/$(az account show --query id -o tsv)/resourceGroups/$rg_name/providers/Microsoft.Storage/storageAccounts/$name"
+                    else
+                      echo "Storage account $name no existe, no se importa."
+                    fi
+                    ;;
+                  # Aquí puedes seguir agregando otros tipos de recursos como quieras
+                  *)
+                    echo "Tipo de recurso $type no manejado automáticamente. Ignorando."
+                    ;;
+                esac
               fi
             done <<< "$created_resources"
 
