@@ -34,6 +34,11 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
+            if ! command -v jq >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y jq
+            fi
+            jq --version
             chmod go-r "$(terraform_alonetfvars.secureFilePath)"
             chmod go-r "$(terraformtfvars.secureFilePath)"
             cp $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
@@ -134,6 +139,20 @@ stages:
             terraform init
             terraform refresh
             terraform plan -out="blobs.tfplan"
+
+            terraform show -json blobs.tfplan > plan.json
+
+            # Buscar los recursos que terraform planea crear
+            created_resources=$(jq -r '.resource_changes[] | select(.change.actions[] == "create") | "\(.address) \(.change.after.id)"' plan.json)
+
+            # Por cada recurso que quiere crear, intentar hacer terraform import
+            while read -r address id; do
+              if [ ! -z "$id" ]; then
+                echo "Intentando importar $address con ID $id..."
+                terraform import "$address" "$id" || echo "No se pudo importar (quizá no existe todavía): $address"
+              fi
+            done <<< "$created_resources"
+
             terraform apply -auto-approve "blobs.tfplan"
             
           workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
