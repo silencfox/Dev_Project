@@ -140,28 +140,39 @@ stages:
             terraform refresh
             terraform plan -out="blobs.tfplan"
 
-            terraform show -json blobs.tfplan > plan.json
-
             set +e
 
-            echo "Intentando terraform apply..."
-            terraform apply "blobs.tfplan" > apply_output.txt 2>&1
-            exit_code=$?
+            max_attempts=5
+            attempt=1
 
-            if [ $exit_code -ne 0 ]; then
-              echo "Terraform apply falló. Analizando errores para intentar auto-importar recursos existentes..."
+            while [ $attempt -le $max_attempts ]; do
+              echo "Intento $attempt: Aplicando terraform plan..."
 
+              terraform apply "blobs.tfplan" > apply_output.txt 2>&1
+              exit_code=$?
+
+              if [ $exit_code -eq 0 ]; then
+                echo "Terraform apply exitoso en el intento $attempt."
+                break
+              fi
+
+              echo "Terraform apply falló. Analizando errores para importar recursos existentes..."
+
+              # Buscar errores de recursos ya existentes
               grep "already exists" apply_output.txt > exists_errors.txt || true
 
+              if [ ! -s exists_errors.txt ]; then
+                echo "No se encontraron errores de 'already exists'. Error no recuperable."
+                cat apply_output.txt
+                exit 1
+              fi
+
+              # Procesar cada error
               while read -r line; do
                 echo "Procesando error: $line"
 
                 resource_id=$(echo "$line" | grep -oP "/subscriptions/[^\"]+")
-
-                # ESCAPAR la línea antes de usar grep
                 escaped_line=$(printf '%s\n' "$line" | sed 's/[]\/$*.^[]/\\&/g')
-
-                # Buscar el resource address
                 resource_address=$(grep -B10 "$escaped_line" apply_output.txt | grep -oP 'module\.[^\s:]+' | head -n1)
 
                 if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
@@ -173,14 +184,15 @@ stages:
 
               done < exists_errors.txt
 
-              echo "El state cambió después del import. Regenerando plan..."
-
+              echo "State actualizado. Regenerando terraform plan..."
               terraform plan -out blobs.tfplan
 
-              echo "Aplicando nuevo plan..."
-              terraform apply "blobs.tfplan"
-            else
-              echo "Terraform apply exitoso a la primera."
+              attempt=$((attempt + 1))
+            done
+
+            if [ $attempt -gt $max_attempts ]; then
+              echo "Error: Se alcanzó el máximo de intentos ($max_attempts) para aplicar Terraform. Abortando."
+              exit 1
             fi
             
           workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
