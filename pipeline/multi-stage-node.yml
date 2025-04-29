@@ -157,11 +157,18 @@ stages:
                 echo "Procesando error: $line"
 
                 resource_id=$(echo "$line" | grep -oP "/subscriptions/[^\"]+")
-                resource_address=$(grep -B5 "$line" apply_output.txt | grep -oP 'module\.[^\s]+' | head -n1)
+
+                # ESCAPAR la línea antes de usar grep
+                escaped_line=$(printf '%s\n' "$line" | sed 's/[]\/$*.^[]/\\&/g')
+
+                # Buscar el resource address
+                resource_address=$(grep -B10 "$escaped_line" apply_output.txt | grep -oP 'module\.[^\s:]+' | head -n1)
 
                 if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
                   echo "Importando recurso $resource_address con ID $resource_id"
                   terraform import "$resource_address" "$resource_id"
+                else
+                  echo "No se pudo determinar resource address para el error detectado."
                 fi
 
               done < exists_errors.txt
