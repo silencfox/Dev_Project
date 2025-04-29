@@ -169,7 +169,7 @@ stages:
 
               # Procesar cada error
               while read -r line; do
-                echo "Procesando error: $line"
+                #echo "Procesando error: $line"
 
                 resource_id=$(echo "$line" | grep -oP "/subscriptions/[^\"]+")
                 escaped_line=$(printf '%s\n' "$line" | sed 's/[]\/$*.^[]/\\&/g')
