@@ -122,9 +122,10 @@ stages:
           failIfCoverageEmpty: true
 
       - task: Bash@3
+        displayName: "Create_TF_Storage"
         inputs:
           filePath: '$(Build.SourcesDirectory)/infra/terraformer.sh'
-          arguments: '$(Build.SourcesDirectory)/infra/standalone/ablobs $(ARM_CLIENT_ID) $(ARM_CLIENT_SECRET) $(ARM_TENANT_ID) $(ARM_SUBSCRIPTION_ID)'
+          arguments: '$(ARM_CLIENT_ID) $(ARM_CLIENT_SECRET) $(ARM_TENANT_ID) $(ARM_SUBSCRIPTION_ID)'
           workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
           #bashEnvValue: 'env'
 
@@ -274,7 +275,15 @@ stages:
                     sources: 'terraform.tfvars'
 
                 - task: Bash@3
-                  enabled: true
+                  displayName: "Create Azure ACR"
+                  inputs:
+                    filePath: '$(Build.SourcesDirectory)/infra/terraformer.sh'
+                    arguments: '$(ARM_CLIENT_ID) $(ARM_CLIENT_SECRET) $(ARM_TENANT_ID) $(ARM_SUBSCRIPTION_ID)'
+                    workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
+                    #bashEnvValue: 'env'
+
+                - task: Bash@3
+                  enabled: false
                   name: ACR
                   displayName: "Create Azure ACR"
                   inputs:
