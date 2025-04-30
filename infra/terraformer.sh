@@ -2,16 +2,17 @@
 
 # Validar si se pasaron los parámetros necesarios
 if [ $# -lt 5 ]; then
-  echo "Uso: $0 <ruta_terraform> <ARM_CLIENT_ID> <ARM_CLIENT_SECRET> <ARM_TENANT_ID> <ARM_SUBSCRIPTION_ID>"
+  echo "Uso: $0 <ARM_CLIENT_ID> <ARM_CLIENT_SECRET> <ARM_TENANT_ID> <ARM_SUBSCRIPTION_ID> <terraform_backend>"
   exit 1
 fi
 
 # Asignar los parámetros a variables
-TF_DIR=$1
-ARM_CLIENT_ID=$2
-ARM_CLIENT_SECRET=$3
-ARM_TENANT_ID=$4
-ARM_SUBSCRIPTION_ID=$5
+ARM_CLIENT_ID=$1
+ARM_CLIENT_SECRET=$2
+ARM_TENANT_ID=$3
+ARM_SUBSCRIPTION_ID=$4
+TF_BACKEND=$5
+
 
 # Cambiar al directorio donde se ejecutarán los comandos Terraform
 #cd "$TF_DIR" || { echo "No se puede acceder al directorio $TF_DIR"; exit 1; }
@@ -26,8 +27,12 @@ cp terraform.tmptfvars terraform.tfvars
 
 # Inicializar Terraform
 echo "Iniciando Terraform..."
-terraform init || { echo "Error al iniciar Terraform"; exit 1; }
 
+if [ "$TF_BACKEND" != "" ]; then
+  terraform init -reconfigure -backend-config="./backend/$TF_BACKEND" || { echo "Error al iniciar Terraform"; exit 1; }
+else
+  terraform init || { echo "Error al iniciar Terraform"; exit 1; }
+fi
 # Refrescar el estado de Terraform
 echo "Refrescando el estado de Terraform..."
 terraform refresh || { echo "Error al refrescar el estado de Terraform"; exit 1; }
