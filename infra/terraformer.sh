@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Validar si se pasaron los parámetros necesarios
-if [ $# -lt 5 ]; then
+if [ $# -lt 4 ]; then
   echo "Uso: $0 <ARM_CLIENT_ID> <ARM_CLIENT_SECRET> <ARM_TENANT_ID> <ARM_SUBSCRIPTION_ID> <terraform_backend>"
   exit 1
 fi
