@@ -13,7 +13,12 @@ ARM_TENANT_ID=$3
 ARM_SUBSCRIPTION_ID=$4
 TF_BACKEND=$5
 
-
+if ! command -v jq >/dev/null 2>&1; then
+  sudo apt-get update
+  sudo apt-get install -y jq
+fi
+jq --version
+                      
 # Cambiar al directorio donde se ejecutarán los comandos Terraform
 #cd "$TF_DIR" || { echo "No se puede acceder al directorio $TF_DIR"; exit 1; }
 
