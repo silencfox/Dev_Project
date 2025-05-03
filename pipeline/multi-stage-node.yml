@@ -34,6 +34,11 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
+            if ! command -v jq >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y jq
+            fi
+            jq --version
             chmod go-r "$(terraform_alonetfvars.secureFilePath)"
             chmod go-r "$(terraformtfvars.secureFilePath)"
             cp $(terraform_alonetfvars.secureFilePath) $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
@@ -66,13 +71,13 @@ stages:
 
       - task: SonarCloudAnalyze@3
         continueOnError: true
-        enabled: true
+        enabled: false
         inputs:
           jdkversion: 'JAVA_HOME'
 
       - task: SonarCloudPublish@3
         continueOnError: true
-        enabled: true
+        enabled: false
         inputs:
           pollingTimeoutSec: '300'
 
@@ -116,23 +121,87 @@ stages:
           pathToSources: '$(Build.SourcesDirectory)/app'
           failIfCoverageEmpty: true
 
-
+      - task: Bash@3
+        displayName: "Create_TF_Storage"
+        inputs:
+          filePath: '$(Build.SourcesDirectory)/infra/terraformer.sh'
+          arguments: '$(ARM_CLIENT_ID) $(ARM_CLIENT_SECRET) $(ARM_TENANT_ID) $(ARM_SUBSCRIPTION_ID)'
+          workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
+          #bashEnvValue: 'env'
 
 
 
       - task: Bash@3
-        enabled: true
+        enabled: false
         name: tfstates
         displayName: "Create_TF_Storage"
         inputs:
           targetType: 'inline'
           script: |
+            az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
+            az account set --subscription $(ARM_SUBSCRIPTION_ID)
+
             cp terraform.tmptfvars terraform.tfvars
             terraform init
             terraform refresh
-            terraform plan
-            terraform apply --auto-approve
-          workingDirectory: '$(Build.SourcesDirectory)/tfstate'
+            terraform plan -out="blobs.tfplan"
+
+            set +e
+
+            max_attempts=5
+            attempt=1
+
+            while [ $attempt -le $max_attempts ]; do
+              echo "Intento $attempt: Aplicando terraform plan..."
+
+              terraform apply "blobs.tfplan" > apply_output.txt 2>&1
+              exit_code=$?
+
+              if [ $exit_code -eq 0 ]; then
+                echo "Terraform apply exitoso en el intento $attempt."
+                break
+              fi
+
+              echo "Terraform apply falló. Analizando errores para importar recursos existentes..."
+
+              # Buscar errores de recursos ya existentes
+              grep "already exists" apply_output.txt > exists_errors.txt || true
+
+              if [ ! -s exists_errors.txt ]; then
+                echo "No se encontraron errores de 'already exists'. Error no recuperable."
+                cat apply_output.txt
+                exit 1
+              fi
+
+              # Procesar cada error
+              while read -r line; do
+                #echo "Procesando error: $line"
+
+                resource_id=$(echo "$line" | grep -oP "/subscriptions/[^\"]+")
+                escaped_line=$(printf '%s\n' "$line" | sed 's/[]\/$*.^[]/\\&/g')
+                resource_address=$(grep -B10 "$escaped_line" apply_output.txt | grep -oP 'module\.[^\s:]+' | head -n1)
+
+                if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
+                  echo "Importando recurso $resource_address con ID $resource_id"
+                  terraform import "$resource_address" "$resource_id"
+                else
+                  echo "No se pudo determinar resource address para el error detectado."
+                fi
+
+              done < exists_errors.txt
+
+              echo "State actualizado. Regenerando terraform plan..."
+              terraform plan -out blobs.tfplan
+
+              attempt=$((attempt + 1))
+            done
+
+            if [ $attempt -gt $max_attempts ]; then
+              echo "Error: Se alcanzó el máximo de intentos ($max_attempts) para aplicar Terraform. Abortando."
+              exit 1
+            fi
+            
+          workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
           bashEnvValue: |
             ARM_CLIENT_ID: $(ARM_CLIENT_ID)
             ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
@@ -185,6 +254,7 @@ stages:
                   displayName: 'download alone tfvars'
                   inputs:
                     secureFile: 'terraform_alone.tfvars'
+
                 - task: TerraformInstaller@1
                   inputs:
                     terraformVersion: 'latest'
@@ -205,12 +275,22 @@ stages:
                     sources: 'terraform.tfvars'
 
                 - task: Bash@3
-                  enabled: true
+                  displayName: "Create Azure ACR"
+                  inputs:
+                    filePath: '$(Build.SourcesDirectory)/infra/terraformer.sh'
+                    arguments: '$(ARM_CLIENT_ID) $(ARM_CLIENT_SECRET) $(ARM_TENANT_ID) $(ARM_SUBSCRIPTION_ID)'
+                    workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
+                    #bashEnvValue: 'env'
+
+                - task: Bash@3
+                  enabled: false
                   name: ACR
                   displayName: "Create Azure ACR"
                   inputs:
                     targetType: 'inline'
                     script: |
+                      az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
+                      az account set --subscription $(ARM_SUBSCRIPTION_ID)
                       chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
                       cp $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                       terraform init
@@ -302,6 +382,9 @@ stages:
                       chmod go-r "$(Build.SourcesDirectory)/infra/terraform.tfvars"
                       ls -lrt "./standalone/acr/terraform.tfvars"
                       ls -lrt "./terraform.tfvars"
+                      variable="_mi_valor"  # Define tu variable aquí
+                      find $(Build.SourcesDirectory)/infra -type f -name "*.yaml" -exec sed -i "s/node-service/node-service${{ environment.name }}/g" {} +
+
                     workingDirectory: '$(Build.SourcesDirectory)/infra'
 
                 - task: replacetokens@6
@@ -310,18 +393,28 @@ stages:
                     sources: 'terraform.tfvars'
 
                 - task: Bash@3
-                  enabled: true
+                  displayName: "Create Azure AKS"
+                  inputs:
+                    filePath: '$(Build.SourcesDirectory)/infra/terraformer.sh'
+                    arguments: '$(ARM_CLIENT_ID) $(ARM_CLIENT_SECRET) $(ARM_TENANT_ID) $(ARM_SUBSCRIPTION_ID) backend-${{ environment.name }}.tfvars'
+                    workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
+
+                - task: Bash@3
+                  enabled: false
                   name: Crear_AKS
                   displayName: "Crear AKS"
                   inputs:
                     targetType: 'inline'
                     script: |
+                      az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
+                      az account set --subscription $(ARM_SUBSCRIPTION_ID)
+
                       ls -lrt 
                       set -euo pipefail
                       echo "Entorno: ${{ environment.name }}"
-                      terraform init -reconfigure -backend-config="backend-${{ environment.name }}.tfvars"
-                      terraform plan -var="environment=${{ environment.name }}" -out="${{ environment.name }}.tfplan"
-                      terraform apply -auto-approve "${{ environment.name }}.tfplan"
+                      terraform init -reconfigure -backend-config="./backend/backend-${{ environment.name }}.tfvars"
+                      terraform plan -var="environment=${{ environment.name }}" -out="./backend/${{ environment.name }}.tfplan"
+                      terraform apply -auto-approve "./backend/${{ environment.name }}.tfplan"
 
 
                     workingDirectory: '$(Build.SourcesDirectory)/infra'
