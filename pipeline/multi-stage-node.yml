@@ -266,9 +266,11 @@ stages:
                   inputs:
                     root: '$(Build.SourcesDirectory)/infra'
                     sources: |
-                      $(Build.SourcesDirectory)/infra/terraform.tfvars
-                      $(Build.SourcesDirectory)/infra/standalone/ablobs/terraform.tfvars
+                      $(Build.SourcesDirectory)/infra/terraform.tfvars    
+                      $(Build.SourcesDirectory)/infra/standalone/ablobs/terraform.tfvars    
                       $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
+                    logLevel: 'debug'
+                    ifNoFilesFound: 'warn'
                     recursive: true
 
                 - task: Bash@3
