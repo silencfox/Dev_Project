@@ -266,7 +266,8 @@ stages:
                     targetType: 'inline'
                     script: |
                       cp ./infra/terraform.tmptfvars ./infra/terraform.tfvars
-                      cp ./tfstate/terraform.tmptfvars ./tfstate/terraform.tfvars
+                      cp ./infra/standalone/ablobs/terraform.tmptfvars ./infra/standalone/ablobs/terraform.tfvars
+                      cp ./infra/standalone/acr/terraform.tmptfvars ./infra/standalone/acr/terraform.tfvars
                     workingDirectory: '$(Build.SourcesDirectory)'
 
                 - task: replacetokens@6
