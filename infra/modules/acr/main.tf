@@ -21,5 +21,17 @@ resource "azurerm_container_registry_task" "acr_task" {
     context_access_token = var.TF_VAR_ghtoken
     image_names          = ["devsudemo:latest"]
   }
+
+  source_trigger {
+    name                 = "autobuild"
+    events               = "commit "
+    repository_url       = "https://github.com/silencfox/Dev_Project.git"
+    source_type          = "Github" 
+    branch = main
+    enabled = true
+
+  }
+
+
 }
 
