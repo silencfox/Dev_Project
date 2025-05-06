@@ -25,13 +25,18 @@ resource "azurerm_container_registry_task" "acr_task" {
   source_trigger {
     name                 = "autobuild"
     events               = ["commit"]
-    repository_url       = "https://github.com/silencfox/Dev_Project.git"
-    source_type          = "Github" 
-    branch               = "main"
     enabled              = true
 
+    source_repository {
+      source_type        = "Github"
+      repository_url     = "https://github.com/silencfox/Dev_Project.git"
+      branch             = "main"
+
+      source_control_auth_properties {
+        token            = var.ghtoken
+        token_type       = "PAT"
+      }
+    }
   }
-
-
 }
 
