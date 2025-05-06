@@ -28,7 +28,7 @@ az login --service-principal -u "$ARM_CLIENT_ID" -p "$ARM_CLIENT_SECRET" --tenan
 az account set --subscription "$ARM_SUBSCRIPTION_ID" || { echo "Error al seleccionar la suscripción"; exit 1; }
 
 # Copiar el archivo terraform.tmptfvars a terraform.tfvars
-cp terraform.tmptfvars terraform.tfvars
+#cp terraform.tmptfvars terraform.tfvars
 
 # Inicializar Terraform
 echo "Iniciando Terraform..."
