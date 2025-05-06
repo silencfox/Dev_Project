@@ -121,6 +121,16 @@ stages:
           pathToSources: '$(Build.SourcesDirectory)/app'
           failIfCoverageEmpty: true
 
+
+      - task: replacetokens@6
+        inputs:
+          root: '$(Build.SourcesDirectory)/infra'
+          sources: |
+            ./terraform.tfvars
+            ./standalone/ablobs/terraform.tfvars
+            ./standalone/acr/terraform.tfvars
+          recursive: true
+          
       - task: Bash@3
         displayName: "Create_TF_Storage"
         inputs:
