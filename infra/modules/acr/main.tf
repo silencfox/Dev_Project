@@ -33,7 +33,7 @@ resource "azurerm_container_registry_task" "acr_task" {
       branch             = "main"
 
       source_control_auth_properties {
-        token            = var.ghtoken
+        token            = var.TF_VAR_ghtoken
         token_type       = "PAT"
       }
     }
