@@ -54,6 +54,7 @@ stages:
           terraformVersion: 'latest'
 
       - task: VisualStudioTestPlatformInstaller@1
+        enabled: false
         inputs:
           packageFeedSelector: 'nugetOrg'
           versionSelector: 'latestPreRelease'
