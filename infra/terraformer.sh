@@ -59,7 +59,7 @@ terraform plan -out="blobs.tfplan" || { echo "Error al generar el plan de Terraf
 # Ejecutar el plan de Terraform con reintentos
 set +e
 
-max_attempts=5
+max_attempts=15
 attempt=1
 
 while [ $attempt -le $max_attempts ]; do
