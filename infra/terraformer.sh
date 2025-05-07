@@ -88,8 +88,7 @@ while [ $attempt -le $max_attempts ]; do
   while read -r line; do
     resource_id=$(echo "$line" | grep -oP "/subscriptions/[^\"]+")
     escaped_line=$(printf '%s\n' "$line" | sed 's/[]\/$*.^[]/\\&/g')
-    resource_address=$(grep -B10 "$escaped_line" apply_output.txt | grep -oP '(module\.[^\s:]+|azurerm_[^\s:]*)' | head -n1)
-
+    resource_address=$(grep -B10 "$escaped_line" apply_output.txt | grep -oP '(module\.[^\s:"]+|azurerm_[^\s:"]+)' | head -n1)
 
     if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
       echo "Importando recurso $resource_address con ID $resource_id"
