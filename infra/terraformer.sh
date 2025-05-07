@@ -34,14 +34,14 @@ az account set --subscription "$ARM_SUBSCRIPTION_ID" || { echo "Error al selecci
 # Inicializar Terraform
 echo "Iniciando Terraform..."
 
-if [ "$TF_BACKEND" != "" ]; then
+if [ "$TF_BACKEND" != "" ] && [[ "$TF_BACKEND" != *destroy* ]]; then
   terraform init -reconfigure -backend-config="./backend/$TF_BACKEND" || { echo "Error al iniciar Terraform"; exit 1; }
 else
   terraform init || { echo "Error al iniciar Terraform"; exit 1; }
 fi
 
 # Modo de destrucción
-if [ "$ACTION" == "destroy" ]; then
+if [ "$ACTION" == "destroy" ] && [[ "$TF_BACKEND" == "destroy" ]]; then
   echo "Modo de destrucción activado. Destruyendo todos los recursos con Terraform..."
   terraform destroy -auto-approve || { echo "Error al destruir los recursos con Terraform"; exit 1; }
   echo "Recursos destruidos exitosamente."
