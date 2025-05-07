@@ -88,11 +88,17 @@ while [ $attempt -le $max_attempts ]; do
   while read -r line; do
     resource_id=$(echo "$line" | grep -oP "/subscriptions/[^\"]+")
     escaped_line=$(printf '%s\n' "$line" | sed 's/[]\/$*.^[]/\\&/g')
-    resource_address=$(grep -B10 "$escaped_line" apply_output.txt | grep -oP '(module\.[^\s:"]+|azurerm_[^\s:"]+)' | head -n1)
+    resource_address=$(grep -B10 "$escaped_line" apply_output.txt | grep -oP '(azurerm_[^\s:"]+\.[^\s:"]+)' | head -n1)
+
 
     if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
       echo "Importando recurso $resource_address con ID $resource_id"
-      terraform import "$resource_address" "$resource_id"
+      if [ -z "$resource_address" ]; then
+        echo "Error: El resource_address está vacío para el ID $resource_id. No se puede importar."
+      else
+        echo "Importando recurso $resource_address con ID $resource_id"
+        terraform import "$resource_address" "$resource_id"
+      fi
     else
       echo "No se pudo determinar resource address para el error detectado."
     fi
