@@ -2,7 +2,7 @@
 
 # Validar si se pasaron los parámetros necesarios
 if [ $# -lt 4 ]; then
-  echo "Uso: $0 <ARM_CLIENT_ID> <ARM_CLIENT_SECRET> <ARM_TENANT_ID> <ARM_SUBSCRIPTION_ID> <terraform_backend> [destroy]"
+  echo "Uso: $0 <ARM_CLIENT_ID> <ARM_CLIENT_SECRET> <ARM_TENANT_ID> <ARM_SUBSCRIPTION_ID> <terraform_backend>"
   exit 1
 fi
 
@@ -12,7 +12,6 @@ ARM_CLIENT_SECRET=$2
 ARM_TENANT_ID=$3
 ARM_SUBSCRIPTION_ID=$4
 TF_BACKEND=$5
-ACTION=$6  # Valor opcional: "destroy"
 
 if ! command -v jq >/dev/null 2>&1; then
   sudo apt-get update
@@ -29,25 +28,16 @@ az login --service-principal -u "$ARM_CLIENT_ID" -p "$ARM_CLIENT_SECRET" --tenan
 az account set --subscription "$ARM_SUBSCRIPTION_ID" || { echo "Error al seleccionar la suscripción"; exit 1; }
 
 # Copiar el archivo terraform.tmptfvars a terraform.tfvars
-#cp terraform.tmptfvars terraform.tfvars
+cp terraform.tmptfvars terraform.tfvars
 
 # Inicializar Terraform
 echo "Iniciando Terraform..."
 
-if [ "$TF_BACKEND" != "" ] && [[ "$TF_BACKEND" != *destroy* ]]; then
+if [ "$TF_BACKEND" != "" ]; then
   terraform init -reconfigure -backend-config="./backend/$TF_BACKEND" || { echo "Error al iniciar Terraform"; exit 1; }
 else
   terraform init || { echo "Error al iniciar Terraform"; exit 1; }
 fi
-
-# Modo de destrucción
-if [ "$ACTION" == "destroy" ] && [[ "$TF_BACKEND" == "destroy" ]]; then
-  echo "Modo de destrucción activado. Destruyendo todos los recursos con Terraform..."
-  terraform destroy -auto-approve || { echo "Error al destruir los recursos con Terraform"; exit 1; }
-  echo "Recursos destruidos exitosamente."
-  exit 0
-fi
-
 # Refrescar el estado de Terraform
 echo "Refrescando el estado de Terraform..."
 terraform refresh || { echo "Error al refrescar el estado de Terraform"; exit 1; }
@@ -59,7 +49,7 @@ terraform plan -out="blobs.tfplan" || { echo "Error al generar el plan de Terraf
 # Ejecutar el plan de Terraform con reintentos
 set +e
 
-max_attempts=7
+max_attempts=5
 attempt=1
 
 while [ $attempt -le $max_attempts ]; do
@@ -88,17 +78,11 @@ while [ $attempt -le $max_attempts ]; do
   while read -r line; do
     resource_id=$(echo "$line" | grep -oP "/subscriptions/[^\"]+")
     escaped_line=$(printf '%s\n' "$line" | sed 's/[]\/$*.^[]/\\&/g')
-    resource_address=$(grep -B10 "$escaped_line" apply_output.txt | grep -oP '(azurerm_[^\s:"]+\.[^\s:"]+)' | head -n1)
-
+    resource_address=$(grep -B10 "$escaped_line" apply_output.txt | grep -oP 'module\.[^\s:]+' | head -n1)
 
     if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
       echo "Importando recurso $resource_address con ID $resource_id"
-      if [ -z "$resource_address" ]; then
-        echo "Error: El resource_address está vacío para el ID $resource_id. No se puede importar."
-      else
-        echo "Importando recurso $resource_address con ID $resource_id"
-        terraform import "$resource_address" "$resource_id"
-      fi
+      terraform import "$resource_address" "$resource_id"
     else
       echo "No se pudo determinar resource address para el error detectado."
     fi
