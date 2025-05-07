@@ -370,7 +370,7 @@ stages:
                       write-host "lista de tareas"
                       az acr task list-runs --registry acrdevsu --output table
                       write-host "Run Task"
-                      az acr task run --registry acrdevsu --name acr-task
+                      #az acr task run --registry acrdevsu --name acr-task
                       #docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
                       #docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
                       #ARM_ACR_LOGIN_SERVER="acrdevsu.azurecr.io"
