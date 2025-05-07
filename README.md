@@ -138,13 +138,10 @@ graph TD;
 
 
 
-
 ```
 
 
 ```bash
-
-
 
 
 
@@ -162,3 +159,4 @@ Esto significa que:
 
 Para más detalles completos, puedes leer la licencia aquí:  
 👉 [Licencia GPL-3.0 completa](https://www.gnu.org/licenses/gpl-3.0.html)
+.
