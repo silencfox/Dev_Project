@@ -67,6 +67,8 @@ stages:
           searchMode: 'ProjectItems'
           logsLevel: '0'
 
+
+
       - task: NodeTool@0
         inputs:
           versionSpec: '18.x'
@@ -80,6 +82,7 @@ stages:
           cliScannerVersion: '7.1.0.4889'
           configMode: 'file'
           extraProperties: 
+
 
 
       - task: SonarCloudAnalyze@3
