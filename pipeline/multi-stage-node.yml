@@ -53,6 +53,18 @@ stages:
         inputs:
           terraformVersion: 'latest'
 
+      - task: VisualStudioTestPlatformInstaller@1
+        inputs:
+          packageFeedSelector: 'nugetOrg'
+          versionSelector: 'latestPreRelease'
+
+      - task: InstallTestCompleteAdapter@1
+        inputs:
+          preferredExecutor: 'TC32bit'
+          installExecutor: true
+          updateExecutor: false
+          searchMode: 'ProjectItems'
+          logsLevel: '0'
 
       - task: NodeTool@0
         inputs:
@@ -97,6 +109,7 @@ stages:
             JEST_JUNIT_OUTPUT_NAME: test_results.xml
 
 
+
       - task: PublishTestResults@2
         continueOnError: true
         enabled: true
@@ -121,7 +134,17 @@ stages:
           pathToSources: '$(Build.SourcesDirectory)/app'
           failIfCoverageEmpty: true
 
-
+      - task: VSTest@3
+        inputs:
+          azureSubscription: 'Azure subscription 1(1)(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
+          testSelector: 'testAssemblies'
+          testAssemblyVer2: |
+            **\*index.test.js
+            **\bin\**\*tests.dll
+          searchFolder: '''$(Build.SourcesDirectory)/app/'
+          runOnlyImpactedTests: false
+          codeCoverageEnabled: true
+          testRunTitle: 'TestAssambly'
 
       - task: Bash@3
         enabled: false
@@ -326,7 +349,7 @@ stages:
                       echo "##vso[task.setvariable variable=acrLoginServer2]$acr_server"
                       echo "ACR es: $acrLoginServer2"
                     workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
-                    
+
 
                 - task: AzureCLI@2
                   name: "Docker_Build_And_Push"
