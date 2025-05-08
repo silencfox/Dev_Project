@@ -376,7 +376,7 @@ stages:
                       echo "lista de tareas"
                       az acr task list --registry acrdevsu --resource-group devsu_rg --output table
                       echo "Run Task"
-                      az acr task run --registry acrdevsu --name acr-task --resource-group devsu_rg
+                      az acr task run --registry acrdevsu --name acr_task --resource-group devsu_rg
                       #docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
                       #docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
                       #ARM_ACR_LOGIN_SERVER="acrdevsu.azurecr.io"
