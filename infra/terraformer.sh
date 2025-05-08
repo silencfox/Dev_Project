@@ -48,9 +48,6 @@ if [ "$ACTION" == "destroy" ] && [[ "$TF_BACKEND" == "destroy" ]]; then
   exit 0
 fi
 
-# Refrescar el estado de Terraform
-echo "Refrescando el estado de Terraform..."
-terraform refresh || { echo "Error al refrescar el estado de Terraform"; exit 1; }
 
 # Crear el plan de Terraform
 echo "Generando el plan de Terraform..."
@@ -76,8 +73,7 @@ while [ $attempt -le $max_attempts ]; do
   echo "Terraform apply falló. Analizando errores para importar recursos existentes..."
 
   # Buscar errores de recursos ya existentes
-  #grep "already exists" apply_output.txt > exists_errors.txt || true
-  grep -B5 -i "already exists - to be managed via Terraform" apply_output.txt > exists_errors.txt || true
+  grep -iE "already exists|exists with the same name" apply_output.txt > exists_errors.txt
   echo "cat apply_output.txt"
   cat apply_output.txt
   echo "fin cat apply_output.txt"
@@ -89,11 +85,16 @@ while [ $attempt -le $max_attempts ]; do
   fi
 
   # Procesar cada error
+  echo "Contenido de exists_errors.txt:"
+  cat exists_errors.txt
   while read -r line; do
-    resource_id=$(echo "$line" | grep -oP "/subscriptions/[^\"]+")
     escaped_line=$(printf '%s\n' "$line" | sed 's/[]\/$*.^[]/\\&/g')
-    resource_address=$(grep -B10 "$escaped_line" apply_output.txt | grep -oP 'with (\S+),' | awk '{print $2}' | head -n1)
+    resource_id=$(echo "$line" | grep -oP '/subscriptions/[^ ]+')
+    resource_address=$(echo "$line" | grep -oP 'module\.[^ ]+\.[^ ]+')
 
+    echo "Procesando línea: $line"
+    echo "ID detectado: $resource_id"
+    echo "Resource address detectado: $resource_address"
 
     if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
       echo "Importando recurso $resource_address con ID $resource_id"
