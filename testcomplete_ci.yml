@@ -1,0 +1,63 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+
+trigger:
+- main
+
+pool:
+  name: myAgents
+  demands:
+  - Agent.Name -equals AgntLapwrk02
+  #vmImage: windows-latest
+
+steps:
+
+
+
+- checkout: self
+  persistCredentials: true
+  clean: true
+  fetchDepth: 0
+
+
+- task: VisualStudioTestPlatformInstaller@1
+  inputs:
+    packageFeedSelector: 'nugetOrg'
+    versionSelector: 'latestStable'
+
+- task: InstallTestCompleteAdapter@1
+  enabled: true
+  inputs:
+    installExecutor: false
+    updateExecutor: false
+    logsLevel: '0'
+    exportLog: true
+    junitLog: true   # <--- ESTO genera el JUnit XML
+    #cmdLineParams: '/PrjVar:UserName="adam.smith"'
+    #preferredExecutor: TE
+
+- task: InstallTestCompleteAdapter@1
+  enabled: false
+  inputs:
+    preferredExecutor: 'TC32bit'
+    installExecutor: true
+    updateExecutor: false
+    searchMode: 'ProjectItems'
+    logsLevel: '0'
+    projectSuite: '$(Build.SourcesDirectory)/test/TestProject1/TestProject1.pjs'
+    logExportPath: '$(Build.ArtifactStagingDirectory)/TestCompleteLogs'
+    exportLog: true
+    junitLog: true   # <--- ESTO genera el JUnit XML
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: '**\*.pjs'
+    searchFolder: '$(System.DefaultWorkingDirectory)/test/TestProject1'
+    #testFiltercriteria: 'Test=ProjectTestItem1'
+    vsTestVersion: 'toolsInstaller'
+    pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)\TestCompleteAdapter'
+    testRunTitle: 'Automated tests'
