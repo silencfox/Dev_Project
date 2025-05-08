@@ -87,22 +87,26 @@ while [ $attempt -le $max_attempts ]; do
   # Procesar cada error
   echo "Contenido de exists_errors.txt:"
   cat exists_errors.txt
-  while read -r line; do
-    escaped_line=$(printf '%s\n' "$line" | sed 's/[]\/$*.^[]/\\&/g')
-    resource_id=$(echo "$line" | grep -oP '/subscriptions/[^ ]+')
-    resource_address=$(echo "$line" | grep -oP 'module\.[^ ]+\.[^ ]+')
-
-    echo "Procesando línea: $line"
-    echo "ID detectado: $resource_id"
-    echo "Resource address detectado: $resource_address"
-
-    if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
-      echo "Importando recurso $resource_address con ID $resource_id"
-      terraform import "$resource_address" "$resource_id"
-    else
-      echo "No se pudo determinar resource address para el error detectado."
+  while IFS= read -r line; do
+    if echo "$line" | grep -q "already exists - to be managed via Terraform"; then
+      resource_id=$(echo "$line" | grep -oP '/subscriptions/[^"]+')
+  
+      # Buscar el address 5 líneas antes (es donde Terraform lo muestra normalmente)
+      resource_address=$(grep -B5 "$line" apply_output.txt | grep -oP 'with (\S+),' | awk '{print $2}' | head -n1)
+  
+      echo "Procesando línea: $line"
+      echo "ID detectado: $resource_id"
+      echo "Resource address detectado: $resource_address"
+  
+      if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
+        echo "Importando recurso $resource_address con ID $resource_id"
+        terraform import "$resource_address" "$resource_id"
+      else
+        echo "No se pudo determinar resource address para el error detectado."
+      fi
     fi
-  done < exists_errors.txt
+  done < apply_output.txt
+
 
   echo "State actualizado. Regenerando terraform plan..."
   terraform plan -out blobs.tfplan
