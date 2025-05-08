@@ -85,8 +85,8 @@ while [ $attempt -le $max_attempts ]; do
   fi
 
   # Procesar cada error
-  echo "Contenido de exists_errors.txt:"
-  cat exists_errors.txt
+  #echo "Contenido de exists_errors.txt:"
+  #cat exists_errors.txt
   while IFS= read -r line; do
     if echo "$line" | grep -q "already exists - to be managed via Terraform"; then
       #echo "Procesando línea: $line"
