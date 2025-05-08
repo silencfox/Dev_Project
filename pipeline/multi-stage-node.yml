@@ -305,10 +305,26 @@ stages:
                   displayName: "Create_TF_Storage"
                   inputs:
                     filePath: '$(Build.SourcesDirectory)/infra/terraformer.sh'
+                    arguments: '$(ARM_CLIENT_ID) $(ARM_CLIENT_SECRET) $(ARM_TENANT_ID) $(ARM_SUBSCRIPTION_ID) "destroy"'
+                    workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
+                    #bashEnvValue: 'env'
+
+                - task: Bash@3
+                  displayName: "Create_TF_Storage"
+                  inputs:
+                    filePath: '$(Build.SourcesDirectory)/infra/terraformer.sh'
                     arguments: '$(ARM_CLIENT_ID) $(ARM_CLIENT_SECRET) $(ARM_TENANT_ID) $(ARM_SUBSCRIPTION_ID)'
                     workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/ablobs'
                     #bashEnvValue: 'env'
 
+
+                - task: Bash@3
+                  displayName: "Create Azure ACR"
+                  inputs:
+                    filePath: '$(Build.SourcesDirectory)/infra/terraformer.sh'
+                    arguments: '$(ARM_CLIENT_ID) $(ARM_CLIENT_SECRET) $(ARM_TENANT_ID) $(ARM_SUBSCRIPTION_ID) "destroy"'
+                    workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
+                    #bashEnvValue: 'env'
 
                 - task: Bash@3
                   displayName: "Create Azure ACR"
