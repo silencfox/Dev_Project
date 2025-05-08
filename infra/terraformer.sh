@@ -60,6 +60,8 @@ max_attempts=15
 attempt=1
 
 while [ $attempt -le $max_attempts ]; do
+  resource_id=""
+  resource_address=""
   echo "Intento $attempt: Aplicando Terraform plan..."
 
   terraform apply "blobs.tfplan" > apply_output.txt 2>&1
@@ -88,8 +90,7 @@ while [ $attempt -le $max_attempts ]; do
   #echo "Contenido de exists_errors.txt:"
   #cat exists_errors.txt
   while IFS= read -r line; do
-    #resource_id=""
-    #resource_address=""
+
     
     if echo "$line" | grep -q "already exists - to be managed via Terraform"; then
       #echo "Procesando línea: $line"
@@ -110,8 +111,6 @@ while [ $attempt -le $max_attempts ]; do
       if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
         echo "Importando recurso $resource_address con ID $resource_id"
         terraform import "$resource_address" "$resource_id" 2>/dev/null
-      else
-        echo "No se pudo determinar resource address para el error detectado."
       fi
 
 
