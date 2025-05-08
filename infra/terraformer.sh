@@ -2,7 +2,7 @@
 
 # Validar si se pasaron los parámetros necesarios
 if [ $# -lt 4 ]; then
-  echo "Uso: $0 <ARM_CLIENT_ID> <ARM_CLIENT_SECRET> <ARM_TENANT_ID> <ARM_SUBSCRIPTION_ID> <terraform_backend>"
+  echo "Uso: $0 <ARM_CLIENT_ID> <ARM_CLIENT_SECRET> <ARM_TENANT_ID> <ARM_SUBSCRIPTION_ID> <terraform_backend> [destroy]"
   exit 1
 fi
 
@@ -12,6 +12,7 @@ ARM_CLIENT_SECRET=$2
 ARM_TENANT_ID=$3
 ARM_SUBSCRIPTION_ID=$4
 TF_BACKEND=$5
+ACTION=$6  # Valor opcional: "destroy"
 
 if ! command -v jq >/dev/null 2>&1; then
   sudo apt-get update
@@ -33,11 +34,20 @@ az account set --subscription "$ARM_SUBSCRIPTION_ID" || { echo "Error al selecci
 # Inicializar Terraform
 echo "Iniciando Terraform..."
 
-if [ "$TF_BACKEND" != "" ]; then
+if [ "$TF_BACKEND" != "" ] && [[ "$TF_BACKEND" != *destroy* ]]; then
   terraform init -reconfigure -backend-config="./backend/$TF_BACKEND" || { echo "Error al iniciar Terraform"; exit 1; }
 else
   terraform init || { echo "Error al iniciar Terraform"; exit 1; }
 fi
+
+# Modo de destrucción
+if [ "$ACTION" == "destroy" ] && [[ "$TF_BACKEND" == "destroy" ]]; then
+  echo "Modo de destrucción activado. Destruyendo todos los recursos con Terraform..."
+  terraform destroy -auto-approve || { echo "Error al destruir los recursos con Terraform"; exit 1; }
+  echo "Recursos destruidos exitosamente."
+  exit 0
+fi
+
 # Refrescar el estado de Terraform
 echo "Refrescando el estado de Terraform..."
 terraform refresh || { echo "Error al refrescar el estado de Terraform"; exit 1; }
@@ -49,7 +59,7 @@ terraform plan -out="blobs.tfplan" || { echo "Error al generar el plan de Terraf
 # Ejecutar el plan de Terraform con reintentos
 set +e
 
-max_attempts=5
+max_attempts=15
 attempt=1
 
 while [ $attempt -le $max_attempts ]; do
