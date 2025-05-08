@@ -189,18 +189,6 @@ stages:
           pathToSources: '$(Build.SourcesDirectory)/app'
           failIfCoverageEmpty: true
 
-      - task: VSTest@3
-        displayName: TestAssambly
-        inputs:
-          azureSubscription: 'Azure subscription 1(1)(94af5430-b804-4dd0-ae21-6bd2a5feaedf)'
-          testSelector: 'testAssemblies'
-          testAssemblyVer2: |
-            **\*index.test.js
-            **\bin\**\*tests.dll
-          searchFolder: '''$(Build.SourcesDirectory)/app/'
-          runOnlyImpactedTests: false
-          codeCoverageEnabled: true
-          testRunTitle: 'TestAssambly'
 
       - task: Bash@3
         enabled: false
