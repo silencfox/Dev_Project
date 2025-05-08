@@ -88,8 +88,8 @@ while [ $attempt -le $max_attempts ]; do
   #echo "Contenido de exists_errors.txt:"
   #cat exists_errors.txt
   while IFS= read -r line; do
-    resource_id=""
-    resource_address=""
+    #resource_id=""
+    #resource_address=""
     
     if echo "$line" | grep -q "already exists - to be managed via Terraform"; then
       #echo "Procesando línea: $line"
