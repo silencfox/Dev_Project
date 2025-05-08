@@ -78,7 +78,10 @@ while [ $attempt -le $max_attempts ]; do
   # Buscar errores de recursos ya existentes
   #grep "already exists" apply_output.txt > exists_errors.txt || true
   grep -B5 -i "already exists - to be managed via Terraform" apply_output.txt > exists_errors.txt || true
-  cat exists_errors.txt
+  echo "cat apply_output.txt"
+  cat apply_output.txt
+  echo "fin cat apply_output.txt"
+  
   if [ ! -s exists_errors.txt ]; then
     echo "No se encontraron errores de 'already exists'. Error no recuperable."
     cat apply_output.txt
