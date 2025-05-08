@@ -68,14 +68,7 @@ steps:
   displayName: 'Ejecutar pruebas TestComplete 01'
   inputs:
     script: |
-      "C:/Program Files/SmartBear/TestExecute 15/Bin/TestExecute.exe" ^
-      "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" ^
-      /run ^
-      /project:"NombreDelProyecto" ^
-      /test:"NombreDelTest" ^
-      /exportlog:"$(Build.ArtifactStagingDirectory)/ExportedLog.mht" ^
-      /silentmode ^
-      /exit
+      "C:/Program Files/SmartBear/TestExecute 15/Bin/TestExecute.exe" "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" /run /project:"NombreDelProyecto" /test:"NombreDelTest" /exportlog:"$(Build.ArtifactStagingDirectory)/ExportedLog.mht" /silentmode /exit
 
 
 
@@ -83,13 +76,7 @@ steps:
   displayName: 'Ejecutar pruebas TestComplete'
   inputs:
     script: |
-      "C:/Program Files/SmartBear/TestComplete 15/bin/TestComplete.exe" ^
-      "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" ^
-      /run ^
-      /SilentMode ^
-      /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" ^
-      /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" ^
-      /exit
+      "C:/Program Files/SmartBear/TestComplete 15/bin/TestComplete.exe" "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" /run /SilentMode /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" /exit
 
 - task: PublishBuildArtifacts@1
   inputs:
