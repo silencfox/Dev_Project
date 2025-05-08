@@ -8,7 +8,7 @@ variable "location" {
   default = "brazilsouth"
 }
 
-variable "rgname" {
+variable "state_rgname" {
   type        = string
   description = "resource group name"
   default = "rg-devsu-tfstate"
