@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE Nodes [
+
+<!ENTITY % NameValue "CDATA">
+<!ENTITY % PropType "(I|S|D|L|H|B)">
+<!ENTITY % VersionValue "CDATA">
+
+<!ELEMENT Prp (#PCDATA)>
+<!ELEMENT Node (Node|Prp)*>
+<!ELEMENT Nodes (Node)+>
+
+<!ATTLIST Nodes version CDATA "1">
+
+<!ATTLIST Node name CDATA #REQUIRED>
+
+<!ATTLIST Prp name CDATA #REQUIRED>
+<!ATTLIST Prp type CDATA #REQUIRED>
+<!ATTLIST Prp value CDATA #REQUIRED>
+]>
+<Nodes version="1">
+	<Node name="root">
+		<Node name="folders"/>
+		<Node name="logs">
+			<Node name="log idx=0000">
+				<Prp name="caption" type="S" value=""/>
+				<Prp name="datetime" type="D" value="45785.129582037"/>
+				<Prp name="description" type="S" value=""/>
+				<Prp name="key" type="S" value="{D5527009-4AEE-4E08-98A3-2BBCA0993919}"/>
+				<Prp name="nameofroot" type="S" value="TestProject1"/>
+				<Prp name="relpath" type="S" value="8_5_2025_3_06 a_ m__35_888\Description.tcLog"/>
+				<Prp name="status" type="I" value="1"/>
+			</Node>
+			<Node name="log idx=0001">
+				<Prp name="caption" type="S" value=""/>
+				<Prp name="datetime" type="D" value="45785.1306001273"/>
+				<Prp name="description" type="S" value=""/>
+				<Prp name="key" type="S" value="{036A86C8-1C5C-4F9E-85B3-3A4F1614653D}"/>
+				<Prp name="nameofroot" type="S" value="TestProject1"/>
+				<Prp name="relpath" type="S" value="8_5_2025_3_08 a_ m__03_851\Description.tcLog"/>
+				<Prp name="status" type="I" value="0"/>
+			</Node>
+		</Node>
+		<Prp name="signature" type="S" value="{6511DB44-2372-47B8-8349-ADA0DB4D9E14}"/>
+		<Prp name="version" type="S" value="11.0"/>
+	</Node>
+</Nodes>

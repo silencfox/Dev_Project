@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE Nodes [
+
+<!ENTITY % NameValue "CDATA">
+<!ENTITY % PropType "(I|S|D|L|H|B)">
+<!ENTITY % VersionValue "CDATA">
+
+<!ELEMENT Prp (#PCDATA)>
+<!ELEMENT Node (Node|Prp)*>
+<!ELEMENT Nodes (Node)+>
+
+<!ATTLIST Nodes version CDATA "1">
+
+<!ATTLIST Node name CDATA #REQUIRED>
+
+<!ATTLIST Prp name CDATA #REQUIRED>
+<!ATTLIST Prp type CDATA #REQUIRED>
+<!ATTLIST Prp value CDATA #REQUIRED>
+]>
+<Nodes version="1">
+	<Node name="root">
+		<Node name="message 1">
+			<Node name="visualizer">
+				<Node name="current">
+					<Prp name="click point x" type="I" value="-1"/>
+					<Prp name="object right" type="I" value="8"/>
+					<Prp name="line #" type="I" value="1"/>
+					<Prp name="image file name" type="S" value="visImage0.png"/>
+					<Prp name="object name" type="S" value="Aliases.WindowsTerminal.wndCASCADIA_HOSTING_WINDOW_CLASS.DesktopWindowXamlSource.WindowsUIInputInputSiteWindowClass"/>
+					<Prp name="signature" type="S" value="{87B03792-E854-4F5D-9F33-165F1F874209}"/>
+					<Prp name="kind" type="I" value="0"/>
+					<Prp name="storage file name" type="S" value=""/>
+					<Prp name="click point y" type="I" value="-1"/>
+					<Prp name="object left" type="I" value="8"/>
+					<Prp name="datetime" type="D" value="45784.7662275579"/>
+					<Prp name="object bottom" type="I" value="1"/>
+					<Prp name="need update" type="B" value="0"/>
+					<Prp name="rect color" type="I" value="255"/>
+					<Prp name="object top" type="I" value="1"/>
+					<Prp name="version" type="I" value="2"/>
+				</Node>
+				<Node name="original">
+					<Prp name="click point x" type="I" value="-123"/>
+					<Prp name="object right" type="I" value="8"/>
+					<Prp name="line #" type="I" value="1"/>
+					<Prp name="image file name" type="S" value="tcvi171147687258920.png"/>
+					<Prp name="object name" type="S" value="Aliases.WindowsTerminal.wndCASCADIA_HOSTING_WINDOW_CLASS.DesktopWindowXamlSource.WindowsUIInputInputSiteWindowClass"/>
+					<Prp name="signature" type="S" value="{87B03792-E854-4F5D-9F33-165F1F874209}"/>
+					<Prp name="kind" type="I" value="0"/>
+					<Prp name="storage file name" type="S" value=""/>
+					<Prp name="click point y" type="I" value="-131"/>
+					<Prp name="object left" type="I" value="8"/>
+					<Prp name="datetime" type="D" value="45784.6606018519"/>
+					<Prp name="object bottom" type="I" value="1"/>
+					<Prp name="need update" type="B" value="0"/>
+					<Prp name="rect color" type="I" value="255"/>
+					<Prp name="object top" type="I" value="1"/>
+					<Prp name="version" type="I" value="2"/>
+				</Node>
+				<Node name="diff">
+					<Prp name="click point x" type="I" value="-1"/>
+					<Prp name="object right" type="I" value="-1"/>
+					<Prp name="line #" type="I" value="1"/>
+					<Prp name="image file name" type="S" value="visImage0_Dif.png"/>
+					<Prp name="object name" type="S" value=""/>
+					<Prp name="signature" type="S" value="{87B03792-E854-4F5D-9F33-165F1F874209}"/>
+					<Prp name="kind" type="I" value="0"/>
+					<Prp name="storage file name" type="S" value=""/>
+					<Prp name="click point y" type="I" value="-1"/>
+					<Prp name="object left" type="I" value="-1"/>
+					<Prp name="datetime" type="D" value="0"/>
+					<Prp name="object bottom" type="I" value="-1"/>
+					<Prp name="need update" type="B" value="0"/>
+					<Prp name="rect color" type="I" value="255"/>
+					<Prp name="object top" type="I" value="-1"/>
+					<Prp name="version" type="I" value="2"/>
+				</Node>
+			</Node>
+			<Prp name="pictype" type="I" value="0"/>
+			<Prp name="as html" type="B" value="0"/>
+			<Prp name="type" type="I" value="1"/>
+			<Prp name="child index" type="I" value="-1"/>
+			<Prp name="priority" type="I" value="300"/>
+			<Prp name="linkmessage" type="S" value=""/>
+			<Prp name="unit id" type="I" value="0"/>
+			<Prp name="remarks" type="S" value="'cd c:[NumSlash][NumSlash]repositorios[Enter][Up][BS][Tab][Enter]cd Dev[Tab][Enter]cd app[Enter]npm install[Enter]npm run strt[BS][BS]art[Enter]' was sent as a keyboard input to the following window or control.&#xA;&#xA;Tested object:&#xA;Aliases.WindowsTerminal.wndCASCADIA_HOSTING_WINDOW_CLASS.DesktopWindowXamlSource.WindowsUIInputInputSiteWindowClass&#xA;(Sys.Process(&quot;WindowsTerminal&quot;).Window(&quot;CASCADIA_HOSTING_WINDOW_CLASS&quot;, &quot;C:\\WINDOWS\\system32\\cmd.exe&quot;, 1).Window(&quot;Windows.UI.Composition.DesktopWindowContentBridge&quot;, &quot;DesktopWindowXamlSource&quot;, 1).Window(&quot;Windows.UI.Input.InputSite.WindowClass&quot;, &quot;&quot;, 1))"/>
+			<Prp name="picture" type="S" value=""/>
+			<Prp name="line no" type="I" value="1"/>
+			<Prp name="link" type="S" value=""/>
+			<Prp name="owner id" type="I" value="-1"/>
+			<Prp name="message" type="S" value="Keyboard input."/>
+			<Prp name="id" type="I" value="1"/>
+			<Prp name="date" type="D" value="45784.599587662"/>
+		</Node>
+		<Node name="units">
+			<Prp name="unit 0" type="S" value="{F22D4189-F1E5-4658-8C1F-47023DCB0090}"/>
+		</Node>
+		<Node name="message 2">
+			<Prp name="pictype" type="I" value="0"/>
+			<Prp name="as html" type="B" value="0"/>
+			<Prp name="type" type="I" value="7"/>
+			<Prp name="child index" type="I" value="-1"/>
+			<Prp name="priority" type="I" value="300"/>
+			<Prp name="linkmessage" type="S" value=""/>
+			<Prp name="unit id" type="I" value="0"/>
+			<Prp name="remarks" type="S" value="cmd.exe /C testrunner.bat  -r -a &quot;-fC:\Users\kalcala\AppData\Local\Temp\44F04DA6-8B96-4633-A5B2-A5C4349324FE&quot; &quot;C:\repositorio\Dev_Project\soap\Devsu-soapui-project.xml&quot;&#xA;OpenJDK 64-Bit Server VM warning: Ignoring option --illegal-access=permit; support was removed in 17.0&#xA;SoapUI 5.8.0 TestCase Runner&#xA;Configuring log4j from [C:\Program Files\SmartBear\SoapUI-5.8.0\bin\soapui-log4j.xml]&#xA;14:23:35,604 INFO  [DefaultSoapUICore] initialized soapui-settings from [C:\Users\kalcala\soapui-settings.xml]&#xA;14:23:36,199 INFO  [PluginManager] Adding plugin from [C:\Users\kalcala\.soapuios\plugins\readyapi-postman-1.0.1.jar]&#xA;14:23:36,199 INFO  [PluginManager] Adding plugin from [C:\Users\kalcala\.soapuios\plugins\ready-mqtt-plugin-dist.jar]&#xA;14:23:36,855 INFO  [PluginManager] Adding plugin from [C:\Users\kalcala\.soapuios\plugins\ready-uxm-plugin-os-1.0.3.jar]&#xA;14:23:37,113 INFO  [PluginManager] 3 plugins loaded in 914 ms&#xA;14:23:37,113 INFO  [DefaultSoapUICore] All plugins loaded&#xA;14:23:37,696 INFO  [WsdlProject] Loaded project from [file:/C:/repositorio/Dev_Project/soap/Devsu-soapui-project.xml]&#xA;14:23:37,696 INFO  [SoapUITestCaseRunner] Running SoapUI tests in project [Devsu]&#xA;14:23:37,696 INFO  [SoapUITestCaseRunner] Running Project [Devsu], runType = SEQUENTIAL&#xA;14:23:37,718 INFO  [SoapUITestCaseRunner] Running SoapUI testcase [http://localhost:8000 TestSuite]&#xA;14:23:37,736 INFO  [SoapUITestCaseRunner] running step [Users]&#xA;14:23:37,995 INFO  [SoapUITestCaseRunner] running step [Users 1]&#xA;14:23:38,067 INFO  [SoapUITestCaseRunner] Finished running SoapUI testcase [http://localhost:8000 TestSuite], time taken: 47ms, status: FINISHED&#xA;14:23:38,077 INFO  [SoapUITestCaseRunner] Project [Devsu] finished with status [FINISHED] in 357ms&#xA;&#xA;SoapUI 5.8.0 TestCaseRunner Summary&#xA;-----------------------------&#xA;Time Taken: 379ms&#xA;Total TestSuites: 1&#xA;Total TestCases: 1 (0 failed)&#xA;Total TestSteps: 2&#xA;Total Request Assertions: 0&#xA;Total Failed Assertions: 0&#xA;Total Exported Results: 2&#xA;14:23:38,090 WARN  [Tools] Could not delete temporary directory C:\Users\kalcala\AppData\Local\Temp\504529e9-1d9d-4b1e-a4ba-cd06d154c6a5&#xA;14:23:38,090 WARN  [Tools] Could not delete temporary directory C:\Users\kalcala\AppData\Local\Temp\c549ad94-3e8c-4f67-81ba-28fda0f8e171&#xA;&#xA;The test runner has exited with code 0."/>
+			<Prp name="picture" type="S" value=""/>
+			<Prp name="line no" type="I" value="3"/>
+			<Prp name="link" type="S" value=""/>
+			<Prp name="owner id" type="I" value="-1"/>
+			<Prp name="message" type="S" value="The test has passed. See Details for additional information."/>
+			<Prp name="id" type="I" value="2"/>
+			<Prp name="date" type="D" value="45784.5997493519"/>
+		</Node>
+		<Node name="child data"/>
+		<Node name="message 0">
+			<Prp name="pictype" type="I" value="0"/>
+			<Prp name="as html" type="B" value="0"/>
+			<Prp name="type" type="I" value="0"/>
+			<Prp name="child index" type="I" value="-1"/>
+			<Prp name="priority" type="I" value="300"/>
+			<Prp name="linkmessage" type="S" value=""/>
+			<Prp name="unit id" type="I" value="0"/>
+			<Prp name="remarks" type="S" value="The process ID is 21036."/>
+			<Prp name="picture" type="S" value=""/>
+			<Prp name="line no" type="I" value="0"/>
+			<Prp name="link" type="S" value=""/>
+			<Prp name="owner id" type="I" value="-1"/>
+			<Prp name="message" type="S" value="The application &quot;C:\WINDOWS\system32\cmd.exe&quot; started."/>
+			<Prp name="id" type="I" value="0"/>
+			<Prp name="date" type="D" value="45784.5994272917"/>
+		</Node>
+		<Node name="stack"/>
+		<Prp name="status" type="I" value="0"/>
+	</Node>
+</Nodes>

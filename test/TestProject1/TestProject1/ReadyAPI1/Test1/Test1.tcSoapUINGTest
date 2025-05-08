@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root signature="{3AE7D26E-11DE-411F-A26E-9C422F421771}" version="15.0">
+	<data>
+		<setting name="UseProjectFileName" type="1" value="True" />
+		<setting name="ProjectFileName" type="5" value="C:\repositorio\Dev_Project\soap\Devsu-soapui-project.xml" />
+		<setting name="UseProjectDirectory" type="1" value="False" />
+		<setting name="ProjectDirectory" type="5" value="" />
+		<setting name="TestSuite" type="6" rowIndex="0" colIndex="0">
+			<columns>
+				<column type="5" enabled="True" />
+			</columns>
+			<data>
+				<row val0="&lt;All&gt;" />
+			</data>
+		</setting>
+		<setting name="TestCase" type="6" rowIndex="0" colIndex="0">
+			<columns>
+				<column type="5" enabled="True" />
+			</columns>
+			<data>
+				<row val0="&lt;All&gt;" />
+			</data>
+		</setting>
+		<setting name="EnableUI" type="1" value="False" />
+		<setting name="AddSettings" type="1" value="False" />
+		<setting name="ProjectPassword" type="5" value="" />
+		<setting name="SettingsXmlPassword" type="5" value="" />
+		<setting name="IgnoreErrors" type="1" value="False" />
+		<setting name="SaveAfter" type="1" value="False" />
+		<setting name="Environment" type="6" rowIndex="0" colIndex="0">
+			<columns>
+				<column type="5" enabled="True" />
+			</columns>
+			<data>
+				<row val0="Default" />
+			</data>
+		</setting>
+		<setting name="Endpoint" type="5" value="" />
+		<setting name="Host" type="5" value="" />
+		<setting name="Port" type="2" value="0" />
+		<setting name="Username" type="5" value="" />
+		<setting name="Password" type="5" value="" />
+		<setting name="Domain" type="5" value="" />
+		<setting name="WssPasswordType" type="6" rowIndex="0" colIndex="0">
+			<columns>
+				<column type="5" enabled="True" />
+			</columns>
+			<data>
+				<row val0="None" />
+				<row val0="Text" />
+				<row val0="Digest" />
+			</data>
+		</setting>
+		<setting name="PrintReport" type="1" value="True" />
+		<setting name="ExportJUnitResults" type="1" value="False" />
+		<setting name="ExportAll" type="1" value="True" />
+		<setting name="RootFolder" type="5" value="" />
+		<setting name="CoverageReport" type="1" value="False" />
+		<setting name="OpenReport" type="1" value="False" />
+		<setting name="ReportType" type="6" rowIndex="0" colIndex="0">
+			<columns>
+				<column type="5" enabled="True" />
+			</columns>
+			<data>
+				<row val0="None" />
+				<row val0="Project Report" />
+				<row val0="JUnit-Style HTML Report" />
+				<row val0="Data Export" />
+			</data>
+		</setting>
+		<setting name="ReportFormats" type="6" rowIndex="0" colIndex="1">
+			<columns>
+				<column type="1" enabled="True" />
+				<column type="5" enabled="True" />
+			</columns>
+			<data>
+				<row val0="False" val1="PDF" />
+				<row val0="False" val1="XLS" />
+				<row val0="False" val1="HTML" />
+				<row val0="False" val1="RTF" />
+				<row val0="False" val1="CSV" />
+				<row val0="False" val1="TXT" />
+				<row val0="False" val1="XML" />
+			</data>
+		</setting>
+		<setting name="GlobalProperties" type="6" rowIndex="-1" colIndex="2">
+			<columns>
+				<column type="5" enabled="True" />
+				<column type="5" enabled="True" />
+				<column type="2" enabled="True" />
+			</columns>
+			<data />
+		</setting>
+		<setting name="SystemProperties" type="6" rowIndex="-1" colIndex="2">
+			<columns>
+				<column type="5" enabled="True" />
+				<column type="5" enabled="True" />
+				<column type="2" enabled="True" />
+			</columns>
+			<data />
+		</setting>
+		<setting name="ProjectProperties" type="6" rowIndex="-1" colIndex="2">
+			<columns>
+				<column type="5" enabled="True" />
+				<column type="5" enabled="True" />
+				<column type="2" enabled="True" />
+			</columns>
+			<data />
+		</setting>
+		<setting name="ToolArgs" type="5" value="" />
+	</data>
+</Root>

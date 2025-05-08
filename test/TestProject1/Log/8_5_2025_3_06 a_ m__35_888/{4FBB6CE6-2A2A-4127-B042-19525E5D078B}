@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE Nodes [
+
+<!ENTITY % NameValue "CDATA">
+<!ENTITY % PropType "(I|S|D|L|H|B)">
+<!ENTITY % VersionValue "CDATA">
+
+<!ELEMENT Prp (#PCDATA)>
+<!ELEMENT Node (Node|Prp)*>
+<!ELEMENT Nodes (Node)+>
+
+<!ATTLIST Nodes version CDATA "1">
+
+<!ATTLIST Node name CDATA #REQUIRED>
+
+<!ATTLIST Prp name CDATA #REQUIRED>
+<!ATTLIST Prp type CDATA #REQUIRED>
+<!ATTLIST Prp value CDATA #REQUIRED>
+]>
+<Nodes version="1">
+	<Node name="root">
+		<Node name="units"/>
+		<Node name="message 0">
+			<Prp name="pictype" type="I" value="0"/>
+			<Prp name="unit id" type="I" value="-1"/>
+			<Prp name="linkmessage" type="S" value=""/>
+			<Prp name="id" type="I" value="0"/>
+			<Prp name="priority" type="I" value="300"/>
+			<Prp name="picture" type="S" value=""/>
+			<Prp name="line no" type="I" value="-1"/>
+			<Prp name="link" type="S" value=""/>
+			<Prp name="date" type="D" value="45785.1301354861"/>
+			<Prp name="owner id" type="I" value="-1"/>
+			<Prp name="as html" type="B" value="0"/>
+			<Prp name="remarks" type="S" value="cmd.exe /C testrunner.bat  -r -a &quot;-fC:\Users\kalcala\AppData\Local\Temp\C0783FF6-00EC-456B-8D30-803F74B28A07&quot; &quot;C:\repositorio\Dev_Project\soap\Devsu-soapui-project.xml&quot;&#xA;OpenJDK 64-Bit Server VM warning: Ignoring option --illegal-access=permit; support was removed in 17.0&#xA;SoapUI 5.8.0 TestCase Runner&#xA;Configuring log4j from [C:\Program Files\SmartBear\SoapUI-5.8.0\bin\soapui-log4j.xml]&#xA;03:07:18,345 INFO  [DefaultSoapUICore] initialized soapui-settings from [C:\Users\kalcala\soapui-settings.xml]&#xA;03:07:19,796 INFO  [PluginManager] Adding plugin from [C:\Users\kalcala\.soapuios\plugins\readyapi-postman-1.0.1.jar]&#xA;03:07:19,796 INFO  [PluginManager] Adding plugin from [C:\Users\kalcala\.soapuios\plugins\ready-mqtt-plugin-dist.jar]&#xA;03:07:20,968 INFO  [PluginManager] Adding plugin from [C:\Users\kalcala\.soapuios\plugins\ready-uxm-plugin-os-1.0.3.jar]&#xA;03:07:21,498 INFO  [PluginManager] 3 plugins loaded in 1708 ms&#xA;03:07:21,498 INFO  [DefaultSoapUICore] All plugins loaded&#xA;03:07:22,850 INFO  [WsdlProject] Loaded project from [file:/C:/repositorio/Dev_Project/soap/Devsu-soapui-project.xml]&#xA;03:07:22,856 INFO  [SoapUITestCaseRunner] Running SoapUI tests in project [Devsu]&#xA;03:07:22,858 INFO  [SoapUITestCaseRunner] Running Project [Devsu], runType = SEQUENTIAL&#xA;03:07:22,880 INFO  [SoapUITestCaseRunner] Running SoapUI testcase [http://localhost:8000 TestSuite]&#xA;03:07:22,890 INFO  [SoapUITestCaseRunner] running step [Users]&#xA;03:07:23,359 INFO  [SoapUITestCaseRunner] running step [Users 1]&#xA;03:07:23,405 INFO  [SoapUITestCaseRunner] Finished running SoapUI testcase [http://localhost:8000 TestSuite], time taken: 64ms, status: FINISHED&#xA;03:07:23,410 INFO  [SoapUITestCaseRunner] Project [Devsu] finished with status [FINISHED] in 543ms&#xA;&#xA;SoapUI 5.8.0 TestCaseRunner Summary&#xA;-----------------------------&#xA;Time Taken: 560ms&#xA;Total TestSuites: 1&#xA;Total TestCases: 1 (0 failed)&#xA;Total TestSteps: 2&#xA;Total Request Assertions: 0&#xA;Total Failed Assertions: 0&#xA;Total Exported Results: 2&#xA;03:07:23,423 WARN  [Tools] Could not delete temporary directory C:\Users\kalcala\AppData\Local\Temp\7fadd1c8-3747-4984-b99d-c639a9c263ac&#xA;03:07:23,425 WARN  [Tools] Could not delete temporary directory C:\Users\kalcala\AppData\Local\Temp\d927ea5c-f24b-4ec9-8640-24c298ba8414&#xA;&#xA;The test runner has exited with code 0."/>
+			<Prp name="message" type="S" value="The test has passed. See Details for additional information."/>
+			<Prp name="child index" type="I" value="-1"/>
+			<Prp name="type" type="I" value="7"/>
+		</Node>
+		<Node name="child data"/>
+		<Node name="stack"/>
+		<Prp name="status" type="I" value="0"/>
+	</Node>
+</Nodes>
