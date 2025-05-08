@@ -57,7 +57,7 @@ stages:
           testSelector: 'testAssemblies'
           testAssemblyVer2: '**\*.pjs'
           searchFolder: '$(System.DefaultWorkingDirectory)/test/TestProject1'
-          testFiltercriteria: 'Test=ProjectTestItem1'
+          #testFiltercriteria: 'Test=ProjectTestItem1'
           vsTestVersion: 'toolsInstaller'
           pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)\TestCompleteAdapter'
           testRunTitle: 'Automated tests'
