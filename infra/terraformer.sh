@@ -106,7 +106,7 @@ while [ $attempt -le $max_attempts ]; do
   
       if [ ! -z "$resource_id" ] && [ ! -z "$resource_address" ]; then
         echo "Importando recurso $resource_address con ID $resource_id"
-        terraform import "$resource_address" "$resource_id" 2>&1
+        terraform import "$resource_address" "$resource_id" 2>/dev/null
       else
         echo "No se pudo determinar resource address para el error detectado."
       fi
