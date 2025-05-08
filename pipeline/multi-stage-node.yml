@@ -6,6 +6,37 @@ stages:
   - stage: Build_And_Analyze
     displayName: Build And Analyze
     jobs: 
+
+    - job: 'TestComplete'
+      timeoutInMinutes: 120       
+      cancelTimeoutInMinutes: 2 
+
+      pool:
+        name: myAgents
+        demands:
+        - Agent.Name -equals AgntLapwrk
+
+      steps:
+      - checkout: self
+        persistCredentials: true
+        clean: true
+        fetchDepth: 0
+
+
+      - task: VisualStudioTestPlatformInstaller@1
+        inputs:
+          packageFeedSelector: 'nugetOrg'
+          versionSelector: 'latestStable'
+
+      - task: InstallTestCompleteAdapter@1
+        enabled: true
+        inputs:
+          installExecutor: false
+          updateExecutor: false
+          logsLevel: '0'
+          #cmdLineParams: '/PrjVar:UserName="adam.smith"'
+          #preferredExecutor: TE
+
     - job: 'Build_app'
       timeoutInMinutes: 120       
       cancelTimeoutInMinutes: 2 
