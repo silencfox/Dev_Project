@@ -14,7 +14,7 @@ stages:
       pool:
         name: myAgents
         demands:
-        - Agent.Name -equals AgntLapwrk
+        - Agent.Name -equals AgnLapwrk02
 
       steps:
       - checkout: self
