@@ -74,13 +74,13 @@ while [ $attempt -le $max_attempts ]; do
 
   # Buscar errores de recursos ya existentes
   grep -iE "already exists|exists with the same name" apply_output.txt > exists_errors.txt
-  echo "cat apply_output.txt"
-  cat apply_output.txt
-  echo "fin cat apply_output.txt"
+  #echo "cat apply_output.txt"
+  #cat apply_output.txt
+  #echo "fin cat apply_output.txt"
   
   if [ ! -s exists_errors.txt ]; then
     echo "No se encontraron errores de 'already exists'. Error no recuperable."
-    cat apply_output.txt
+    #cat apply_output.txt
     exit 1
   fi
 
@@ -89,14 +89,14 @@ while [ $attempt -le $max_attempts ]; do
   cat exists_errors.txt
   while IFS= read -r line; do
     if echo "$line" | grep -q "already exists - to be managed via Terraform"; then
-      echo "Procesando línea: $line"
+      #echo "Procesando línea: $line"
       resource_id=$(echo "$line" | grep -oP '/subscriptions/[^"]+')
       echo "ID detectado: $resource_id"
 
     fi
 
     if echo "$line" | grep -q "with module."; then
-      echo "Procesando línea: $line"
+      #echo "Procesando línea: $line"
       # Buscar el address 5 líneas antes (es donde Terraform lo muestra normalmente)
       #resource_address=$(grep -B5 "$line" apply_output.txt | grep -oP 'with (\S+),' | awk '{print $2}' | head -n1)
       #echo "Resource address detectado: $resource_address"
