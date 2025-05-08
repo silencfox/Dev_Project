@@ -34,7 +34,7 @@ az account set --subscription "$ARM_SUBSCRIPTION_ID" || { echo "Error al selecci
 # Inicializar Terraform
 echo "Iniciando Terraform..."
 
-if [ "$TF_BACKEND" != "" ] && [[ "$TF_BACKEND" != *destroy* ]]; then
+if [ "$TF_BACKEND" != "" ] && [[ "$TF_BACKEND" != "destroy" ]]; then
   terraform init -reconfigure -backend-config="./backend/$TF_BACKEND" || { echo "Error al iniciar Terraform"; exit 1; }
 else
   terraform init || { echo "Error al iniciar Terraform"; exit 1; }
