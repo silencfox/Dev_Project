@@ -11,12 +11,17 @@
 	<config language="{90F89436-9452-4F95-9882-6B5210079F13}" />
 	<testItems key="{FF27C9C6-AFC0-452D-9931-5C1A9F42594A}" version="14">
 		<children>
-			<testItem name="ProjectTestItem1" key="{0F503A61-FE65-4824-A39C-AC3A04BB4120}" group="False" parallel="False" enabled="True" load="False" testMoniker="KDT\{F22D4189-F1E5-4658-8C1F-47023DCB0090}" count="1" timeout="0" stopOnError="3" stopOnException="2" description="" tmsData="" testCase="True" lnID="{00000000-0000-0000-0000-000000000000}">
+			<testItem name="01_GetPath" key="{F5EF4153-7B75-498C-9FB6-B1E4A65DF7FA}" group="False" parallel="False" enabled="False" load="False" testMoniker="{CC3F863D-C2BB-42EF-B0C1-F35E58DB2AC0}Main" count="1" timeout="0" stopOnError="3" stopOnException="2" description="" tmsData="" testCase="False" lnID="{00000000-0000-0000-0000-000000000000}">
 				<testParameters />
 				<environments activeCloud="SWT" />
 				<children />
 			</testItem>
-			<testItem name="ProjectTestItem2" key="{29670DFB-ACFC-4CF5-8D3C-0B188BC979BC}" group="False" parallel="False" enabled="False" load="False" testMoniker="{F96A48CA-A90C-4F45-BEC8-5C3E18B3C2D4}" count="1" timeout="0" stopOnError="3" stopOnException="2" description="" tmsData="" testCase="False" lnID="{00000000-0000-0000-0000-000000000000}">
+			<testItem name="02_ProjectTestItem1" key="{0F503A61-FE65-4824-A39C-AC3A04BB4120}" group="False" parallel="False" enabled="False" load="False" testMoniker="KDT\{F22D4189-F1E5-4658-8C1F-47023DCB0090}" count="1" timeout="0" stopOnError="3" stopOnException="2" description="" tmsData="" testCase="False" lnID="{00000000-0000-0000-0000-000000000000}">
+				<testParameters />
+				<environments activeCloud="SWT" />
+				<children />
+			</testItem>
+			<testItem name="03_ProjectTestItem2" key="{29670DFB-ACFC-4CF5-8D3C-0B188BC979BC}" group="False" parallel="False" enabled="True" load="False" testMoniker="{F96A48CA-A90C-4F45-BEC8-5C3E18B3C2D4}" count="1" timeout="0" stopOnError="3" stopOnException="2" description="" tmsData="" testCase="True" lnID="{00000000-0000-0000-0000-000000000000}">
 				<testParameters />
 				<environments activeCloud="SWT">
 					<cloud name="SWT" testedURL="http://localhost:8000/api/users" />
