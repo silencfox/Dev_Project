@@ -32,7 +32,7 @@ steps:
   enabled: true
   inputs:
     installExecutor: true
-    updateExecutor: true
+    updateExecutor: false
     logsLevel: '0'
     exportLog: true
     junitLog: true   # <--- ESTO genera el JUnit XML
