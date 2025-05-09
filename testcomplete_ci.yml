@@ -53,11 +53,40 @@ steps:
     junitLog: true   # <--- ESTO genera el JUnit XML
 
 - task: VSTest@2
+  enabled: false
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: '**\*.pjs'
     searchFolder: '$(System.DefaultWorkingDirectory)/test/TestProject1'
     #testFiltercriteria: 'Test=ProjectTestItem1'
     vsTestVersion: 'toolsInstaller'
-    pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)\TestCompleteAdapter'
+    pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)/TestCompleteAdapter'
     testRunTitle: 'Automated tests'
+
+- task: CmdLine@2
+  displayName: 'Ejecutar pruebas TestComplete'
+  inputs:
+    script: |
+      "C:/Program Files/SmartBear/TestComplete 15/bin/TestComplete.exe" "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" /run /SilentMode /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" /exit
+
+
+- task: CmdLine@2
+  displayName: 'Ejecutar pruebas TestComplete 01'
+  inputs:
+    script: |
+      "C:/Program Files/SmartBear/TestExecute 15/Bin/TestExecute.exe" "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" /run /project:"NombreDelProyecto" /test:"NombreDelTest" /exportlog:"$(Build.ArtifactStagingDirectory)/ExportedLog.mht" /silentmode /exit
+
+
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'TestCompleteLogs'
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo Write your commands here
+      
+      echo Hello world
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
