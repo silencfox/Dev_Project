@@ -8,7 +8,7 @@ trigger:
 - main
 
 pool:
-  name: myAgents
+  #name: myAgents
   #demands:
   #- Agent.Name -equals AgnLapwrk02
   vmImage: windows-latest
