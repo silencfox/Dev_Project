@@ -16,9 +16,11 @@
 				<environments activeCloud="SWT" />
 				<children />
 			</testItem>
-			<testItem name="ProjectTestItem2" key="{29670DFB-ACFC-4CF5-8D3C-0B188BC979BC}" group="False" parallel="False" enabled="True" load="False" testMoniker="{F96A48CA-A90C-4F45-BEC8-5C3E18B3C2D4}" count="1" timeout="0" stopOnError="3" stopOnException="2" description="" tmsData="" testCase="True" lnID="{00000000-0000-0000-0000-000000000000}">
+			<testItem name="ProjectTestItem2" key="{29670DFB-ACFC-4CF5-8D3C-0B188BC979BC}" group="False" parallel="False" enabled="False" load="False" testMoniker="{F96A48CA-A90C-4F45-BEC8-5C3E18B3C2D4}" count="1" timeout="0" stopOnError="3" stopOnException="2" description="" tmsData="" testCase="False" lnID="{00000000-0000-0000-0000-000000000000}">
 				<testParameters />
-				<environments activeCloud="SWT" />
+				<environments activeCloud="SWT">
+					<cloud name="SWT" testedURL="http://localhost:8000/api/users" />
+				</environments>
 				<children />
 			</testItem>
 		</children>

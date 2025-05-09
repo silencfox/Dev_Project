@@ -2,7 +2,7 @@
 <Root signature="{3AE7D26E-11DE-411F-A26E-9C422F421771}" version="15.0">
 	<data>
 		<setting name="UseProjectFileName" type="1" value="True" />
-		<setting name="ProjectFileName" type="5" value="C:\repositorio\Dev_Project\soap\Devsu-soapui-project.xml" />
+		<setting name="ProjectFileName" type="5" value="..\..\soap\Devsu-soapui-project.xml" />
 		<setting name="UseProjectDirectory" type="1" value="False" />
 		<setting name="ProjectDirectory" type="5" value="" />
 		<setting name="TestSuite" type="6" rowIndex="0" colIndex="0">
@@ -11,6 +11,7 @@
 			</columns>
 			<data>
 				<row val0="&lt;All&gt;" />
+				<row val0="http://localhost:8000 TestSuite" />
 			</data>
 		</setting>
 		<setting name="TestCase" type="6" rowIndex="0" colIndex="0">
@@ -19,6 +20,7 @@
 			</columns>
 			<data>
 				<row val0="&lt;All&gt;" />
+				<row val0="http://localhost:8000 TestSuite" />
 			</data>
 		</setting>
 		<setting name="EnableUI" type="1" value="False" />

@@ -21,7 +21,7 @@
 	<Node name="root">
 		<Node name="data">
 			<Node name="{24b6fa0b-0143-461a-9758-aeb9e9a9428b}">
-				<Prp name="activity" type="S" value="{21A04869-8474-4A5F-BBB1-880CB6ACCBB2}"/>
+				<Prp name="activity" type="S" value="{F22D4189-F1E5-4658-8C1F-47023DCB0090}"/>
 			</Node>
 			<Node name="{2c786620-2489-4cbb-9c1e-1a94437a9245}">
 				<Node name="{be6a5696-5d65-4322-9e9c-4a9ed83a0630}">
@@ -62,6 +62,10 @@
 			<Node name="{fc9c0755-2819-4b25-8964-06a87b81e1ad}">
 				<Node name="testproject1">
 					<Node name="testproject1">
+						<Node name="keywordtests"/>
+						<Node name="readyapi1"/>
+						<Node name="script"/>
+						<Node name="testedapps"/>
 						<Node name="unittesting1"/>
 					</Node>
 				</Node>

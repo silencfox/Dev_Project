@@ -16,5 +16,17 @@
 			<testData />
 			<data />
 		</child>
+		<child key="{4D79F8A9-0A0C-4803-AA14-35ACD9CB0D38}">
+			<config nodeName="abrircmd" autorunOnRecording="False" enabled="True" count="1" useFeaturedRuntimeObject="True" userChangeName="True">
+				<runModeParams activeRunMode="Simple">
+					<param name="RunAs" parameters="/C cd /d &quot;%AppPath%&quot; &amp; dir &amp;&#32;&#32;npm install &amp;&#32;&#32;npm run start &amp;&#32;&#32;pause" workFolder="C:\" userName="" password="" domain="" />
+					<param name="Profile" parameters="/C cd /d &quot;%AppPath%&quot; &amp; dir &amp;&#32;&#32;npm install &amp;&#32;&#32;npm run start &amp;&#32;&#32;pause" workFolder="C:\" useProject="False" projectFileName="" overrideProfiler="False" profilerName="" profileRunMode="Silent" AQtimeVersion="0" forceRunMode="False" />
+					<param name="Debug" parameters="/C cd /d &quot;%AppPath%&quot; &amp; dir &amp;&#32;&#32;npm install &amp;&#32;&#32;npm run start &amp;&#32;&#32;pause" workFolder="C:\" />
+					<param name="Simple" fileName="cmd.exe" filePath="C:\Windows\System32\" parameters="/C cd /d &quot;%AppPath%&quot; &amp; dir &amp;&#32;&#32;npm install &amp;&#32;&#32;npm run start &amp;&#32;&#32;pause" workFolder="C:\" />
+				</runModeParams>
+			</config>
+			<testData />
+			<data />
+		</child>
 	</children>
 </Root>
