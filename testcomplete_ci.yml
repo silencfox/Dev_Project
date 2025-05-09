@@ -79,7 +79,7 @@ steps:
   inputs:
     script: |
       "C:/Program Files/SmartBear/TestExecute 15/Bin/TestExecute.exe" "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" /run /project:"NombreDelProyecto" /test:"NombreDelTest" /exportlog:"$(Build.ArtifactStagingDirectory)/ExportedLog.mht" /silentmode /exit
-
+    workingDirectory: '$(System.DefaultWorkingDirectory)/app'
 
 
 - task: PublishBuildArtifacts@1
