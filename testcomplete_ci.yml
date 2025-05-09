@@ -99,11 +99,3 @@ steps:
   inputs:
     pathToPublish: '$(Build.ArtifactStagingDirectory)'
     artifactName: 'TestCompleteLogs'
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo Write your commands here
-      
-      echo Hello world
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
