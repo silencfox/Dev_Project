@@ -69,6 +69,10 @@ steps:
   displayName: 'Ejecutar pruebas TestComplete'
   inputs:
     script: |
+      cd $(System.DefaultWorkingDirectory)/app
+      npm install
+      npm run test 
+      cd $(System.DefaultWorkingDirectory)/test/TestProject1
       TestComplete.exe "TestProject1.pjs" /run /SilentMode /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" /exit "$(System.DefaultWorkingDirectory)/app"
       #TestComplete.exe "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" 
     workingDirectory: '$(System.DefaultWorkingDirectory)/test/TestProject1'
