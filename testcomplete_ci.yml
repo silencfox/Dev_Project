@@ -73,7 +73,7 @@ steps:
       #npm install
       #npm run test 
       #cd $(System.DefaultWorkingDirectory)/test/TestProject1
-      TestComplete.exe "TestProject1.pjs" /run /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" /exit "$(System.DefaultWorkingDirectory)/app"
+      TestComplete.exe "TestProject1.pjs" /run /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" "$(System.DefaultWorkingDirectory)/app"
       #TestComplete.exe /SilentMode "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" 
     workingDirectory: '$(System.DefaultWorkingDirectory)/test/TestProject1'
     
