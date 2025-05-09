@@ -67,9 +67,10 @@ steps:
   displayName: 'Ejecutar pruebas TestComplete'
   inputs:
     script: |
+      set AppPath=$(System.DefaultWorkingDirectory)/app
       TestComplete.exe "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" /run /SilentMode /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" /exit
-  env:
-    AppPath: $(System.DefaultWorkingDirectory)/app
+  #env:
+  #  AppPath: $(System.DefaultWorkingDirectory)/app
 
 
 - task: CmdLine@2
