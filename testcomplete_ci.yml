@@ -31,8 +31,8 @@ steps:
 - task: InstallTestCompleteAdapter@1
   enabled: true
   inputs:
-    installExecutor: false
-    updateExecutor: false
+    installExecutor: true
+    updateExecutor: true
     logsLevel: '0'
     exportLog: true
     junitLog: true   # <--- ESTO genera el JUnit XML
