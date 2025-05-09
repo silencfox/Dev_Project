@@ -69,14 +69,22 @@ steps:
   displayName: 'Ejecutar pruebas TestComplete'
   inputs:
     script: |
+      TestComplete.exe "TestProject1.pjs" /run /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" "$(System.DefaultWorkingDirectory)/app"
+    workingDirectory: '$(System.DefaultWorkingDirectory)/test/TestProject1'
+
+
+- task: CmdLine@2
+  enabled: false
+  displayName: 'Ejecutar pruebas TestComplete'
+  inputs:
+    script: |
       #cd $(System.DefaultWorkingDirectory)/app
       #npm install
       #npm run test 
       #cd $(System.DefaultWorkingDirectory)/test/TestProject1
       TestComplete.exe "TestProject1.pjs" /run /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" "$(System.DefaultWorkingDirectory)/app"
       #TestComplete.exe /SilentMode "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" 
-    workingDirectory: '$(System.DefaultWorkingDirectory)/test/TestProject1'
-    
+    workingDirectory: '$(System.DefaultWorkingDirectory)/test/TestProject1'   
 
 - task: CmdLine@2
   enabled: false
