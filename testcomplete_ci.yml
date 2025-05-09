@@ -8,10 +8,10 @@ trigger:
 - main
 
 pool:
-  #name: myAgents
-  #demands:
-  #- Agent.Name -equals AgnLapwrk02
-  vmImage: windows-latest
+  name: myAgents
+  demands:
+  - Agent.Name -equals AgnLapwrk02
+  #vmImage: windows-latest
 
 steps:
 
@@ -60,7 +60,7 @@ steps:
     height: 1080
 
 - task: VSTest@2
-  enabled: false
+  enabled: true
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: '**\*.pjs'
