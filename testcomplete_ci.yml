@@ -53,7 +53,7 @@ steps:
     junitLog: true   # <--- ESTO genera el JUnit XML
 
 - task: VSTest@2
-  enabled: false
+  enabled: true
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: '**\*.pjs'
