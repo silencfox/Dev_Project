@@ -9,9 +9,9 @@ trigger:
 
 pool:
   name: myAgents
-  demands:
-  - Agent.Name -equals AgnLapwrk02
-  #vmImage: windows-latest
+  #demands:
+  #- Agent.Name -equals AgnLapwrk02
+  vmImage: windows-latest
 
 steps:
 
