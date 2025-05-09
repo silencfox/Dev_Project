@@ -73,6 +73,7 @@ steps:
 
 
 - task: CmdLine@2
+  enabled: false
   displayName: 'Ejecutar pruebas TestComplete'
   inputs:
     script: |
@@ -81,7 +82,7 @@ steps:
 
 
 - task: CmdLine@2
-  enabled: false
+  enabled: true
   displayName: 'Ejecutar pruebas TestComplete'
   inputs:
     script: |
