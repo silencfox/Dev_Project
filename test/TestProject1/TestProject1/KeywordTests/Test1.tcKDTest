@@ -26,7 +26,9 @@
 				<Data Description="Runs a script routine." TestName="Main" Unit="UnitTest" />
 			</Operation>
 			<Operation Type="{206B0810-0B42-45AB-90F5-9F8DF0D669D2}">
-				<Data Description="Runs a script routine." TestName="Main" Unit="StartApp" />
+				<Data Description="Runs a script routine." TestName="Main" Unit="StartApp">
+					<CommonData Disabled="True" />
+				</Data>
 			</Operation>
 			<Operation Type="{6A1B4CEE-4FB8-46E2-BFBD-403C84342301}">
 				<Data Description="Delays the test execution for the specified time period.">
@@ -37,7 +39,9 @@
 				</Data>
 			</Operation>
 			<Operation Type="{16DC8186-4DEC-41AF-80A0-F8C655838299}">
-				<Data Description="Runs a test from the project." TestName="Test1" FullName="ReadyAPI1 - Test1" Path="ReadyAPI1|Test1" />
+				<Data Description="Runs a test from the project." TestName="Test1" FullName="ReadyAPI1 - Test1" Path="ReadyAPI1|Test1">
+					<CommonData Disabled="True" />
+				</Data>
 			</Operation>
 		</Children>
 	</TestData>
