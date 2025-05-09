@@ -52,6 +52,13 @@ steps:
     exportLog: true
     junitLog: true   # <--- ESTO genera el JUnit XML
 
+
+- task: ScreenResolutionUtility@1
+  inputs:
+    displaySettings: specific
+    width: 1920
+    height: 1080
+
 - task: VSTest@2
   enabled: true
   inputs:
