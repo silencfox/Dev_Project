@@ -67,10 +67,13 @@ steps:
   displayName: 'Ejecutar pruebas TestComplete'
   inputs:
     script: |
-      "C:/Program Files/SmartBear/TestComplete 15/bin/TestComplete.exe" "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" /run /SilentMode /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" /exit
+      TestComplete.exe "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" /run /SilentMode /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" /exit
+  env:
+    AppPath: $(System.DefaultWorkingDirectory)/app
 
 
 - task: CmdLine@2
+  enabled: false
   displayName: 'Ejecutar pruebas TestComplete 01'
   inputs:
     script: |
