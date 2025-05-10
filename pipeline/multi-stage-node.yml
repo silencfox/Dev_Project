@@ -62,7 +62,7 @@ stages:
           script: |
             Write-Host "Hello World"
             npm install
-            Start-Process "npm" -ArgumentList "run start" -RedirectStandardOutput "app_output.log" -RedirectStandardError "app_error.log" -NoNewWindow
+            Start-Process "node" -ArgumentList "index.js" -RedirectStandardOutput "app_output.log" -RedirectStandardError "app_error.log" -NoNewWindow
             Start-Sleep -Seconds 20
 
             Write-Host "Checking if log was generated:"
