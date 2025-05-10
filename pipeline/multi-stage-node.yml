@@ -65,11 +65,23 @@ stages:
             Write-Host "Hello World"
             Start-Process "npm" "run start" -WindowStyle Hidden
             Start-Sleep -Seconds 10
-            curl http://localhost:8000
 
           workingDirectory: '$(Build.SourcesDirectory)/app'
 
+      - powershell: |
+          try {
+            $response = Invoke-WebRequest -Uri http://localhost:8000 -UseBasicParsing
+            Write-Host "Health check status code: $($response.StatusCode)"
+          } catch {
+            Write-Error "Health check failed: $($_.Exception.Message)"
+            Exit 1
+          }
+        displayName: 'Health check'
 
+      # Opcional: Finalizar proceso al terminar
+      - powershell: |
+          Get-Process node | ForEach-Object { Stop-Process -Id $_.Id -Force }
+        displayName: 'Stop Node.js app'
 
       - task: VSTest@2
         inputs:
