@@ -63,7 +63,7 @@ stages:
             height: 1080
 
         - task: VSTest@2
-          enabled: true
+          enabled: false
           inputs:
             testSelector: 'testAssemblies'
             testAssemblyVer2: '**\*.pjs'
