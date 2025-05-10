@@ -60,11 +60,20 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            # Write your PowerShell commands here.
-            
             Write-Host "Hello World"
-            Start-Process "npm" "run start" -WindowStyle Hidden
+            Start-Process "npm" -ArgumentList "run start" -RedirectStandardOutput "app_output.log" -RedirectStandardError "app_error.log" -NoNewWindow
             Start-Sleep -Seconds 10
+
+            Write-Host "Checking if log was generated:"
+            Get-Content "app_output.log" -ErrorAction SilentlyContinue
+            
+            $node = Get-Process node -ErrorAction SilentlyContinue
+            if ($node) {
+              Write-Host "Node.js app is running. PID: $($node.Id)"
+            } else {
+              Write-Error "Node.js app is NOT running."
+              Exit 1
+            }
 
           workingDirectory: '$(Build.SourcesDirectory)/app'
 
