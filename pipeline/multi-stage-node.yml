@@ -75,18 +75,16 @@ stages:
               Write-Error "Node.js app is NOT running."
               Exit 1
             }
-
+            try {
+              $response = Invoke-WebRequest -Uri http://localhost:8000 -UseBasicParsing
+              Write-Host "Health check status code: $($response.StatusCode)"
+            } catch {
+              Write-Error "Health check failed: $($_.Exception.Message)"
+              Exit 1
+            }
           workingDirectory: '$(Build.SourcesDirectory)/app'
 
-      - powershell: |
-          try {
-            $response = Invoke-WebRequest -Uri http://localhost:8000 -UseBasicParsing
-            Write-Host "Health check status code: $($response.StatusCode)"
-          } catch {
-            Write-Error "Health check failed: $($_.Exception.Message)"
-            Exit 1
-          }
-        displayName: 'Health check'
+
 
       # Opcional: Finalizar proceso al terminar
       - powershell: |
