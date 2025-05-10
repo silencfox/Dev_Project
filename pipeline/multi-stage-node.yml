@@ -58,7 +58,8 @@ stages:
           targetType: 'inline'
           script: |
             npm install
-            nohup node app.js > output.log 2>&1 &
+            npm run start > output.log 2>&1 &
+            #nohup node app.js > output.log 2>&1 &
             sleep 10
           workingDirectory: '$(Build.SourcesDirectory)/app'
 
