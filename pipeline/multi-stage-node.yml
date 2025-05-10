@@ -61,12 +61,13 @@ stages:
           targetType: 'inline'
           script: |
             Write-Host "Hello World"
+            npm install
             Start-Process "npm" -ArgumentList "run start" -RedirectStandardOutput "app_output.log" -RedirectStandardError "app_error.log" -NoNewWindow
-            Start-Sleep -Seconds 10
+            Start-Sleep -Seconds 20
 
             Write-Host "Checking if log was generated:"
             Get-Content "app_output.log" -ErrorAction SilentlyContinue
-            
+
             $node = Get-Process node -ErrorAction SilentlyContinue
             if ($node) {
               Write-Host "Node.js app is running. PID: $($node.Id)"
