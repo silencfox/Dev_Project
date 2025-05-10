@@ -52,16 +52,18 @@ stages:
           exportLog: true
           junitLog: true   # <--- ESTO genera el JUnit XML
 
-      - task: Bash@3
-        displayName: 'run app'
+      - task: PowerShell@2
         inputs:
           targetType: 'inline'
           script: |
-            npm install
-            npm run start > output.log 2>&1 &
-            #nohup node app.js > output.log 2>&1 &
-            sleep 10
+            # Write your PowerShell commands here.
+            
+            Write-Host "Hello World"
+            Start-Process "npm" "run" "start" -WindowStyle Hidden
+            Start-Sleep -Seconds 10
           workingDirectory: '$(Build.SourcesDirectory)/app'
+
+
 
       - task: VSTest@2
         inputs:
