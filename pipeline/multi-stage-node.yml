@@ -52,6 +52,16 @@ stages:
           exportLog: true
           junitLog: true   # <--- ESTO genera el JUnit XML
 
+      - task: Bash@3
+        displayName: 'run app'
+        inputs:
+          targetType: 'inline'
+          script: |
+            npm install
+            nohup node app.js > output.log 2>&1 &
+            sleep 10
+          workingDirectory: '$(Build.SourcesDirectory)/app'
+
       - task: VSTest@2
         inputs:
           testSelector: 'testAssemblies'
