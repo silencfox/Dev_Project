@@ -63,9 +63,10 @@ stages:
             # Write your PowerShell commands here.
             
             Write-Host "Hello World"
-            curl http://localhost:8000
             Start-Process "npm" "run start" -WindowStyle Hidden
             Start-Sleep -Seconds 10
+            curl http://localhost:8000
+
           workingDirectory: '$(Build.SourcesDirectory)/app'
 
 
