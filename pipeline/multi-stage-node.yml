@@ -23,6 +23,10 @@ stages:
         fetchDepth: 0
 
 
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '18.x'
+
       - task: VisualStudioTestPlatformInstaller@1
         inputs:
           packageFeedSelector: 'nugetOrg'
@@ -59,7 +63,7 @@ stages:
             # Write your PowerShell commands here.
             
             Write-Host "Hello World"
-            Start-Process "npm" "run" "start" -WindowStyle Hidden
+            Start-Process "npm" "run start" -WindowStyle Hidden
             Start-Sleep -Seconds 10
           workingDirectory: '$(Build.SourcesDirectory)/app'
 
@@ -133,9 +137,6 @@ stages:
 
 
 
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '18.x'
 
       - task: SonarCloudPrepare@3
         continueOnError: true
