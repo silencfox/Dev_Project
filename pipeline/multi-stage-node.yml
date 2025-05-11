@@ -298,43 +298,6 @@ stages:
                     workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
                     #bashEnvValue: 'env'
 
-                - task: Bash@3
-                  enabled: false
-                  name: ACR
-                  displayName: "Create Azure ACR"
-                  inputs:
-                    targetType: 'inline'
-                    script: |
-                      az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
-                      az account set --subscription $(ARM_SUBSCRIPTION_ID)
-                      chmod go-r "$(Agent.TempDirectory)/terraform_alone.tfvars"
-                      cp $(Agent.TempDirectory)/terraform_alone.tfvars $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
-                      terraform init
-                      terraform refresh -input=false 
-                      terraform plan
-                      terraform apply --auto-approve
-
-                      echo "vamos a parsear"
-                      if ! command -v jq >/dev/null 2>&1; then
-                        sudo apt-get update
-                        sudo apt-get install -y jq
-                      fi
-                      jq --version
-
-                      terraform_outputs=$(terraform output -json)
-
-                      acr_name=$(echo "$terraform_outputs" | jq -r '.container_registry_name.value')
-                      acr_server=$(echo "$terraform_outputs" | jq -r '.container_registry_login_server.value')
-
-                      echo "Nombre del registry: $acr_name"
-                      echo "Servidor del registry: $acr_server"
-
-                   
-                      echo "##vso[task.setvariable variable=acrLoginServer;isOutput=true]$acr_server"
-                      echo "##vso[task.setvariable variable=acrLoginServer2]$acr_server"
-                      echo "ACR es: $acrLoginServer2"
-                    workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
-
 
                 - task: AzureCLI@2
                   name: "Docker_Build_And_Push"
@@ -349,11 +312,11 @@ stages:
                       az account set --subscription $(ARM_SUBSCRIPTION_ID)
                       echo "lista de tareas"
                       az acr task list --registry acrdevsu --resource-group devsu_rg --output table
-                      echo "Run Task"
+                      az acr task run --registry acrdevsu --name acr_task
+
                       az acr task run --registry acrdevsu --name acr_task --resource-group devsu_rg
                       #docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
                       #docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
-                      #ARM_ACR_LOGIN_SERVER="acrdevsu.azurecr.io"
                       #docker push acrdevsu.azurecr.io/devsudemo:latest
                     addSpnToEnvironment: true
                     useGlobalConfig: true
