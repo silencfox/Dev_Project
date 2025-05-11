@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "acr_rg" {
-  name     = var.rgname
+  name     = "Devsu_acr"
   location = var.location
 }
 
