@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-service2
+  name: node-app-v1
   namespace: devsu
 spec:
   selector:
     matchLabels:
-      run: node-service2 
-  replicas: 2
+      app: node-app-v1
+  replicas: 1
   template:
     metadata:
       labels:
-        run: node-service2 
+        app: node-app-v1
     spec:
       containers:
-      - name: node-service2  
+      - name: node-app  
 #        image: acrdevsu.azurecr.io/devsudemo:latest
         image: silencfox/devsudemo:latest
         env:
