@@ -384,6 +384,7 @@ stages:
                     sources: 'terraform.tfvars'
 
                 - task: Bash@3
+                  enabled: false
                   displayName: "Create Azure AKS"
                   inputs:
                     filePath: '$(Build.SourcesDirectory)/infra/terraformer.sh'
@@ -391,7 +392,7 @@ stages:
                     workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
 
                 - task: Bash@3
-                  enabled: false
+                  enabled: true
                   name: Crear_AKS
                   displayName: "Crear AKS"
                   inputs:
