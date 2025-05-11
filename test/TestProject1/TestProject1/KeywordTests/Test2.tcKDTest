@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root signature="{B9D9273E-7266-43E0-BF02-97F168593604}" version="15.0">
+	<TestData Description="" Key="{C023710B-A82C-4EE2-BA1B-3CEF50D38217}" Type="{79147B28-EE20-4294-B773-1D3787FBF37B}">
+		<Data>
+			<Extenders>
+				<NodeBitmaps />
+			</Extenders>
+		</Data>
+		<Children>
+			<Operation Type="{66F32D5F-A5DB-420E-9CB4-3DB7CADE2692}">
+				<Data Description="Runs the &quot;cmd&quot; tested application." TestedApp="cmd">
+					<Parameters LangId="{90F89436-9452-4F95-9882-6B5210079F13}">
+						<Parameter Name="Count" DefVarType="3" DefValueType="1" DefValueValue="-1" VarType="3" ValueType="1" ValueValue="1" />
+						<Parameter Name="IgnoreRunning" DefVarType="11" DefValueType="7" DefValueValue="False" VarType="11" ValueType="7" ValueValue="True" />
+						<Parameter Name="Timeout" DefVarType="3" DefValueType="1" DefValueValue="-1" VarType="3" ValueType="1" ValueValue="-1" />
+					</Parameters>
+				</Data>
+			</Operation>
+			<Operation Type="{575D0372-CCEB-4D0F-AFE8-D2004F108913}">
+				<Data Description="Enters %p1 in the &apos;%n&apos; object." Action="Keys" InvokeKind="-1" Initialized="True">
+					<Parameters LangId="{90F89436-9452-4F95-9882-6B5210079F13}">
+						<Parameter Name="Param1" DefVarType="0" VarType="8" ValueType="6" ValueValue="start cho[BS]rome [NumMinus][NumMinus]new[NumMinus]windows &quot;https:[NumSlash][NumSlash]google.com&quot;[Enter]" />
+					</Parameters>
+					<ObjectSyntax LangId="{90F89436-9452-4F95-9882-6B5210079F13}" Code="Aliases.WindowsTerminal.wndCASCADIA_HOSTING_WINDOW_CLASS.DesktopWindowXamlSource.WindowsUIInputInputSiteWindowClass;" />
+				</Data>
+			</Operation>
+		</Children>
+	</TestData>
+	<Parameters Key="{3EE4560B-0CA3-4516-8418-1D932F8CBED3}" />
+</Root>
