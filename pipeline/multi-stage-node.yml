@@ -360,6 +360,10 @@ stages:
                   inputs:
                     kubectlVersion: 'latest'
 
+                - task: HelmInstaller@1
+                  inputs:
+                    helmVersionToInstall: 'latest'
+
                 - task: Bash@3
                   displayName: "getting vars"
                   inputs:
