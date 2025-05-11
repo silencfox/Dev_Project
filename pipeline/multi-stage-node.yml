@@ -465,13 +465,19 @@ stages:
                       export KUBECONFIG=$(Build.SourcesDirectory)/infra/kubeconfig
                       kubectl get nodes
                       kubectl create namespace $(K8S_NAMESPACE)
-                      ##nginx-stable repository
+                      kubectl create namespace cert-manager
+                      
+                      ## nginx-stable repository
                       helm repo add nginx-stable https://helm.nginx.com/stable
                       helm repo update
-                      ## installs the chart with the release name nginx-ingress
                       helm install nginx-ingress nginx-stable/nginx-ingress --set rbac.create=true
 
+                      #metrics server for HPA
+                      kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+                      #Ingress controller (ya instalado por helm)  
                       #kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+                      
                       #kubectl apply -f secrect.yml -n $(K8S_NAMESPACE)
                       #kubectl apply -f deployment.yaml -n $(K8S_NAMESPACE)
                       #kubectl apply -f service_balance.yaml -n $(K8S_NAMESPACE)
