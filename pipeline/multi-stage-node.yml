@@ -278,10 +278,11 @@ stages:
                   inputs:
                     root: '$(Build.SourcesDirectory)/infra'
                     sources: |
-                      $(Build.SourcesDirectory)/infra/terraform.tfvars    
-                      $(Build.SourcesDirectory)/infra/standalone/ablobs/terraform.tfvars    
+                      $(Build.SourcesDirectory)/infra/terraform.tfvars        
+                      $(Build.SourcesDirectory)/infra/standalone/ablobs/terraform.tfvars        
                       $(Build.SourcesDirectory)/infra/standalone/acr/terraform.tfvars
                     logLevel: 'debug'
+                    missingVarLog: 'off'
                     ifNoFilesFound: 'warn'
                     recursive: true
 
@@ -360,6 +361,10 @@ stages:
                   inputs:
                     kubectlVersion: 'latest'
 
+                - task: HelmInstaller@1
+                  inputs:
+                    helmVersionToInstall: 'latest'
+
                 - task: Bash@3
                   displayName: "getting vars"
                   inputs:
@@ -382,6 +387,8 @@ stages:
                   inputs:
                     root: '$(Build.SourcesDirectory)/infra'
                     sources: 'terraform.tfvars'
+                    missingVarLog: 'off'
+                    recursive: true
 
                 - task: Bash@3
                   enabled: false
@@ -434,6 +441,18 @@ stages:
                     ARM_TENANT_ID: $(ARM_TENANT_ID)
                     TF_VAR_ghtoken: $(TF_VAR_ghtoken)
 
+                - task: Kubernetes@1
+                  inputs:
+                    connectionType: 'None'
+                    namespace: 'devsu'
+                    command: 'get'
+                    useConfigurationFile: true
+                    configuration: '$(Build.SourcesDirectory)/infra/kubeconfig'
+                    arguments: 'pods -A'
+                    secretType: 'dockerRegistry'
+                    containerRegistryType: 'Azure Container Registry'
+                    checkLatest: true
+
                 - task: Bash@3
                   enabled: true
                   name: create_deployment
@@ -448,15 +467,43 @@ stages:
                       ls -lrt ~/.kube
                       export KUBECONFIG=$(Build.SourcesDirectory)/infra/kubeconfig
                       kubectl get nodes
-                      kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
                       kubectl create namespace $(K8S_NAMESPACE)
-                      kubectl apply -f secrect.yml -n $(K8S_NAMESPACE)
-                      kubectl apply -f deployment.yaml -n $(K8S_NAMESPACE)
-                      kubectl apply -f service_balance.yaml -n $(K8S_NAMESPACE)
-                      kubectl apply -f service_balance2.yaml -n $(K8S_NAMESPACE)
-                      kubectl apply -f hpa.yaml -n $(K8S_NAMESPACE)
-                      kubectl apply -f ingress.yml -n $(K8S_NAMESPACE)
-                     
+                      kubectl create namespace cert-manager
+                      
+                      ## nginx-stable repository
+                      helm repo add nginx-stable https://helm.nginx.com/stable
+                      helm repo update
+                      helm install nginx-ingress nginx-stable/nginx-ingress --set rbac.create=true
+                      
+                      ## add cert manager
+                      helm repo add jetstack https://charts.jetstack.io --force-update
+                      helm install `
+                        cert-manager jetstack/cert-manager `
+                        --namespace cert-manager `
+                        --create-namespace `
+                        --version v1.17.2 `
+                        --set crds.enabled=true `
+                        --set prometheus.enabled=false `  # Example: disabling prometheus using a Helm parameter
+                        --set webhook.timeoutSeconds=4   # Example: changing the webhook timeout using a Helm parameter
+
+                      # Instalar cert manager (ya instalado con helm)
+                      #kubectl apply --validate=false -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.2/cert-manager.yaml
+
+                      #metrics server for HPA
+                      kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+                      #Ingress controller (ya instalado por helm)  
+                      #kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+                      
+                      kubectl apply -f 01-deployment-v1.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f 02-deployment-v2.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f 03-service-v1.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f 04-service-v2.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f 05-prod-issuer.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f 06-ingress-rules.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f 07-hpa-v1.yaml -n $(K8S_NAMESPACE)
+                      kubectl apply -f 08-hpa-v2.yaml -n $(K8S_NAMESPACE)
+
                       kubectl get deployments -n $(K8S_NAMESPACE)
                       kubectl get services -n $(K8S_NAMESPACE)
 
@@ -479,6 +526,8 @@ stages:
                   inputs:
                     root: '$(System.DefaultWorkingDirectory)/deployment/test'
                     sources: 'Devsu.postman_collection.json'
+                    logLevel: 'debug'
+                    missingVarLog: 'off'
                     recursive: true
 
                 - task: Bash@3
