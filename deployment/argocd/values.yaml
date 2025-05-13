@@ -19,12 +19,21 @@ configs:
       project: default
       source:
         repoURL: https://github.com/silencfox/Dev_Project.git
-        targetRevision: HEAD
         path: deployment/NewServices
+        targetRevision: HEAD
+        directory:
+          recurse: true
+          jsonnet: {}
       destination:
         server: https://kubernetes.default.svc
         namespace: NewServices
       syncPolicy:
-        automated:
-          prune: "true"
-          selfHeal: "true"
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+        retry:
+          limit: 3
+          backoff:
+            duration: 120s
+            factor: 2
+            maxDuration: 5m0s
