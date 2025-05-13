@@ -297,12 +297,23 @@ stages:
 
                 - task: Bash@3
                   displayName: "Create Azure ACR"
+                  enabled: false
                   inputs:
                     filePath: '$(Build.SourcesDirectory)/infra/terraformer.sh'
                     arguments: '$(ARM_CLIENT_ID) $(ARM_CLIENT_SECRET) $(ARM_TENANT_ID) $(ARM_SUBSCRIPTION_ID)'
                     workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
                     #bashEnvValue: 'env'
 
+                - task: Bash@3
+                  displayName: "Create Azure ACR"
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      # Write your commands here
+                      terraform init
+                      terraform plan
+                      terraform apply --auto-approve
+                    workingDirectory: '$(Build.SourcesDirectory)/infra/standalone/acr'
 
                 - task: AzureCLI@2
                   name: "Docker_Build_And_Push"
