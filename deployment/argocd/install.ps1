@@ -22,3 +22,7 @@ helm upgrade argocd argo/argo-cd -n argocd -f values.yaml
 
 ## INSTALA APP LUEGO DE 
 helm upgrade --install argocd argo/argo-cd -n argocd --create-namespace -f values_app.yaml
+
+
+###
+##  helm uninstall argocd -n argocd
