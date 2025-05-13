@@ -327,15 +327,15 @@ stages:
                       az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
                       az account set --subscription $(ARM_SUBSCRIPTION_ID)
                       #echo "lista de tareas"
-                      #az acr task list --registry acrdevsu --resource-group devsu_rg --output table
-                      #az acr task run --registry acrdevsu --name acr_task --resource-group devsu_rg
+                      #az acr task list --registry $(acr_name) --resource-group devsu_rg --output table
+                      #az acr task run --registry $(acr_name) --name acr_task --resource-group devsu_rg
                       
-                      #az acr task list-runs --registry acrdevsu --output table
+                      #az acr task list-runs --registry $(acr_name) --output table
                       
-                      #az acr task logs --registry acrdevsu
-                      docker login "acrdevsu.azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
-                      docker build -q -t acrdevsu.azurecr.io/devsudemo:latest -t acrdevsu.azurecr.io/devsudemo:$(Build.BuildId) .
-                      docker push acrdevsu.azurecr.io/devsudemo:latest
+                      #az acr task logs --registry $(acr_name)
+                      docker login "$(acr_name).azurecr.io" -u "$(ARM_CLIENT_ID)" -p "$(ARM_CLIENT_SECRET)"
+                      docker build -q -t $(acr_name).azurecr.io/devsudemo:latest -t $(acr_name).azurecr.io/devsudemo:$(Build.BuildId) .
+                      docker push $(acr_name).azurecr.io/devsudemo:latest
                     addSpnToEnvironment: true
                     useGlobalConfig: true
                     workingDirectory: '$(Build.SourcesDirectory)/app'
