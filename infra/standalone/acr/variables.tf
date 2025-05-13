@@ -29,7 +29,6 @@ variable "ghpathfile" {
 
  variable "acr_name" {
   type        = string
-  default     = "acrdevsu"
   description = "container registry name"
  }
 
