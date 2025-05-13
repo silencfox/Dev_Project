@@ -11,29 +11,3 @@ configs:
       #username: your-username       # Opcional si es público
       #password: your-password       # Opcional si es público
       insecure: "true"               # true si no verificas el certificado TLS
-
-  applications:
-    backend-app:
-      name: backend-app
-      namespace: argocd
-      project: default
-      source:
-        repoURL: https://github.com/silencfox/Dev_Project.git
-        path: deployment/NewServices
-        targetRevision: HEAD
-        directory:
-          recurse: true
-          jsonnet: {}
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: NewServices
-      syncPolicy:
-        syncOptions:
-          - CreateNamespace=true
-          - ApplyOutOfSyncOnly=true
-        retry:
-          limit: 3
-          backoff:
-            duration: 120s
-            factor: 2
-            maxDuration: 5m0s
