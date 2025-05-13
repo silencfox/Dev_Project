@@ -1,14 +1,19 @@
 storeacount                  = "#{storeacount}#"
-acr_rgname                   = "#{acr_rgname}#"
+state_rgname                 = "#{state_rgname}#"
 location                     = "#{location}#"
+
+aks_name                     = "#{aks_name}#"
+aks_rgname                   = "#{aks_rgname}#"
+
+acr_name                     = "#{acr_name}#"
+acr_rgname                   = "#{acr_rgname}#"
+create_acr                   = "#{create_acr}#"
+
 service_principal_name       = "#{service_principal_name}#"
 keyvault_name                = "#{keyvault_name}#"
-aks_name                     = "#{aks_name}#"
 TF_VAR_ghtoken               = "#{TF_VAR_ghtoken}#"
 ghpathfile                   = "#{ghpathfile}#"
 sku                          = "#{sku}#"
-acr_name                     = "#{acr_name}#"
-create_acr                   = "#{create_acr}#"
 namespace                    = "#{namespace}#"
 environment                  = "#{environment}#"
 
@@ -16,4 +21,3 @@ environment                  = "#{environment}#"
 #subscription_id             = ""
 #client_id                   = ""
 #client_secret               = ""           
-

@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "rg1" {
-  name     = "${var.rgname}-${var.environment}"
+  name     = "${var.aks_rgname}-${var.environment}"
   location = var.location
 }
 
@@ -30,7 +30,7 @@ module "aks" {
   client_secret          = module.ServicePrincipal.client_secret
   cluster_name           = "${var.cluster_name}-${var.environment}"
   location               = var.location
-  resource_group_name    = "${var.rgname}-${var.environment}"
+  resource_group_name    = "${var.aks_rgname}-${var.environment}"
   environment            = var.environment
   
   depends_on = [
