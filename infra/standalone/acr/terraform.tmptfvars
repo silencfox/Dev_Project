@@ -1,5 +1,5 @@
 storeacount                  = "#{storeacount}#"
-rgname                       = "#{rgname}#"
+rgname                       = "#{rgname_acr}#"
 location                     = "#{location}#"
 service_principal_name       = "#{service_principal_name}#"
 keyvault_name                = "#{keyvault_name}#"
@@ -15,4 +15,5 @@ environment                  = "#{environment}#"
 #tenant_id                   = ""
 #subscription_id             = ""
 #client_id                   = ""
-#client_secret               = ""  
+#client_secret               = ""           
+

@@ -1,0 +1,3 @@
+storeacount                  = "#{storeacount}#"
+state_rgname                 = "#{state_rgname}#"
+location                     = "#{location}#"

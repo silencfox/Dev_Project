@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root signature="{90D101C8-80C7-48D4-9055-2E451B9BCD75}" version="1400" key="{8AC1E1F1-BFFE-4D48-A509-D2BC53D3CBA3}" typeId="{90D101C8-80C7-48D4-9055-2E451B9BCD75}">
+	<config nodeName="TestedApps" />
+	<testData />
+	<data />
+	<children>
+		<child key="{E9872854-C799-4C23-8EC4-1F3B4CC8D677}">
+			<config nodeName="cmd" autorunOnRecording="False" enabled="True" count="1" useFeaturedRuntimeObject="True" userChangeName="False">
+				<runModeParams activeRunMode="Simple">
+					<param name="RunAs" parameters="" workFolder="C:\Users\kalcala" userName="" password="" domain="" />
+					<param name="Profile" parameters="" workFolder="C:\Users\kalcala" useProject="False" projectFileName="" overrideProfiler="False" profilerName="" profileRunMode="Silent" AQtimeVersion="0" forceRunMode="False" />
+					<param name="Debug" parameters="" workFolder="C:\Users\kalcala" />
+					<param name="Simple" fileName="cmd.exe" filePath="C:\WINDOWS\system32\" parameters="" workFolder="C:\Users\kalcala" />
+				</runModeParams>
+			</config>
+			<testData />
+			<data />
+		</child>
+		<child key="{4D79F8A9-0A0C-4803-AA14-35ACD9CB0D38}">
+			<config nodeName="abrircmd" autorunOnRecording="False" enabled="True" count="1" useFeaturedRuntimeObject="True" userChangeName="True">
+				<runModeParams activeRunMode="Simple">
+					<param name="RunAs" parameters="/C cd /d &quot;%AppPath%&quot; &amp;&amp; dir &amp;&amp;&#32;&#32;npm install &amp;&amp;&#32;&#32;npm run start &amp;&amp;&#32;&#32;pause" workFolder="C:\" userName="" password="" domain="" />
+					<param name="Profile" parameters="/C cd /d &quot;%AppPath%&quot; &amp;&amp; dir &amp;&amp;&#32;&#32;npm install &amp;&amp;&#32;&#32;npm run start &amp;&amp;&#32;&#32;pause" workFolder="C:\" useProject="False" projectFileName="" overrideProfiler="False" profilerName="" profileRunMode="Silent" AQtimeVersion="0" forceRunMode="False" />
+					<param name="Debug" parameters="/C cd /d &quot;%AppPath%&quot; &amp;&amp; dir &amp;&amp;&#32;&#32;npm install &amp;&amp;&#32;&#32;npm run start &amp;&amp;&#32;&#32;pause" workFolder="C:\" />
+					<param name="Simple" fileName="cmd.exe" filePath="C:\Windows\System32\" parameters="/C cd /d &quot;%AppPath%&quot; &amp;&amp; dir &amp;&amp;&#32;&#32;npm install &amp;&amp;&#32;&#32;npm run start &amp;&amp;&#32;&#32;pause" workFolder="C:\" />
+				</runModeParams>
+			</config>
+			<testData />
+			<data />
+		</child>
+	</children>
+</Root>

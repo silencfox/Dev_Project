@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root signature="{CCBF15D3-5453-4E8D-891C-1C74B57C6979}" version="15.0">
+	<children>
+		<child name="JUnit1" key="{21A04869-8474-4A5F-BBB1-880CB6ACCBB2}" type="JUnit" typeId="{8AF83060-375A-4AE8-B6F7-9360C3D66137}" pluginName="JUnit Runner" path="JUnit1\JUnit1.tcJUnit" />
+	</children>
+</Root>

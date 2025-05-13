@@ -1,0 +1,17 @@
+﻿function Main() {
+  var paramCount = BuiltIn.ParamCount();
+  if (paramCount > 0) {
+    var ruta = BuiltIn.ParamStr(paramCount); // Último parámetro
+    Log.Message("Ruta recibida: " + ruta);
+
+    // Construir el comando para cambiar de carpeta y ejecutar npm install
+    var cmdParams = '/k cd /d "' + ruta + '" && npm install && npm run start &&  pause';
+    
+    // Obtener el TestedApp por nombre
+    var app = TestedApps.Items("abrircmd");
+    app.Params.CommandLineParameters = cmdParams;
+    app.Run();
+  } else {
+    Log.Error("No se recibió ruta desde línea de comando.");
+  }
+}

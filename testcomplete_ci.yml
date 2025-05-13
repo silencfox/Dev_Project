@@ -31,7 +31,7 @@ steps:
 - task: InstallTestCompleteAdapter@1
   enabled: true
   inputs:
-    installExecutor: false
+    installExecutor: true
     updateExecutor: false
     logsLevel: '0'
     exportLog: true
@@ -52,12 +52,57 @@ steps:
     exportLog: true
     junitLog: true   # <--- ESTO genera el JUnit XML
 
+
+- task: ScreenResolutionUtility@1
+  inputs:
+    displaySettings: specific
+    width: 1920
+    height: 1080
+
 - task: VSTest@2
+  enabled: true
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: '**\*.pjs'
     searchFolder: '$(System.DefaultWorkingDirectory)/test/TestProject1'
     #testFiltercriteria: 'Test=ProjectTestItem1'
     vsTestVersion: 'toolsInstaller'
-    pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)\TestCompleteAdapter'
+    overrideTestrunParameters: '-key1 value1'
+    pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)/TestCompleteAdapter'
     testRunTitle: 'Automated tests'
+
+
+- task: CmdLine@2
+  displayName: 'Ejecutar pruebas TestComplete'
+  inputs:
+    script: |
+      TestComplete.exe "TestProject1.pjs" /run /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" "$(System.DefaultWorkingDirectory)/app"
+    workingDirectory: '$(System.DefaultWorkingDirectory)/test/TestProject1'
+
+
+- task: CmdLine@2
+  enabled: false
+  displayName: 'Ejecutar pruebas TestComplete'
+  inputs:
+    script: |
+      #cd $(System.DefaultWorkingDirectory)/app
+      #npm install
+      #npm run test 
+      #cd $(System.DefaultWorkingDirectory)/test/TestProject1
+      TestComplete.exe "TestProject1.pjs" /run /exit /ExportLog:"$(Build.ArtifactStagingDirectory)/TestLog.mht" /ErrorLog:"$(Build.ArtifactStagingDirectory)/ErrorLog.txt" "$(System.DefaultWorkingDirectory)/app"
+      #TestComplete.exe /SilentMode "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" 
+    workingDirectory: '$(System.DefaultWorkingDirectory)/test/TestProject1'   
+
+- task: CmdLine@2
+  enabled: false
+  displayName: 'Ejecutar pruebas TestComplete 01'
+  inputs:
+    script: |
+      "C:/Program Files/SmartBear/TestExecute 15/Bin/TestExecute.exe" "$(System.DefaultWorkingDirectory)/test/TestProject1/TestProject1.pjs" /run /project:"NombreDelProyecto" /test:"NombreDelTest" /exportlog:"$(Build.ArtifactStagingDirectory)/ExportedLog.mht" /silentmode /exit
+    workingDirectory: '$(System.DefaultWorkingDirectory)/app'
+
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'TestCompleteLogs'

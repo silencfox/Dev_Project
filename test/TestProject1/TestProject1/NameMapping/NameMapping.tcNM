@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root Signature="{5DCBAC3B-D39C-497C-9BE8-744CBADD37AA}" NameMappingVersion="7" SaveImages="0">
+	<Storages Current="0">
+		<Child Name="Default Configuration" />
+	</Storages>
+	<Nodes Name="NameMapping" Key="{BE401E45-B2D6-4FBA-931A-C2117D5C51AD}">
+		<Children>
+			<Child Name="Sys" Key="{7015C99E-16FE-4949-9BDA-1A7B4A0250FB}">
+				<Properties>
+					<Property Name="Name">
+						<Value Value="Sys" />
+					</Property>
+				</Properties>
+				<Children>
+					<Child Name="explorer" Key="{89EA6C0D-73E0-414D-8E46-13C58E99EC8A}">
+						<Properties>
+							<Property Name="ProcessName">
+								<Value Value="explorer" />
+							</Property>
+						</Properties>
+						<Children>
+							<Child Name="dlgEjecutar" Key="{B9D77E55-CC31-4369-B51C-1CEE27BD4E38}">
+								<Properties>
+									<Property Name="WndClass">
+										<Value Value="#32770" />
+									</Property>
+									<Property Name="WndCaption">
+										<Value Value="Ejecutar" />
+									</Property>
+								</Properties>
+								<Children>
+									<Child Name="cbxAbrir" Key="{DAF04529-CDFE-495C-8136-10F53FB58053}">
+										<Properties>
+											<Property Name="WndClass">
+												<Value Value="ComboBox" />
+											</Property>
+										</Properties>
+										<Children>
+											<Child Name="Edit" Key="{3AD63DE1-6F35-4726-B69A-BDAA59861AE0}">
+												<TypeInfo Item0="{E28FB434-DBC1-418A-BDD9-9E46552EED27}" />
+												<Properties>
+													<Property Name="WndClass">
+														<Value Value="Edit" />
+													</Property>
+												</Properties>
+											</Child>
+										</Children>
+									</Child>
+								</Children>
+							</Child>
+							<Child Name="wndShell_TrayWnd" Key="{0270E70A-257B-4BFA-A5C2-4AA96FE507C0}">
+								<Properties>
+									<Property Name="WndClass">
+										<Value Value="Shell_TrayWnd" />
+									</Property>
+								</Properties>
+								<Children>
+									<Child Name="DesktopWindowXamlSource" Key="{F2C90C2D-1290-497B-8F4B-0FFFBF24FB1F}">
+										<TypeInfo Item0="{397A30A6-9E66-4150-9E18-71149DEC83F1}" />
+										<Properties>
+											<Property Name="WndClass">
+												<Value Value="Windows.UI.Composition.DesktopWindowContentBridge" />
+											</Property>
+											<Property Name="WndCaption">
+												<Value Value="DesktopWindowXamlSource" />
+											</Property>
+										</Properties>
+									</Child>
+								</Children>
+							</Child>
+							<Child Name="wndProgman" Key="{87BF6BE6-F685-4FB8-B2AB-83683503DF11}">
+								<TypeInfo Item0="{24286F6D-12CB-4C09-9703-ED521B8A4434}" />
+								<Properties>
+									<Property Name="WndClass">
+										<Value Value="Progman" />
+									</Property>
+									<Property Name="WndCaption">
+										<Value Value="Program Manager" />
+									</Property>
+								</Properties>
+							</Child>
+							<Child Name="dlgStart" Key="{3E75D09C-E9D8-4E5D-A343-5A1989CD72F2}">
+								<Image FileName="-974181306" Left="0" Top="0" Right="713" Bottom="176" />
+								<Properties>
+									<Property Name="WndClass">
+										<Value Value="#32770" />
+									</Property>
+									<Property Name="WndCaption">
+										<Value Value="start" />
+									</Property>
+								</Properties>
+								<Children>
+									<Child Name="start" Key="{EBA16A55-D69D-45F2-9ABE-EA4A3C56C1EA}">
+										<Image FileName="-974181306" Left="9" Top="38" Right="704" Bottom="167" />
+										<Properties>
+											<Property Name="FrameworkId">
+												<Value Value="DirectUI" />
+											</Property>
+											<Property Name="ClassName">
+												<Value Value="TaskDialog" />
+											</Property>
+											<Property Name="LocalizedControlType">
+												<Value Value="panel" />
+											</Property>
+											<Property Name="ObjectIdentifier">
+												<Value Value="start" />
+											</Property>
+											<Property Name="ObjectGroupIndex">
+												<Value Value="1" Type="0" />
+											</Property>
+										</Properties>
+										<Children>
+											<Child Name="CtrlNotifySink" Key="{FA005BDD-C666-4A78-856C-0FA7099A3270}">
+												<Image FileName="-974181306" Left="596" Top="127" Right="691" Bottom="156" />
+												<Properties>
+													<Property Name="WndClass">
+														<Value Value="CtrlNotifySink" />
+													</Property>
+													<Property Name="WndCaption">
+														<Value Value="" />
+													</Property>
+													<Property Name="Index">
+														<Value Value="7" Type="0" />
+													</Property>
+												</Properties>
+												<Children>
+													<Child Name="btnAceptar" Key="{9FA65212-B16E-4940-8B19-3C120554A250}">
+														<Image FileName="-974181306" Left="596" Top="127" Right="691" Bottom="156" />
+														<TypeInfo Item0="{0C77F450-131E-47DC-A930-D03B34C8E480}" />
+														<Properties>
+															<Property Name="WndClass">
+																<Value Value="Button" />
+															</Property>
+															<Property Name="WndCaption">
+																<Value Value="Aceptar" />
+															</Property>
+														</Properties>
+													</Child>
+												</Children>
+											</Child>
+										</Children>
+									</Child>
+								</Children>
+							</Child>
+						</Children>
+					</Child>
+					<Child Name="WindowsTerminal" Key="{13479ED7-4686-4221-BBE4-2D9FB081F1CE}">
+						<Properties>
+							<Property Name="ProcessName">
+								<Value Value="WindowsTerminal" />
+							</Property>
+						</Properties>
+						<Children>
+							<Child Name="wndCASCADIA_HOSTING_WINDOW_CLASS" Key="{DDE76A8B-07C1-4059-B152-D05BDB83D331}">
+								<Properties>
+									<Property Name="WndClass">
+										<Value Value="CASCADIA_HOSTING_WINDOW_CLASS" />
+									</Property>
+									<Property Name="WndCaption">
+										<Value Value="C:\WINDOWS\system32\cmd.exe" />
+									</Property>
+								</Properties>
+								<Children>
+									<Child Name="DesktopWindowXamlSource" Key="{8E1262EE-B05F-431B-AAEB-6D5C54941B9E}">
+										<Properties>
+											<Property Name="WndClass">
+												<Value Value="Windows.UI.Composition.DesktopWindowContentBridge" />
+											</Property>
+											<Property Name="WndCaption">
+												<Value Value="DesktopWindowXamlSource" />
+											</Property>
+										</Properties>
+										<Children>
+											<Child Name="WindowsUIInputInputSiteWindowClass" Key="{AF89C758-E34A-4935-B6AF-F83978447484}">
+												<TypeInfo Item0="{397A30A6-9E66-4150-9E18-71149DEC83F1}" />
+												<Properties>
+													<Property Name="WndClass">
+														<Value Value="Windows.UI.Input.InputSite.WindowClass" />
+													</Property>
+												</Properties>
+											</Child>
+										</Children>
+									</Child>
+								</Children>
+							</Child>
+						</Children>
+					</Child>
+					<Child Name="browser" Key="{A3F503E4-E869-469A-9E0E-59E0E070F5EC}">
+						<Properties>
+							<Property Name="ObjectType">
+								<Value Value="Browser" />
+							</Property>
+						</Properties>
+						<Children>
+							<Child Name="BrowserWindow" Key="{7863C160-15DB-40F5-AB99-EE03D158C4E8}">
+								<Properties>
+									<Property Name="ObjectType">
+										<Value Value="BrowserWindow" />
+									</Property>
+									<Property Name="ObjectIdentifier">
+										<Value Value="1" Type="0" />
+									</Property>
+								</Properties>
+								<Children>
+									<Child Name="Chrome_RenderWidgetHostHWND" Key="{79E2808E-E296-4425-9DC9-6357435F28D5}">
+										<TypeInfo Item0="{397A30A6-9E66-4150-9E18-71149DEC83F1}" />
+										<Properties>
+											<Property Name="WndClass">
+												<Value Value="Chrome_RenderWidgetHostHWND" />
+											</Property>
+											<Property Name="WndCaption">
+												<Value Value="Chrome Legacy Window" />
+											</Property>
+										</Properties>
+									</Child>
+								</Children>
+							</Child>
+							<Child Name="BrowserWindow2" Key="{CCD294F6-24A2-463B-A62F-B90D674DDD2E}">
+								<TypeInfo Item0="{081F1DAE-77C7-4F7D-81AD-C122D9045EFD}" />
+								<Properties>
+									<Property Name="ObjectType">
+										<Value Value="BrowserWindow" />
+									</Property>
+									<Property Name="ObjectIdentifier">
+										<Value Value="0" Type="0" />
+									</Property>
+								</Properties>
+							</Child>
+							<Child Name="pageError" Key="{E8F5F23C-8934-4F00-9C47-AAEE32902B6B}">
+								<TypeInfo Item0="{CEA72F41-9384-4729-8E9B-D1DFDCCDC312}" />
+								<Properties>
+									<Property Name="ObjectType">
+										<Value Value="Page" />
+									</Property>
+									<Property Name="URL">
+										<Value Value="http://localhost:8000/api/users" />
+									</Property>
+								</Properties>
+								<Children>
+									<Child Name="textnode" Key="{45AD066C-A636-49D7-B45A-7EEE4B107B59}">
+										<TypeInfo Item0="{6A2F8E0A-00C0-45D6-8865-9C6B3DE0C5D8}" />
+										<Selectors>
+											<Selector>
+												<Value Value="pre[.=&apos;[]&apos;]" />
+											</Selector>
+											<Selector>
+												<Value Value="pre" />
+											</Selector>
+										</Selectors>
+									</Child>
+								</Children>
+							</Child>
+						</Children>
+					</Child>
+				</Children>
+			</Child>
+		</Children>
+	</Nodes>
+	<LogicalNodes Name="Aliases" Owner="{BE401E45-B2D6-4FBA-931A-C2117D5C51AD}">
+		<Child Name="explorer" Owner="{89EA6C0D-73E0-414D-8E46-13C58E99EC8A}">
+			<Child Name="dlgEjecutar" Owner="{B9D77E55-CC31-4369-B51C-1CEE27BD4E38}">
+				<Child Name="cbxAbrir" Owner="{DAF04529-CDFE-495C-8136-10F53FB58053}">
+					<Child Name="Edit" Owner="{3AD63DE1-6F35-4726-B69A-BDAA59861AE0}" />
+				</Child>
+			</Child>
+			<Child Name="wndShell_TrayWnd" Owner="{0270E70A-257B-4BFA-A5C2-4AA96FE507C0}">
+				<Child Name="DesktopWindowXamlSource" Owner="{F2C90C2D-1290-497B-8F4B-0FFFBF24FB1F}" />
+			</Child>
+			<Child Name="wndProgman" Owner="{87BF6BE6-F685-4FB8-B2AB-83683503DF11}" />
+			<Child Name="dlgStart" Owner="{3E75D09C-E9D8-4E5D-A343-5A1989CD72F2}">
+				<Child Name="start" Owner="{EBA16A55-D69D-45F2-9ABE-EA4A3C56C1EA}">
+					<Child Name="CtrlNotifySink" Owner="{FA005BDD-C666-4A78-856C-0FA7099A3270}">
+						<Child Name="btnAceptar" Owner="{9FA65212-B16E-4940-8B19-3C120554A250}" />
+					</Child>
+				</Child>
+			</Child>
+		</Child>
+		<Child Name="WindowsTerminal" Owner="{13479ED7-4686-4221-BBE4-2D9FB081F1CE}">
+			<Child Name="wndCASCADIA_HOSTING_WINDOW_CLASS" Owner="{DDE76A8B-07C1-4059-B152-D05BDB83D331}">
+				<Child Name="DesktopWindowXamlSource" Owner="{8E1262EE-B05F-431B-AAEB-6D5C54941B9E}">
+					<Child Name="WindowsUIInputInputSiteWindowClass" Owner="{AF89C758-E34A-4935-B6AF-F83978447484}" />
+				</Child>
+			</Child>
+		</Child>
+		<Child Name="browser" Owner="{A3F503E4-E869-469A-9E0E-59E0E070F5EC}">
+			<Child Name="BrowserWindow" Owner="{7863C160-15DB-40F5-AB99-EE03D158C4E8}">
+				<Child Name="Chrome_RenderWidgetHostHWND" Owner="{79E2808E-E296-4425-9DC9-6357435F28D5}" />
+			</Child>
+			<Child Name="BrowserWindow2" Owner="{CCD294F6-24A2-463B-A62F-B90D674DDD2E}" />
+			<Child Name="pageError" Owner="{E8F5F23C-8934-4F00-9C47-AAEE32902B6B}">
+				<Child Name="textnode" Owner="{45AD066C-A636-49D7-B45A-7EEE4B107B59}" />
+			</Child>
+		</Child>
+	</LogicalNodes>
+</Root>

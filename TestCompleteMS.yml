@@ -60,7 +60,7 @@ steps:
     height: 1080
 
 - task: VSTest@2
-  enabled: false
+  enabled: true
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: '**\*.pjs'
@@ -73,6 +73,7 @@ steps:
 
 
 - task: CmdLine@2
+  enabled: false
   displayName: 'Ejecutar pruebas TestComplete'
   inputs:
     script: |
@@ -81,7 +82,7 @@ steps:
 
 
 - task: CmdLine@2
-  enabled: false
+  enabled: true
   displayName: 'Ejecutar pruebas TestComplete'
   inputs:
     script: |

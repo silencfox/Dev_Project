@@ -1,0 +1,21 @@
+application:
+  enabled: true
+  name: backend-app
+  namespace: argocd
+  additionalApplications:
+    - name: backend-app
+      namespace: argocd
+      project: default
+      source:
+        repoURL: https://github.com/silencfox/Dev_Project.git
+        path: deployment/NewServices
+        targetRevision: HEAD
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: NewServices
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
