@@ -1,0 +1,30 @@
+# values.yaml personalizado (para helm upgrade later)
+server:
+  service:
+    type: LoadBalancer
+configs:
+  repositories:
+    my-repo:
+      url: https://github.com/silencfox/Dev_Project.git
+      type: git
+      name: Dev_Project
+      #username: your-username       # Opcional si es público
+      #password: your-password       # Opcional si es público
+      insecure: "true"               # true si no verificas el certificado TLS
+
+  applications:
+    backend-app:
+      name: backend-app
+      namespace: argocd
+      project: default
+      source:
+        repoURL: https://github.com/silencfox/Dev_Project.git
+        targetRevision: HEAD
+        path: deployment/NewServices
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: NewServices
+      syncPolicy:
+        automated:
+          prune: "true"
+          selfHeal: "true"
