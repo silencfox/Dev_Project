@@ -5,7 +5,7 @@ provider "azurerm" {
 module "acr" {
   source                 = "../../modules/acr"
   location               = var.location
-  rgname                 = var.rgname
+  rgname                 = var.acr_rgname
   sku                    = var.sku
   acr_name               = var.acr_name
   create_acr             = var.create_acr

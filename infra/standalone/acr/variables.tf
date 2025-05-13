@@ -1,6 +1,9 @@
 
-variable "rgname" {}
-
+ variable "acr_rgname" {
+  type        = string
+  default     = "Devsu_acr"
+  description = "container registry resource group name"
+ }
 variable "TF_VAR_ghtoken" {
   type        = string
   description = "Github persnal access token"

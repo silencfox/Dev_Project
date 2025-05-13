@@ -4,8 +4,8 @@ resource "azurerm_resource_group" "rg1" {
 }
 
 data "azurerm_container_registry" "acr" {
-  name                = "acrdevsu"               
-  resource_group_name = "Devsu_acr"                 
+  name                = var.acr_name               
+  resource_group_name = var.acr_rgname                
 }
 
 data "azurerm_client_config" "current" {}

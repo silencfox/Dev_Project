@@ -25,9 +25,18 @@ variable "aks_name" {
 variable "sku" {
   type = string
 }
-variable "acr_name" {
-  type = string
-}
+
+ variable "acr_name" {
+  type        = string
+  default     = "acrdevsu"
+  description = "container registry name"
+ }
+
+ variable "acr_rgname" {
+  type        = string
+  default     = "Devsu_acr"
+  description = "container registry resource group name"
+ }
 
 variable "create_acr" {
   type    = bool
