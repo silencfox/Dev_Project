@@ -443,8 +443,8 @@ stages:
                       az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
                       az account set --subscription $(ARM_SUBSCRIPTION_ID)
                       az aks get-credentials --resource-group $(k8srg) --name $(k8sname)
-                      az aks update --name $(k8sname) --resource-group $(k8srg) --attach-acr $(acrname)
-                      az aks check-acr --name $(k8sname) --resource-group $(k8srg) --acr $(acrname)
+                      az aks update --name $(k8sname) --resource-group $(k8srg) --attach-acr $(acr_name)
+                      az aks check-acr --name $(k8sname) --resource-group $(k8srg) --acr $(acr_name)
                   env:
                     ARM_CLIENT_ID: $(ARM_CLIENT_ID)
                     ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
