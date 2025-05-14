@@ -60,3 +60,25 @@ variable "cluster_name" {
   default = "Devsu-aks-cluster"
   description = "Nombre del cluster AKS"
 }
+
+variable "namespace" {
+  type = string
+  default = ""
+  description = ""
+}
+
+
+variable "state_rgname" {
+  type = string
+  default = ""
+  description = ""
+}
+
+
+variable "storeacount" {
+  type = string
+  default = ""
+  description = ""
+}
+
+

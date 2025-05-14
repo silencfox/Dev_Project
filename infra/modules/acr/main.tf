@@ -13,7 +13,7 @@ resource "azurerm_container_registry" "acr" {
 }
 
 resource "azurerm_container_registry_task" "acr_task" {
-  name                  = "acr_task"
+  name                  = "${var.acr_name}_task"
   enabled               = var.create_acr
   container_registry_id = azurerm_container_registry.acr.id
   platform {
