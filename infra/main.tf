@@ -10,6 +10,21 @@ data "azurerm_container_registry" "acr" {
 
 data "azurerm_client_config" "current" {}
 
+data "terraform_remote_state" "acr" {
+  backend = "azurerm"  # o el backend que estés usando
+  config = {
+    resource_group_name  = "rg-devsu-tfstate"
+    storage_account_name = "tfdevsublobstorage007011"
+    container_name       = "tfstate"
+    key                  = "terraform_acr.tfstate"  # archivo del state remoto
+  }
+}
+
+data "azurerm_container_registry" "acr_remote" {
+  name                = data.terraform_remote_state.acr.outputs.container_registry_name
+  resource_group_name = data.terraform_remote_state.acr.outputs.container_registry_resource_group
+}
+
 module "ServicePrincipal" {
   source                 = "./modules/ServicePrincipal"
   service_principal_name = var.service_principal_name
@@ -18,10 +33,6 @@ module "ServicePrincipal" {
     azurerm_resource_group.rg1
   ]
 }
-
-
-
-
 
 module "aks" {
   source                 = "./modules/aks/"
@@ -46,12 +57,11 @@ resource "local_file" "kubeconfig" {
   
 }
 
-
 resource "azurerm_role_assignment" "aks_acr_pull" {
   #principal_id         = module.aks.aks_principal_id
   principal_id         = module.aks.kubelet_identity[0].object_id
   role_definition_name = "AcrPull"
-  scope                = data.azurerm_container_registry.acr.id
+  scope                = data.azurerm_container_registry.acr_remote.id
 
   depends_on = [
     module.aks
@@ -59,9 +69,8 @@ resource "azurerm_role_assignment" "aks_acr_pull" {
 
 }
 
-
 resource "azurerm_role_assignment" "acr_Push" {
-  scope                = data.azurerm_container_registry.acr.id
+  scope                = data.azurerm_container_registry.acr_remote.id
   role_definition_name = "AcrPush"
   principal_id         = data.azurerm_client_config.current.object_id
 }

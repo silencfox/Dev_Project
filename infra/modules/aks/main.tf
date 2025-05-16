@@ -14,7 +14,7 @@ resource "tls_private_key" "aks" {
 }
 
 resource "azurerm_kubernetes_cluster" "aks-cluster" {
-  name                  = "${var.cluster_name}-${random_integer.rand.id}"
+  name                  = "${var.cluster_name}"
   location              = var.location
   resource_group_name   = var.resource_group_name
   dns_prefix            = "${var.resource_group_name}-cluster"           
