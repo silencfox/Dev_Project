@@ -1,15 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "alcachart.fullname" . }}
+  name: {{ .Release.Name }}-svc
+#  name: {{ include "alcachart.fullname" . }}
   labels:
     {{- include "alcachart.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.image.port }}
       protocol: TCP
       name: http
   selector:
-    {{- include "alcachart.selectorLabels" . | nindent 4 }}
+    name: {{ .Release.Name }}

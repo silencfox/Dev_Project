@@ -1,0 +1,59 @@
+controller:
+  adminUser: admin
+  adminPassword: admin123
+
+  serviceType: LoadBalancer
+
+  persistence:
+    enabled: true
+    size: 8Gi
+    storageClass: ""  # usa el default del clúster, o especifica uno
+
+  installPlugins:
+    # Jenkins base
+    - kubernetes:3937.vd7b_82db_e347b_
+    - workflow-aggregator:596.v8c21c963d92d
+    - git:5.2.1
+    - blueocean:1.27.5
+    - credentials-binding:630.vf1fa_9a_4f17a_0
+    - matrix-auth:3.1.7
+    - workflow-job:1367.v7c2f8e4c4d7b_
+    - pipeline-stage-view:2.33
+
+    # Azure plugins
+    - azure-credentials:241.vb58f0ca215a6
+    - azure-vm-agents:800.v5f3f95ae11dd
+    - azure-commons:1.1.3
+    - azure-ad:396.v8cb_6c31a_6240
+    - windows-azure-storage:374.v8f438150115f
+    - azure-container-agents:192.vdfb_823b_4b_642
+    - azure-app-service:1.0.0
+    - azure-functions:1.0.0
+    - azure-keyvault:158.v5b_4d7b_153f81
+    - arm-azure:1.0.0  # experimental
+
+    # AWS plugins
+    - aws-credentials:1.29
+    - aws-java-sdk:1.12.406-406.v8b_291cfcda_09
+    - pipeline-aws:1.43
+    - amazon-ecs:1.39
+    - aws-codepipeline:0.45
+    - aws-device-farm:1.0.4
+    - aws-secrets-manager-credentials-provider:1.214.v2eefa_7c8292e
+    - cloudwatch-logs-publisher:1.0.1
+    - s3:0.11.3
+    - aws-codedeploy:1.35
+    - aws-inspector:1.2
+    - aws-lambda-plugin:0.6.0
+    - aws-beanstalk-publisher:1.9
+
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "1"
+      memory: "2Gi"
+
+  ingress:
+    enabled: false  # puedes activarlo si tienes Ingress Controller

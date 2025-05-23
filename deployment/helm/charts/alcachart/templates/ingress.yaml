@@ -1,14 +1,17 @@
 {{- if .Values.ingress.enabled -}}
+{{- $root := . }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "alcachart.fullname" . }}
+  name: {{ .Release.Name }}-ingress
+#  name: {{ include "alcachart.fullname" . }}
   labels:
     {{- include "alcachart.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+    cert-manager.io/cluster-issuer: {{ .Release.Name }}-letsencrypt
 spec:
   {{- with .Values.ingress.className }}
   ingressClassName: {{ . }}
@@ -34,8 +37,8 @@ spec:
             pathType: {{ . }}
             {{- end }}
             backend:
-              service:
-                name: {{ include "alcachart.fullname" $ }}
+              service: 
+                name: {{ $root.Release.Name }}-svc
                 port:
                   number: {{ $.Values.service.port }}
           {{- end }}
