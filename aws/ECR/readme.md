@@ -13,10 +13,11 @@ terraform output ecr_repository_url
 
 ####
 
-REGION="us-east-1"
-REPO=$(terraform output -raw ecr_repository_url)
+$region = "us-east-1"
+$repo = (terraform output -raw ecr_repository_url).Trim()
 
-aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $REPO
+aws ecr get-login-password --region $region | docker login --username AWS --password-stdin 805400277785.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password --region $region | docker login --username AWS --password-stdin 805400277785.dkr.ecr.$region.amazonaws.com
 
 docker build -t nginx-custom ./docker
 docker tag nginx-custom:latest $REPO:latest

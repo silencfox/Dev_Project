@@ -6,7 +6,8 @@ helm install argocd argo/argo-cd `
   --set server.service.type=NodePort `
   --set server.service.nodePort=32080 `
   --set server.service.httpNodePort=32080 `
-  --set server.service.httpsNodePort=32443
+  --set server.service.httpsNodePort=32443 `
+  -f values.yaml
 
 $secret = kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
 $password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secret))

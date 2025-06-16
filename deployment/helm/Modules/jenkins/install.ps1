@@ -1,12 +1,15 @@
 helm repo add jenkins https://charts.jenkins.io
 helm repo update
 
-#helm uninstall jenkins -n jenkins
-#kubectl delete namespace jenkins
+helm uninstall jenkins -n jenkins
+kubectl delete namespace jenkins
 
-helm install jenkins jenkins/jenkins -n jenkins -f values.yaml
+helm install jenkins jenkins/jenkins -n jenkins --create-namespace --set adminPassword=admin -f values.yaml
+
+start-sleep 300
 
 kubectl get pods -n jenkins
 kubectl exec --namespace jenkins -it svc/jenkins -- bash -c "cat /run/secrets/chart-admin-password && echo"
 
-kubectl port-forward svc/jenkins 8080:8080 -n jenkins
+
+Start-Process powershell -ArgumentList 'kubectl port-forward svc/jenkins 8080:8080 -n jenkins'

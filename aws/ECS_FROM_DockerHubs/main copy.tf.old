@@ -2,8 +2,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-data "aws_caller_identity" "current" {}
-
 # VPC simplificada
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
@@ -104,11 +102,9 @@ resource "aws_ecs_task_definition" "nginx_task" {
   container_definitions = jsonencode([{
     name      = "nginx"
     #image     = "nginx" 
-    image     = "silencfox/nodeapp" 
-    #command = ["stress-ng", "--cpu", "2", "--cpu-load", "60", "--timeout", "10000"]
-    command = ["bash", "-c", "stress-ng --cpu 2 --cpu-load 60 --timeout 15000 & serve -s . -l 80"]
-    #image     = "progrium/stress"  
-    #command = ["--cpu", "4", "--timeout", "600"]
+    #image     = "silencfox/nodeapp" 
+    image     = "progrium/stress"  
+    command = ["--cpu", "2", "--timeout", "1600s"]
     essential = true
     portMappings = [{
       containerPort = 80
@@ -153,19 +149,13 @@ resource "aws_appautoscaling_policy" "ecs_cpu_scaling_policy" {
   service_namespace  = aws_appautoscaling_target.ecs_scaling_target.service_namespace
 
   target_tracking_scaling_policy_configuration {
-    target_value       = 60
+    target_value       = 50.0
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
     scale_in_cooldown  = 800
     scale_out_cooldown = 300
   }
-}
-
-
-resource "aws_iam_role_policy_attachment" "ecs_exec_cloudwatch_insights" {
-  role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }
 
 
@@ -184,7 +174,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_max_tasks_reached" {
   }
 
   alarm_description = "El servicio ${var.ecs_service_name} ha alcanzado el número máximo de tareas."
-  treat_missing_data = "missing"
+  treat_missing_data = "notBreaching"
 
   alarm_actions = [aws_sns_topic.alerts.arn]
 }
@@ -206,7 +196,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_high_cpu" {
   }
 
   alarm_description = "El servicio ${var.ecs_service_name} tiene uso alto de CPU"
-  treat_missing_data = "missing"
+  treat_missing_data = "notBreaching"
   alarm_actions      = [aws_sns_topic.alerts.arn]
 }
 
@@ -225,7 +215,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_high_memory" {
   }
 
   alarm_description = "El servicio ${var.ecs_service_name} tiene uso alto de memoria"
-  treat_missing_data = "missing"
+  treat_missing_data = "notBreaching"
   alarm_actions      = [aws_sns_topic.alerts.arn]
 }
 
@@ -239,117 +229,4 @@ resource "aws_sns_topic_subscription" "email" {
   topic_arn = aws_sns_topic.alerts.arn
   protocol  = "email"
   endpoint  = "kelvin.ag89@gmail.com" # Cambia por tu email de alertas
-}
-
-
-
-resource "aws_cloudwatch_log_group" "alarm_logs" {
-  name = "/cloudwatch/alarms"
-  retention_in_days = 14
-}
-
-resource "aws_iam_role" "eventbridge_to_logs_role" {
-  name = "eventbridge-to-logs-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          Service = "events.amazonaws.com"
-        }
-        Action = "sts:AssumeRole"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy" "eventbridge_to_logs_policy" {
-  role = aws_iam_role.eventbridge_to_logs_role.name
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "logs:PutLogEvents",
-          "logs:CreateLogStream",
-          "logs:DescribeLogGroups",
-          "logs:DescribeLogStreams"
-        ]
-        Resource = "${aws_cloudwatch_log_group.alarm_logs.arn}:*"
-      }
-    ]
-  })
-}
-
-resource "aws_cloudwatch_event_rule" "alarm_state_change" {
-  name        = "alarm-state-change"
-  description = "Captura cambios de estado en alarmas CloudWatch"
-  event_pattern = jsonencode({
-    source = ["aws.cloudwatch"]
-    "detail-type" = ["CloudWatch Alarm State Change"]
-  })
-}
-
-resource "aws_cloudwatch_event_target" "send_to_loggroup" {
-  rule = aws_cloudwatch_event_rule.alarm_state_change.name
-  arn  = aws_cloudwatch_log_group.alarm_logs.arn
-}
-
-
-
-#####################
-#####################
-
-
-resource "aws_cloudwatch_log_group" "eventbridge_logs" {
-  name = "/aws/events/logging"
-  retention_in_days = 7
-}
-
-resource "aws_iam_role" "eventbridge_to_logs" {
-  name = "eventbridge-logs-role"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [{
-      Effect = "Allow",
-      Principal = {
-        Service = "events.amazonaws.com"
-      },
-      Action = "sts:AssumeRole"
-    }]
-  })
-}
-
-resource "aws_iam_role_policy" "eventbridge_logs_policy" {
-  role = aws_iam_role.eventbridge_to_logs.id
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [{
-      Effect = "Allow",
-      Action = "logs:PutLogEvents",
-      Resource = "*"
-    }]
-  })
-}
-
-resource "aws_cloudwatch_log_stream" "stream" {
-  name           = "eventbridge"
-  log_group_name = aws_cloudwatch_log_group.eventbridge_logs.name
-}
-
-resource "aws_cloudwatch_event_rule" "all_events" {
-  name        = "log-all-default-bus-events"
-  event_pattern = jsonencode({
-    "account": ["${data.aws_caller_identity.current.account_id}"]
-  })
-}
-
-resource "aws_cloudwatch_event_target" "log_target" {
-  rule      = aws_cloudwatch_event_rule.all_events.name
-  arn       = aws_cloudwatch_log_group.eventbridge_logs.arn
-  role_arn  = aws_iam_role.eventbridge_to_logs.arn
 }
