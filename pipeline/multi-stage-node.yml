@@ -494,15 +494,21 @@ stages:
 
                       #Ingress controller (ya instalado por helm)  
                       #kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-                      
-                      kubectl apply -f 01-deployment-v1.yaml -n $(K8S_NAMESPACE)
-                      kubectl apply -f 02-deployment-v2.yaml -n $(K8S_NAMESPACE)
-                      kubectl apply -f 03-service-v1.yaml -n $(K8S_NAMESPACE)
-                      kubectl apply -f 04-service-v2.yaml -n $(K8S_NAMESPACE)
-                      kubectl apply -f 05-prod-issuer.yaml -n $(K8S_NAMESPACE)
-                      kubectl apply -f 06-ingress-rules.yaml -n $(K8S_NAMESPACE)
-                      kubectl apply -f 07-hpa-v1.yaml -n $(K8S_NAMESPACE)
-                      kubectl apply -f 08-hpa-v2.yaml -n $(K8S_NAMESPACE)
+                      helm lint devsudemo
+                      helm template mdevsudemo
+
+                      helm uninstall my-release -n devsu
+                      helm install my-release ./devsudemo -n devsu --create-namespace #--set replicaCount=3
+                      kubectl get all -n devsu
+
+                      #kubectl apply -f 01-deployment-v1.yaml -n $(K8S_NAMESPACE)
+                      #kubectl apply -f 02-deployment-v2.yaml -n $(K8S_NAMESPACE)
+                      #kubectl apply -f 03-service-v1.yaml -n $(K8S_NAMESPACE)
+                      #kubectl apply -f 04-service-v2.yaml -n $(K8S_NAMESPACE)
+                      #kubectl apply -f 05-prod-issuer.yaml -n $(K8S_NAMESPACE)
+                      #kubectl apply -f 06-ingress-rules.yaml -n $(K8S_NAMESPACE)
+                      #kubectl apply -f 07-hpa-v1.yaml -n $(K8S_NAMESPACE)
+                      #kubectl apply -f 08-hpa-v2.yaml -n $(K8S_NAMESPACE)
 
                       kubectl get deployments -n $(K8S_NAMESPACE)
                       kubectl get services -n $(K8S_NAMESPACE)
