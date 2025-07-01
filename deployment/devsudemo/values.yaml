@@ -1,4 +1,4 @@
-# Default values for Devsu_chart.
+# Default values for devsudemo.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -13,7 +13,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
   # puerto donde se publica el servicio de los pods
-  port: 8080
+  port: 8000
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -50,6 +50,13 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+
+secrect:
+  # Specifies whether a service account should be created
+  username: admin
+  password: admin
+  database: db01
+
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 service:
@@ -96,13 +103,21 @@ resources: {}
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
   httpGet:
-    path: /
-    port: http
+    path: /api/users
+    port: 8000
+  initialDelaySeconds: 60 # Espera 30s antes de la primera probe
+  periodSeconds: 30         # Realiza una probe cada 10s
+  timeoutSeconds: 5         # Espera hasta 5s por la respuesta
+  failureThreshold: 10       # Si falla 3 veces consecutivas, reinicia el container
+
 readinessProbe:
   httpGet:
-    path: /
-    port: http
-
+    path: /api/users
+    port: 8000
+  initialDelaySeconds: 60 # Espera 30s antes de la primera probe
+  periodSeconds: 30         # Realiza una probe cada 10s
+  timeoutSeconds: 5         # Espera hasta 5s por la respuesta
+  failureThreshold: 10       # Si falla 3 veces consecutivas, reinicia el container
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
   enabled: true

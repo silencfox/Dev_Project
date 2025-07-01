@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-svc
-  #name: {{ include "Devsu_chart.fullname" . }}
+  #name: {{ include "devsudemo.fullname" . }}
   labels:
-    {{- include "Devsu_chart.labels" . | nindent 4 }}
+    {{- include "devsudemo.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

@@ -1,7 +1,27 @@
 #
 docker build -t silencfox/devsudemo:latest	 .
-docker run -it --rm --name devsuapp silencfox/devsudemo /bin/sh
+docker run -it --rm -p 8000:8000 --name devsuapp silencfox/devsudemo /bin/sh
 stress-ng --cpu 2 --timeout 30s
+
+kubectl create namespace cert-manager
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.14.2 --set installCRDs=true
+kubectl get crd | grep clusterissuer
+
+helm create devsudemo
+helm lint devsudemo
+helm template mdevsudemo
+
+helm uninstall my-release -n devsu
+helm install my-release ./devsudemo -n devsu --create-namespace #--set replicaCount=3
+kubectl get all -n devsu
+minikube service my-release-svc -n devsu
+helm upgrade my-release ./devsudemo
+
+kubectl exec -it pod/my-release-7cf79b6db-4nmxl -n devsu -- /bin/sh
+minikube service my-release-svc -n devsu
+
 
 # Demo Devops NodeJs
 

@@ -4,9 +4,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}-ingress
-  #name: {{ include "Devsu_chart.fullname" . }}
+  #name: {{ include "devsudemo.fullname" . }}
   labels:
-    {{- include "Devsu_chart.labels" . | nindent 4 }}
+    {{- include "devsudemo.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

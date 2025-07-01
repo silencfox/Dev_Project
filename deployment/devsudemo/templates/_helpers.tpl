@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "Devsu_chart.name" -}}
+{{- define "devsudemo.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "Devsu_chart.fullname" -}}
+{{- define "devsudemo.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "Devsu_chart.chart" -}}
+{{- define "devsudemo.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "Devsu_chart.labels" -}}
-helm.sh/chart: {{ include "Devsu_chart.chart" . }}
-{{ include "Devsu_chart.selectorLabels" . }}
+{{- define "devsudemo.labels" -}}
+helm.sh/chart: {{ include "devsudemo.chart" . }}
+{{ include "devsudemo.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "Devsu_chart.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "Devsu_chart.name" . }}
+{{- define "devsudemo.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "devsudemo.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "Devsu_chart.serviceAccountName" -}}
+{{- define "devsudemo.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "Devsu_chart.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "devsudemo.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
