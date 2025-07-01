@@ -4,8 +4,8 @@ resource "azurerm_resource_group" "rg1" {
 }
 
 data "azurerm_container_registry" "acr" {
-  name                = "acrdevsu"               
-  resource_group_name = "Devsu_acr"                 
+  name                = "${var.acr_name}"           
+  resource_group_name = "${var.acr_rgname}"                
 }
 
 data "azurerm_client_config" "current" {}
@@ -30,6 +30,7 @@ module "aks" {
   client_secret          = module.ServicePrincipal.client_secret
   cluster_name           = "${var.cluster_name}-${var.environment}"
   location               = var.location
+  #resource_group_name    = "${var.rgname}-${var.environment}"
   resource_group_name    = "${var.rgname}-${var.environment}"
   environment            = var.environment
   

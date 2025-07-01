@@ -51,7 +51,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-secrect:
+secret:
   # Specifies whether a service account should be created
   username: admin
   password: admin
