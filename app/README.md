@@ -1,3 +1,8 @@
+#
+docker build -t silencfox/devsudemo:latest	 .
+docker run -it --rm --name devsuapp silencfox/devsudemo /bin/sh
+stress-ng --cpu 2 --timeout 30s
+
 # Demo Devops NodeJs
 
 This is a simple application to be used in the technical test of DevOps.
