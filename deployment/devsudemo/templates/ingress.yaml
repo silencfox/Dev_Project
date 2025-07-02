@@ -10,7 +10,11 @@ metadata:
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+    {{- if eq .Values.environment "prod" }}
     cert-manager.io/cluster-issuer: {{ .Release.Name }}-letsencrypt
+    {{- else }}
+    cert-manager.io/issuer: {{ .Release.Name }}-selfsigned-issuer
+    {{- end }}
 spec:
   {{- with .Values.ingress.className }}
   ingressClassName: {{ . }}
@@ -22,7 +26,7 @@ spec:
         {{- range .hosts }}
         - {{ . | quote }}
         {{- end }}
-      secretName: {{ .secretName }}
+      secretName: {{ $root.Release.Name }}-ingress-tls-secret
     {{- end }}
   {{- end }}
   rules:

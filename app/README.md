@@ -13,14 +13,14 @@ helm create devsudemo
 helm lint devsudemo
 helm template mdevsudemo
 
-helm uninstall my-release -n devsu
-helm install my-release ./devsudemo -n devsu --create-namespace #--set replicaCount=3
+helm uninstall devsu-release -n devsu
+helm install devsu-release ./devsudemo -n devsu --create-namespace #--set replicaCount=3
 kubectl get all -n devsu
-minikube service my-release-svc -n devsu
-helm upgrade my-release ./devsudemo
+minikube service devsu-release-svc -n devsu
+helm upgrade devsu-release ./devsudemo
 
-kubectl exec -it pod/my-release-7cf79b6db-4nmxl -n devsu -- /bin/sh
-minikube service my-release-svc -n devsu
+kubectl exec -it pod/devsu-release-7cf79b6db-4nmxl -n devsu -- /bin/sh
+minikube service devsu-release-svc -n devsu
 
 
 # Demo Devops NodeJs

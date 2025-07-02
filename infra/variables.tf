@@ -10,30 +10,26 @@ variable "acr_rgname" {
 
 }
 
-
 variable "location" {
   type    = string
   default = "brazilsouth"
+  description = "Location of the resource group."
 }
-
-variable "service_principal_name" {
-  type = string
-}
-
-variable "keyvault_name" {
-  type = string
-}
-
 
 variable "aks_name" {
   type = string
 }
 
-variable "sku" {
-  type = string
+ variable "sku" {
+  type        = string
+  default     = "Basic"
+  description = "farming capacity"
 }
+
 variable "acr_name" {
-  type = string
+  type        = string
+  default     = "acrdevsu"
+  description = "container registry name"
 }
 
 variable "create_acr" {
@@ -41,13 +37,6 @@ variable "create_acr" {
   default = true
 }
 
-variable "ghpathfile" {
-  type = string
-}
-
-variable "TF_VAR_ghtoken" {
-  type = string
-}
 
 variable "environment" {
   type = string
@@ -59,3 +48,21 @@ variable "cluster_name" {
   default = "Devsu-aks-cluster"
   description = "Nombre del cluster AKS"
 }
+
+
+
+
+variable "TF_VAR_ghtoken" {
+  type        = string
+  description = "Github persnal access token"
+}
+
+variable "ghpathfile" {
+  type        = string
+  default     = "https://github.com/silencfox/Dev_Project#main:app"
+  description = "Github persnal access token"
+}
+
+
+
+

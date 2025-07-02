@@ -15,7 +15,7 @@ spec:
       protocol: TCP
       name: http
   selector:
-    name: {{ .Release.Name }}
+    name: {{ printf "%s-svc%d" $root.Release.Name (add $i 1) }}
 ---
 {{- end }}
 {{- end }}

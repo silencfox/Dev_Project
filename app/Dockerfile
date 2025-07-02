@@ -27,4 +27,7 @@ COPY --from=build /node-app /node-app
 
 EXPOSE 8000
 
+HEALTHCHECK --interval=120s --timeout=5s --start-period=20s --retries=3 \
+  CMD curl -f http://localhost:8000/api/users  || exit 1
+
 CMD ["npm", "run", "start"]

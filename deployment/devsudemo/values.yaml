@@ -1,6 +1,8 @@
 # Default values for devsudemo.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+environment: dev
+#environment: prod
 
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
 replicaCount: 1
@@ -66,7 +68,7 @@ service:
   #type: ClusterIP
   type: LoadBalancer
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 80
+  port: 443
 
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
@@ -82,16 +84,27 @@ ingress:
       paths:
         - path: /
           pathType: Exact
-          servicePort: 80
+          servicePort: 443
     - host: v2.devsu.local
       paths:
         - path: /
           pathType: Exact
-          servicePort: 80
-  tls: []
+          servicePort: 443
+  #tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+  tls:
+    - hosts:
+        - v1.devsu.local
+        - v2.devsu.local
+      secretName: v1.devsu.local-tls
+### certificado letsencrypt
+### server prod
+#server: https://acme-v02.api.letsencrypt.org/directory
+### server test
+#server: https://acme-staging-v02.api.letsencrypt.org/directory
+
 
 cert:
   acme:

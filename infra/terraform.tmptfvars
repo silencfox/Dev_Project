@@ -11,8 +11,3 @@ acr_name                     = "#{acr_name}#"
 create_acr                   = "#{create_acr}#"
 namespace                    = "#{namespace}#"
 environment                  = "#{environment}#"
-
-#tenant_id                   = ""
-#subscription_id             = ""
-#client_id                   = ""
-#client_secret               = ""  
