@@ -4,13 +4,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}-ingress
-  #name: {{ include "devsudemo.fullname" . }}
   labels:
     {{- include "devsudemo.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
+    {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- end }}
     cert-manager.io/cluster-issuer: {{ .Release.Name }}-letsencrypt
 spec:
   {{- with .Values.ingress.className }}
@@ -27,20 +26,18 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    {{- range $i, $host := .Values.ingress.hosts }}
+    - host: {{ $host.host | quote }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            {{- with .pathType }}
-            pathType: {{ . }}
-            {{- end }}
+          {{- range $j, $path := $host.paths }}
+          - path: {{ $path.path }}
+            pathType: {{ $path.pathType }}
             backend:
               service:
-                name: {{ $root.Release.Name }}-svc
+                name: {{ printf "%s-svc%d" $root.Release.Name (add $i 1) }}
                 port:
-                  number: {{ $.Values.service.port }}
+                  number: {{ $path.servicePort }}
           {{- end }}
     {{- end }}
 {{- end }}

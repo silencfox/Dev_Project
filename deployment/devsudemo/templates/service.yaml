@@ -1,16 +1,21 @@
+{{- $root := . }}
+{{- if .Values.service.enabled }}
+{{- range $i := until (.Values.service.count | int) }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-svc
-  #name: {{ include "devsudemo.fullname" . }}
+  name: {{ printf "%s-svc%d" $root.Release.Name (add $i 1) }}
   labels:
-    {{- include "devsudemo.labels" . | nindent 4 }}
+    {{- include "devsudemo.labels" $root | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ $root.Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.image.port }}
+    - port: {{ $root.Values.service.port }}
+      targetPort: {{ $root.Values.image.port }}
       protocol: TCP
       name: http
   selector:
     name: {{ .Release.Name }}
+---
+{{- end }}
+{{- end }}
