@@ -1,10 +1,10 @@
+variable "subscription_id" {}
+variable "client_id" {}
+variable "tenant_id" {}
+variable "client_secret" {}
+
+
 variable "rgname" {
-  type        = string
-  description = "resource group name"
-
-}
-
-variable "acr_rgname" {
   type        = string
   description = "resource group name"
 
@@ -32,12 +32,6 @@ variable "acr_name" {
   description = "container registry name"
 }
 
-variable "create_acr" {
-  type    = bool
-  default = true
-}
-
-
 variable "environment" {
   type = string
   description = "Ambiente de la infra Dev, QA, Prod"
@@ -48,9 +42,6 @@ variable "cluster_name" {
   default = "Devsu-aks-cluster"
   description = "Nombre del cluster AKS"
 }
-
-
-
 
 variable "TF_VAR_ghtoken" {
   type        = string

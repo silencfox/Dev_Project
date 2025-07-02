@@ -3,20 +3,15 @@ resource "azurerm_resource_group" "rg1" {
   location = var.location
 }
 
-data "azurerm_container_registry" "acr" {
-  name                = "${var.acr_name}"           
-  resource_group_name = "${var.acr_rgname}"                
-}
-
 data "azurerm_client_config" "current" {}
 
 module "acr" {
   source                 = "./modules/acr"
   location               = var.location
-  rgname                 = var.acr_rgname
+  rgname                 = "${var.rgname}-${var.environment}"
   sku                    = var.sku
   acr_name               = var.acr_name
-  create_acr             = var.create_acr
+  #create_acr             = var.create_acr
   ghpathfile             = var.ghpathfile
   TF_VAR_ghtoken         = var.TF_VAR_ghtoken
 }
@@ -29,7 +24,7 @@ module "aks" {
   environment            = var.environment
   
   depends_on = [
-    module.ServicePrincipal
+    module.acr
   ]
 
 }
@@ -43,7 +38,7 @@ resource "local_file" "kubeconfig" {
 resource "azurerm_role_assignment" "aks_acr_pull" {
   principal_id         = module.aks.kubelet_identity[0].object_id
   role_definition_name = "AcrPull"
-  scope                = data.azurerm_container_registry.acr.id
+  scope                = module.acr.acr_id
 
   depends_on = [
     module.aks
@@ -52,7 +47,7 @@ resource "azurerm_role_assignment" "aks_acr_pull" {
 }
 
 resource "azurerm_role_assignment" "acr_Push" {
-  scope                = data.azurerm_container_registry.acr.id
+  scope                = module.acr.acr_id
   role_definition_name = "AcrPush"
   principal_id         = data.azurerm_client_config.current.object_id
 }
