@@ -12,6 +12,7 @@ resource "azurerm_container_registry" "acr" {
   admin_enabled       = false
 }
 
+### Tarea para hacer gitops a la app (subir automaticamente a ACR luego de commit en el repositorio)
 resource "azurerm_container_registry_task" "acr_task" {
   name                  = "acr_task"
   #enabled               = var.create_acr

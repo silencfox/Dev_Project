@@ -80,15 +80,13 @@ ingress:
     kubernetes.io/tls-acme: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: v1.devsu.local
+    - host: devsu.local
       paths:
-        - path: /
-          pathType: Exact
+        - path: /v1
+          pathType: Prefix
           servicePort: 443
-    - host: v2.devsu.local
-      paths:
-        - path: /
-          pathType: Exact
+        - path: /v2
+          pathType: Prefix
           servicePort: 443
   #tls: []
   #  - secretName: chart-example-tls

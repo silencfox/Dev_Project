@@ -42,8 +42,6 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
   }
   
 # to do: generate the ssh keys using tls_private_key
-# upload the key to key vault
-
   linux_profile {
     admin_username = "ubuntu"
     ssh_key {

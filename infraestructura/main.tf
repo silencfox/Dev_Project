@@ -1,3 +1,9 @@
+##########################
+##      Create by       ##
+##   Kelvin D. Alcala   ##
+##      28-04-2025      ##
+##########################
+
 resource "azurerm_resource_group" "rg1" {
   name     = "${var.rgname}-${var.environment}"
   location = var.location
@@ -22,7 +28,11 @@ module "aks" {
   location               = var.location
   resource_group_name    = "${var.rgname}-${var.environment}"
   environment            = var.environment
-  
+  min_count              = var.min_count
+  max_count              = var.max_count
+  vm_size                = var.vm_size
+  os_disk_size_gb        = "var.os_disk_size_gb"
+
   depends_on = [
     module.acr
   ]

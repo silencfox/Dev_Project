@@ -18,3 +18,18 @@ variable "environment" {
   type = string
   description = "Ambiente de la infra Dev, QA, Prod"
 }
+
+variable "min_count" {
+  description = "min auto_scaling"
+}
+variable "max_count" {
+  description = "max auto_scaling"
+}
+variable "os_disk_size_gb" {
+  description = "disk size"
+}
+variable "vm_size" {
+  description = "disk size"
+}
+
+
