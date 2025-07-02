@@ -32,10 +32,6 @@ variable "acr_name" {
   description = "container registry name"
 }
 
-variable "environment" {
-  type = string
-  description = "Ambiente de la infra Dev, QA, Prod"
-}
 
 variable "cluster_name" {
   type = string

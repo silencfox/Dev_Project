@@ -4,6 +4,16 @@
 ##      28-04-2025      ##
 ##########################
 
+variable "environment" {
+  type = string
+  description = "Ambientes de la infra devsu-dev, devsu-qa, devsu-prod"
+  default     = ""
+}
+
+locals {
+  environment = var.environment != "" ? var.environment : terraform.workspace
+}
+
 resource "azurerm_resource_group" "rg1" {
   name     = "${var.rgname}-${var.environment}"
   location = var.location
