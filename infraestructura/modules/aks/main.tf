@@ -41,7 +41,7 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
     type = "SystemAssigned"
   }
   
-# to do: generate the ssh keys using tls_private_key
+ #to do: generate the ssh keys using tls_private_key
   linux_profile {
     admin_username = "ubuntu"
     ssh_key {
@@ -56,6 +56,5 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
   }
 
     
-  }
-
+}
 

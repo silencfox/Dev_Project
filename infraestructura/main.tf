@@ -7,7 +7,7 @@
 variable "environment" {
   type = string
   description = "Ambientes de la infra devsu-dev, devsu-qa, devsu-prod"
-  default     = ""
+  default     = "DEV"
 }
 
 #locals {
@@ -49,10 +49,10 @@ module "aks" {
 
 }
 
-resource "local_file" "kubeconfig" {
+resource "local_file" "kubeconfig2" {
   depends_on   = [module.aks]
-  filename     = "./kubeconfig"
-  content      = module.aks.kube_config
+  filename     = "./kubeconfig2"
+  content      = module.aks.kube_config2
 }
 
 resource "azurerm_role_assignment" "aks_acr_pull" {
@@ -70,4 +70,20 @@ resource "azurerm_role_assignment" "acr_Push" {
   scope                = module.acr.acr_id
   role_definition_name = "AcrPush"
   principal_id         = data.azurerm_client_config.current.object_id
+}
+
+module "cert-mng" {
+  source                 = "./modules/cert-man"
+  depends_on = [
+    module.aks
+  ]
+}
+
+module "helm" {
+  source                 = "./modules/helm"
+
+  depends_on = [
+    module.cert-mng
+  ]
+
 }
