@@ -30,6 +30,7 @@ module "acr" {
   #create_acr             = var.create_acr
   ghpathfile             = var.ghpathfile
   TF_VAR_ghtoken         = var.TF_VAR_ghtoken
+  depends_on = [ azurerm_resource_group.rg1 ]
 }
 
 module "aks" {
@@ -86,4 +87,12 @@ module "helm" {
     module.cert-mng
   ]
 
+}
+
+module "dns" {
+  source                 = "./modules/dns"
+
+  depends_on = [
+    module.helm
+  ]
 }

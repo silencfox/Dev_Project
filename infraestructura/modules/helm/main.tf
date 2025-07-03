@@ -19,7 +19,7 @@ resource "helm_release" "devsu" {
 resource "time_sleep" "wait_for_lb" {
   depends_on = [helm_release.devsu]
 
-  create_duration = "3m" # o "1m" si deseas más tiempo
+  create_duration = "1s" # o "1m" si deseas más tiempo
 }
 
 data "azurerm_dns_zone" "dns_zone" {
@@ -41,24 +41,4 @@ data "kubernetes_service" "svc_02" {
     namespace = "devsu"
   }
  depends_on = [time_sleep.wait_for_lb]
-}
-
-resource "azurerm_dns_a_record" "svc1_a_record" {
-  name                = "svc1"
-  zone_name           = data.azurerm_dns_zone.dns_zone.name
-  resource_group_name = data.azurerm_dns_zone.dns_zone.resource_group_name
-  ttl                 = 300
-  records             = [data.kubernetes_service.svc_01.status[0].load_balancer[0].ingress[0].ip]
-
-  depends_on = [data.kubernetes_service.svc_01]
-}
-
-resource "azurerm_dns_a_record" "svc2_a_record" {
-  name                = "svc2"
-  zone_name           = data.azurerm_dns_zone.dns_zone.name
-  resource_group_name = data.azurerm_dns_zone.dns_zone.resource_group_name
-  ttl                 = 300
-  records             = [data.kubernetes_service.svc_02.status[0].load_balancer[0].ingress[0].ip]
-
-  depends_on = [data.kubernetes_service.svc_02]
 }

@@ -35,3 +35,31 @@ resource "helm_release" "cert_manager" {
   depends_on = [kubernetes_namespace.cert_manager]
 }
 
+
+
+
+
+####################
+
+resource "helm_release" "nginx_ingress" {
+  name       = "ingress-nginx"
+  namespace  = "ingress-nginx"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  version    = "4.10.0" # Usa la versión más reciente estable
+
+  create_namespace = true
+
+  set = [ {
+      name  = "controller.publishService.enabled"
+      value = "true"
+    },{
+      name  = "controller.service.type"
+      value = "LoadBalancer" 
+    },{
+      name  = "controller.admissionWebhooks.patch.enabled"
+      value = "true"   
+    }
+  ]
+
+}

@@ -1,13 +1,20 @@
 #terraform {
 #  backend "azurerm" {}
 #}
-terraform { 
-  cloud { 
+#terraform { 
+#  cloud { 
     
-    organization = "KDvops" 
+#    organization = "KDvops" 
 
-    workspaces { 
-      name = "devsu-dev" 
-    } 
-  } 
+#    workspaces { 
+#      name = "devsu-dev" 
+#    } 
+#  } 
+#}
+
+
+terraform {
+  backend "local" {
+    path = "./terraform.tfstate"
+  }
 }
