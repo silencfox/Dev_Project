@@ -80,19 +80,19 @@ module "cert-mng" {
   ]
 }
 
-module "helm" {
-  source                 = "./modules/helm"
+#module "helm" {
+#  source                 = "./modules/helm"
 
-  depends_on = [
-    module.cert-mng
-  ]
+#  depends_on = [
+#    module.cert-mng
+#  ]
 
-}
+#}
 
-module "dns" {
-  source                 = "./modules/dns"
+#module "dns" {
+#  source                 = "./modules/dns"
 
-  depends_on = [
-    module.helm
-  ]
-}
+#  depends_on = [
+#    module.helm
+#  ]
+#}
