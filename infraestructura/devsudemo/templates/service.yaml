@@ -7,6 +7,9 @@ metadata:
   name: {{ printf "%s-svc%d" $root.Release.Name (add $i 1) }}
   labels:
     {{- include "devsudemo.labels" $root | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "5" # Menor peso = se ejecuta antes
 spec:
   type: {{ $root.Values.service.type }}
   ports:

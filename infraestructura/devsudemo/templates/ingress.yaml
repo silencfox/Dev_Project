@@ -3,8 +3,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}-ingress
-  #annotations:
-  #  cert-manager.io/cluster-issuer: {{ .Release.Name }}-letsencrypt
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "10" # Menor peso = se ejecuta antes
+  #  nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: {{ .Release.Name }}-letsencrypt
 spec:
   ingressClassName: external-nginx
   rules:
@@ -31,4 +34,4 @@ spec:
         - www.kdvops.com
         - svc1.kdvops.com
         - svc2.kdvops.com
-      secretName: kdvops-com
+      secretName: devsudemo-ingress-tls-secret
