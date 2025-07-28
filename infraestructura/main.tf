@@ -72,18 +72,18 @@ resource "azurerm_role_assignment" "acr_Push" {
   principal_id         = data.azurerm_client_config.current.object_id
 }
 
-module "cert-mng" {
-  source                 = "./modules/cert-man"
+module "add-ons" {
+  source                 = "./modules/add-ons"
   depends_on = [
     module.aks
   ]
 }
 
-module "helm" {
-  source                 = "./modules/helm"
+#module "helm" {
+#  source                 = "./modules/helm"
 
-  depends_on = [
-    module.cert-mng
-  ]
+#  depends_on = [
+#    module.cert-mng
+#  ]
 
-}
+#}
