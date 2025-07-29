@@ -74,18 +74,17 @@ service:
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   enabled: true
-  className: nginx
+  className: external-nginx
   annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
-    #nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: staging
+    nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
     - host: kdvops.com
       paths:
-        - path: /v1
+        - path: /
           pathType: Prefix
           servicePort: 80
-        - path: /v2
+        - path: /v2(/|$)(.*)
           pathType: Prefix
           servicePort: 80
   #tls: []
@@ -94,10 +93,8 @@ ingress:
   #      - chart-example.local
   tls:
     - hosts:
-        - kdvops.com
-        - svc1.kdvops.com
-        - svc2.kdvops.com
-      secretName: svc.kdvops.com-tls
+        - echo.kdvops.com
+      secretName: echo-kdvops-com
 ### certificado letsencrypt
 ### server prod
 #server: https://acme-v02.api.letsencrypt.org/directory

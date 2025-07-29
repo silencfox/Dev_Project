@@ -14,15 +14,15 @@ spec:
 #    - host: svc1.kdvops.com
     - http:
         paths:
-          - path: /v1
-            pathType: Exact
+          - path: /v1(/|$)(.*)
+            pathType: Prefix
             backend:
               service:
                 name: {{ .Release.Name }}-svc1
                 port:
                   number: {{ .Values.service.port }}
-          - path: /v2
-            pathType: Exact
+          - path: /v2(/|$)(.*)
+            pathType: Prefix
             backend:
               service:
                 name: {{ .Release.Name }}-svc2
@@ -31,7 +31,5 @@ spec:
   tls:
     - hosts:
         - kdvops.com
-        - www.kdvops.com
-        - svc1.kdvops.com
-        - svc2.kdvops.com
+        - echo.kdvops.com
       secretName: devsudemo-ingress-tls-secret
