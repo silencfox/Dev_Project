@@ -1,6 +1,5 @@
 output "kube_config2" {
     value = azurerm_kubernetes_cluster.aks-cluster.kube_config_raw
-  
 }
 
 output "kube_config" {
@@ -24,3 +23,8 @@ output "aks_id" {
 output "kubelet_identity" {
   value = azurerm_kubernetes_cluster.aks-cluster.kubelet_identity
 }
+
+output "oidc_issuer_url" {
+  value = azurerm_kubernetes_cluster.aks-cluster.oidc_issuer_url
+}
+ 

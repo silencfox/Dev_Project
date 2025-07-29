@@ -50,16 +50,6 @@ resource "helm_release" "nginx_ingress" {
 
   create_namespace = true
 
-  set = [ {
-      name  = "controller.publishService.enabled"
-      value = "true"
-    },{
-      name  = "controller.service.type"
-      value = "LoadBalancer" 
-    },{
-      name  = "controller.admissionWebhooks.patch.enabled"
-      value = "true"   
-    }
-  ]
+  values = [file("${path.module}/values/ingress.yaml")]
 
 }
