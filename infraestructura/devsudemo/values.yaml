@@ -66,7 +66,7 @@ service:
   enabled: true
   count: 2
   #type: ClusterIP
-  type: LoadBalancer
+  type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
   port: 80
 
@@ -79,11 +79,19 @@ ingress:
     cert-manager.io/cluster-issuer: staging
     nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
+<<<<<<< HEAD
     - host: kdvops.com
       paths:
         - path: /
           pathType: Prefix
           servicePort: 80
+=======
+    - host: echo.kdvops.com
+      paths:
+        - path: /v1(/|$)(.*)
+          pathType: Prefix
+          servicePort: 443
+>>>>>>> a45e0a35053071caaf9b3d3a041d4da1b3b39467
         - path: /v2(/|$)(.*)
           pathType: Prefix
           servicePort: 80

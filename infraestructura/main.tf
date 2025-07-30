@@ -107,6 +107,7 @@ module "add-ons" {
 #    module.cert-mng
 #  ]
 
+<<<<<<< HEAD
 #}
 
 #module "dns" {
@@ -115,4 +116,6 @@ module "add-ons" {
 #  depends_on = [
 #    module.helm
 #  ]
+=======
+>>>>>>> a45e0a35053071caaf9b3d3a041d4da1b3b39467
 #}

@@ -8,6 +8,7 @@ resource "tls_private_key" "aks" {
   rsa_bits  = 4096
 }
 
+<<<<<<< HEAD
 resource "azurerm_user_assigned_identity" "base" {
   name                = "base"
   location            = var.location
@@ -16,6 +17,11 @@ resource "azurerm_user_assigned_identity" "base" {
 
 resource "azurerm_role_assignment" "base" {
   scope                = var.resource_group_id
+=======
+
+resource "azurerm_role_assignment" "base" {
+  scope                = azurerm_resource_group.this.id
+>>>>>>> a45e0a35053071caaf9b3d3a041d4da1b3b39467
   role_definition_name = "Network Contributor"
   principal_id         = azurerm_user_assigned_identity.base.principal_id
 }
@@ -37,12 +43,19 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
   
+<<<<<<< HEAD
   network_profile {
       network_plugin = "azure"
       load_balancer_sku = "standard"
   }
 
 
+=======
+  sku_tier = "Standard"
+
+  oidc_issuer_enabled       = true
+  workload_identity_enabled = true
+>>>>>>> a45e0a35053071caaf9b3d3a041d4da1b3b39467
 
   default_node_pool {
     name       = "defaultpool"
@@ -72,9 +85,9 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
 
 
   identity {
-    type = "SystemAssigned"
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.base.id]
   }
-  
  #to do: generate the ssh keys using tls_private_key
   linux_profile {
     admin_username = "ubuntu"
@@ -84,6 +97,20 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
     }
   }
 
+<<<<<<< HEAD
+=======
+  network_profile {
+    network_plugin = "azure"
+    dns_service_ip = "10.0.64.10"
+    service_cidr   = "10.0.64.0/19"
+  }
+
+  lifecycle {
+    ignore_changes = [default_node_pool[0].node_count]
+  }
+
+
+>>>>>>> a45e0a35053071caaf9b3d3a041d4da1b3b39467
   depends_on = [
     azurerm_role_assignment.base
   ]
