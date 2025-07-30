@@ -3,6 +3,9 @@ kind: ClusterIssuer
 metadata:
   name: {{ .Release.Name }}-letsencrypt
   namespace: cert-manager
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-10" # Menor peso = se ejecuta antes
 spec:
   acme:
     # The ACME server URL
@@ -17,4 +20,4 @@ spec:
     solvers:
     - http01:
         ingress:
-          class: nginx
+          ingressClassName: external-nginx

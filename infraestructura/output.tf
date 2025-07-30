@@ -30,12 +30,12 @@ output "acr" {
   value = module.acr.acr_id
 }
 
-output "svc_01" {
-  description = "ip load balance svc aks devsu"
-  value       = module.helm.lb_ip_svc01
-}
+#output "svc_01" {
+#  description = "ip load balance svc aks devsu"
+#  value       = module.helm.lb_ip_svc01
+#}
 
-output "svc_02" {
-  description = "ip load balance svc aks devsu"
-  value       = module.helm.lb_ip_svc02
-}
+#output "svc_02" {
+#  description = "ip load balance svc aks devsu"
+#  value       = module.helm.lb_ip_svc02
+#}

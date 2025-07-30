@@ -3,6 +3,9 @@ docker build -t silencfox/devsudemo:latest .
 docker run -it --rm -p 8000:8000 --name devsuapp silencfox/devsudemo /bin/sh
 docker push silencfox/devsudemo:latest
 
+terraform destroy --auto-approve
+terraform apply --auto-approve
+
 kubectl create namespace cert-manager
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
@@ -15,6 +18,19 @@ helm template mdevsudemo
 helm uninstall devsu-release -n devsu
 helm install devsu-release ./devsudemo -n devsu --create-namespace #--set replicaCount=3
 kubectl get all -n devsu
+
+
+kubectl get certificate -n devsu
+kubectl describe certificate -n devsu  devsudemo-ingress-tls-secret
+kubectl get challenges -A
+kubectl get clusterissuer -A
+kubectl logs -l app=cert-manager -n cert-manager
+
+kubectl describe certificaterequest -n devsu devsudemo-ingress-tls-secret-1
+kubectl describe certificate -n devsu devsudemo-ingress-tls-secret
+kubectl describe challenges -n devsu devsudemo-ingress-tls-secret-1-2138903330-155091912
+
+kubectl exec -it devsudemo-7fb74dbf66-4zplv -n devsu -- bash
 
 # Demo Devops NodeJs
 

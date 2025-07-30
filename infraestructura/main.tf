@@ -21,22 +21,30 @@ resource "azurerm_resource_group" "rg1" {
 
 data "azurerm_client_config" "current" {}
 
+module "vpc" {
+  source                 = "./modules/vpc"
+  location               = var.location
+  resource_group_name    = "${var.rgname}-${var.environment}"
+}
+
 module "acr" {
   source                 = "./modules/acr"
   location               = var.location
-  rgname                 = "${var.rgname}-${var.environment}"
+  rgname                 = azurerm_resource_group.rg1.name
   sku                    = var.sku
   acr_name               = var.acr_name
   #create_acr             = var.create_acr
   ghpathfile             = var.ghpathfile
   TF_VAR_ghtoken         = var.TF_VAR_ghtoken
+  depends_on = [ azurerm_resource_group.rg1 ]
 }
 
 module "aks" {
   source                 = "./modules/aks/"
   cluster_name           = "${var.cluster_name}-${var.environment}"
   location               = var.location
-  resource_group_name    = "${var.rgname}-${var.environment}"
+  resource_group_name    = azurerm_resource_group.rg1.name
+  resource_group_id      = azurerm_resource_group.rg1.id
   environment            = var.environment
   min_count              = var.min_count
   max_count              = var.max_count
@@ -49,10 +57,23 @@ module "aks" {
 
 }
 
+
 resource "local_file" "kubeconfig2" {
   depends_on   = [module.aks]
   filename     = "./kubeconfig2"
   content      = module.aks.kube_config2
+}
+
+
+module "identity" {
+  source                 = "./modules/identity"
+  location               = var.location
+  resource_group_name    = azurerm_resource_group.rg1.name
+  oidc_issuer_url     = module.aks.oidc_issuer_url
+  depends_on = [
+    module.aks
+  ]
+
 }
 
 resource "azurerm_role_assignment" "aks_acr_pull" {
@@ -86,4 +107,12 @@ module "add-ons" {
 #    module.cert-mng
 #  ]
 
+#}
+
+#module "dns" {
+#  source                 = "./modules/dns"
+
+#  depends_on = [
+#    module.helm
+#  ]
 #}

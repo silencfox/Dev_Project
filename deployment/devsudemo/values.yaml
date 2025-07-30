@@ -80,7 +80,7 @@ ingress:
     kubernetes.io/tls-acme: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: devsu.local
+    - host: svc1.kdvops.com
       paths:
         - path: /v1
           pathType: Prefix
@@ -94,9 +94,9 @@ ingress:
   #      - chart-example.local
   tls:
     - hosts:
-        - v1.devsu.local
-        - v2.devsu.local
-      secretName: v1.devsu.local-tls
+        - svc1.kdvops.com
+        - svc2.kdvops.com
+      secretName: v1.kdvops-tls
 ### certificado letsencrypt
 ### server prod
 #server: https://acme-v02.api.letsencrypt.org/directory

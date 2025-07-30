@@ -39,15 +39,17 @@ resource "helm_release" "cert_manager" {
 
 
 
+####################
 
-resource "helm_release" "external_nginx" {
-  name = "external"
+resource "helm_release" "nginx_ingress" {
+  name       = "ingress-nginx"
+  namespace  = "ingress-nginx"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  version    = "4.10.0" # Usa la versión más reciente estable
 
-  repository       = "https://kubernetes.github.io/ingress-nginx"
-  chart            = "ingress-nginx"
-  namespace        = "ingress"
   create_namespace = true
-  version          = "4.8.0"
 
   values = [file("${path.module}/values/ingress.yaml")]
+
 }

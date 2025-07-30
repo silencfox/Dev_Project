@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Release.Name }}-cert
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  secretName: {{ .Release.Name }}-tls
+  dnsNames:
+    - kdvops.com # Reemplaza con tu subdominio
+    - svc1.kdvops.com # Reemplaza con tu subdominio
+    - svc2.kdvops.com # Reemplaza con tu subdominio
+  issuerRef:
+    name: {{ .Release.Name }}-letsencrypt
+    kind: ClusterIssuer

@@ -1,7 +1,7 @@
 # Default values for devsudemo.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-environment: dev
+environment: prod
 #environment: prod
 
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
@@ -66,9 +66,9 @@ service:
   enabled: true
   count: 2
   #type: ClusterIP
-  type: ClusterIP
+  type: LoadBalancer
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 443
+  port: 80
 
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
@@ -79,14 +79,14 @@ ingress:
     cert-manager.io/cluster-issuer: staging
     nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: echo.kdvops.com
+    - host: kdvops.com
       paths:
-        - path: /v1(/|$)(.*)
+        - path: /
           pathType: Prefix
-          servicePort: 443
+          servicePort: 80
         - path: /v2(/|$)(.*)
           pathType: Prefix
-          servicePort: 443
+          servicePort: 80
   #tls: []
   #  - secretName: chart-example-tls
   #    hosts:
