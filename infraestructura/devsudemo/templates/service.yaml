@@ -1,3 +1,4 @@
+---
 {{- $root := . }}
 {{- if .Values.service.enabled }}
 {{- range $i := until (.Values.service.count | int) }}
@@ -7,18 +8,18 @@ metadata:
   name: {{ printf "%s-svc%d" $root.Release.Name (add $i 1) }}
   labels:
     {{- include "devsudemo.labels" $root | nindent 4 }}
-  annotations:
-    "helm.sh/hook": post-install
-    "helm.sh/hook-weight": "5" # Menor peso = se ejecuta antes
+  #annotations:
+  #  "helm.sh/hook": post-install
+  #  "helm.sh/hook-weight": "5" # Menor peso = se ejecuta antes
+  #  "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   type: {{ $root.Values.service.type }}
   ports:
-    - port: {{ $root.Values.service.port }}
-      targetPort: {{ $root.Values.image.port }}
+    - port: {{ $root.Values.image.port }}
       protocol: TCP
-      name: http
   selector:
-    name: {{ $root.Release.Name }}
+    app: {{ $root.Release.Name }}-deploy
+
 ---
 {{- end }}
 {{- end }}

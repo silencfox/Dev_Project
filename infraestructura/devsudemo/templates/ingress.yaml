@@ -1,35 +1,34 @@
 ---
+{{- $root := . }}
+{{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-ingress
+  name: {{ $root.Release.Name }}-ing
   annotations:
-    "helm.sh/hook": post-install
-    "helm.sh/hook-weight": "10" # Menor peso = se ejecuta antes
-  #  nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/cluster-issuer: {{ .Release.Name }}-letsencrypt
+    cert-manager.io/cluster-issuer: staging
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
-  ingressClassName: external-nginx
+  ingressClassName: {{ $root.Values.ingress.className }}
   rules:
-#    - host: svc1.kdvops.com
-    - http:
+    - host: echo.kdvops.com
+      http:
         paths:
-          - path: /
-            pathType: Prefix
+          {{- range $i := until (.Values.service.count | int) }}
+          - path: {{ $root.Values.ingress.hosts.path }}{{ add $i 1 }}(/|$)(.*)
+            pathType: {{ $root.Values.ingress.hosts.pathType }}
             backend:
-              service:
-                name: {{ .Release.Name }}-svc1
+              service: 
+                name: {{ printf "%s-svc%d" $root.Release.Name (add $i 1) }}
                 port:
-                  number: {{ .Values.service.port }}
-          - path: /v2(/|$)(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: {{ .Release.Name }}-svc2
-                port:
-                  number: {{ .Values.service.port }}
+                  number: {{ $root.Values.image.port }}
+          {{- end }}
+
   tls:
     - hosts:
-        - kdvops.com
-        - echo.kdvops.com
-      secretName: devsudemo-ingress-tls-secret
+        - {{ $root.Values.ingress.hosts.host }}
+      secretName: {{ $root.Values.ingress.hosts.host }}-scret
+
+---
+{{- end }}

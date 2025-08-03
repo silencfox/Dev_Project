@@ -65,8 +65,8 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   enabled: true
   count: 2
-  #type: ClusterIP
-  type: LoadBalancer
+  type: ClusterIP
+  #type: LoadBalancer
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
   port: 80
 
@@ -79,14 +79,11 @@ ingress:
     cert-manager.io/cluster-issuer: staging
     nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: kdvops.com
-      paths:
-        - path: /
-          pathType: Prefix
-          servicePort: 80
-        - path: /v2(/|$)(.*)
-          pathType: Prefix
-          servicePort: 80
+    host: echo.kdvops.com
+    path: /v
+    pathType: ImplementationSpecific
+    servicePort: 80
+
   #tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -139,8 +136,8 @@ readinessProbe:
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
   enabled: true
-  minReplicas: 3
-  maxReplicas: 100
+  minReplicas: 1
+  maxReplicas: 2
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
@@ -150,13 +147,15 @@ volumes: []
 #   secret:
 #     secretName: mysecret
 #     optional: false
-
+#volumes:
+#  - name: volume
+#    persistentVolumeClaim:
+#      claimName: azure-managed-disk
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
+# - name: volume
+#   mountPath: "/mnt/azure"
 #   readOnly: true
-
 nodeSelector: {}
 
 tolerations: []
