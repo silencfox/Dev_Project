@@ -139,26 +139,26 @@ readinessProbe:
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
   enabled: true
-  minReplicas: 3
-  maxReplicas: 100
+  minReplicas: 1
+  maxReplicas: 2
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
-#volumes: []
+volumes: []
 # - name: foo
 #   secret:
 #     secretName: mysecret
 #     optional: false
-volumes:
-  - name: volume
-    persistentVolumeClaim:
-      claimName: azure-managed-disk
+#volumes:
+#  - name: volume
+#    persistentVolumeClaim:
+#      claimName: azure-managed-disk
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: 
- - name: volume
-   mountPath: "/mnt/azure"
-   readOnly: true
+volumeMounts: []
+# - name: volume
+#   mountPath: "/mnt/azure"
+#   readOnly: true
 nodeSelector: {}
 
 tolerations: []

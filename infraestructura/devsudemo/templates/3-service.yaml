@@ -1,0 +1,23 @@
+---
+{{- $root := . }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-svc
+  labels:
+    {{- include "devsudemo.labels" $root | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "5" # Menor peso = se ejecuta antes
+spec:
+  ports:
+    - port: {{ $root.Values.image.port }}
+      protocol: TCP
+  type: {{ $root.Values.service.type }}
+  selector:
+    app: {{ .Release.Name }}-deploy
+
+
+
+
+

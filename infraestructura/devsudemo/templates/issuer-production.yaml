@@ -1,0 +1,19 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: production
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-10" # Menor peso = se ejecuta antes
+spec:
+  acme:
+    email: {{ $.Values.cert.acme.email }}
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: production-cluster-issuer
+    solvers:
+      - selector: {}
+        http01:
+          ingress:
+            class: external-nginx
