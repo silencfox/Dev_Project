@@ -6,10 +6,16 @@ metadata:
   name: {{ .Release.Name }}
   labels:
     {{- include "devsudemo.labels" . | nindent 4 }}
+<<<<<<< HEAD
   #annotations:
   #  "helm.sh/hook": post-install
   #  "helm.sh/hook-weight": "10"
   #  "helm.sh/hook-delete-policy": hook-succeeded
+=======
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "10"
+>>>>>>> ff0be95373c31be6b19db1ab1b16e7f1f4deafec
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}

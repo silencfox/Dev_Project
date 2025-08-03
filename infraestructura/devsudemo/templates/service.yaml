@@ -8,6 +8,7 @@ metadata:
   name: {{ printf "%s-svc%d" $root.Release.Name (add $i 1) }}
   labels:
     {{- include "devsudemo.labels" $root | nindent 4 }}
+<<<<<<< HEAD
   #annotations:
   #  "helm.sh/hook": post-install
   #  "helm.sh/hook-weight": "5" # Menor peso = se ejecuta antes
@@ -16,6 +17,16 @@ spec:
   type: {{ $root.Values.service.type }}
   ports:
     - port: {{ $root.Values.image.port }}
+=======
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "5" # Menor peso = se ejecuta antes
+spec:
+  type: {{ $root.Values.service.type }}
+  ports:
+    - port: {{ $root.Values.service.port }}
+      targetPort: {{ $root.Values.image.port }}
+>>>>>>> ff0be95373c31be6b19db1ab1b16e7f1f4deafec
       protocol: TCP
   selector:
     app: {{ $root.Release.Name }}-deploy

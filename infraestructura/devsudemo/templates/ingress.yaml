@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 {{- $root := . }}
 {{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
@@ -32,3 +33,39 @@ spec:
 
 ---
 {{- end }}
+=======
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ingress
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "10" # Menor peso = se ejecuta antes
+  #  nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: {{ .Release.Name }}-letsencrypt
+spec:
+  ingressClassName: external-nginx
+  rules:
+#    - host: svc1.kdvops.com
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-svc1
+                port:
+                  number: {{ .Values.service.port }}
+          - path: /v2(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Release.Name }}-svc2
+                port:
+                  number: {{ .Values.service.port }}
+  tls:
+    - hosts:
+        - kdvops.com
+        - echo.kdvops.com
+      secretName: devsudemo-ingress-tls-secret
+>>>>>>> ff0be95373c31be6b19db1ab1b16e7f1f4deafec
