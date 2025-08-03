@@ -65,13 +65,8 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   enabled: true
   count: 2
-<<<<<<< HEAD
   type: ClusterIP
   #type: LoadBalancer
-=======
-  #type: ClusterIP
-  type: LoadBalancer
->>>>>>> ff0be95373c31be6b19db1ab1b16e7f1f4deafec
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
   port: 80
 
@@ -84,22 +79,11 @@ ingress:
     cert-manager.io/cluster-issuer: staging
     nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-<<<<<<< HEAD
     host: echo.kdvops.com
     path: /v
     pathType: ImplementationSpecific
     servicePort: 80
 
-=======
-    - host: kdvops.com
-      paths:
-        - path: /
-          pathType: Prefix
-          servicePort: 80
-        - path: /v2(/|$)(.*)
-          pathType: Prefix
-          servicePort: 80
->>>>>>> ff0be95373c31be6b19db1ab1b16e7f1f4deafec
   #tls: []
   #  - secretName: chart-example-tls
   #    hosts:

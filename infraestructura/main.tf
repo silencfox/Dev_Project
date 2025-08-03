@@ -24,12 +24,8 @@ data "azurerm_client_config" "current" {}
 module "vpc" {
   source                 = "./modules/vpc"
   location               = var.location
-<<<<<<< HEAD
   resource_group_name    = azurerm_resource_group.rg1.name
   depends_on = [ azurerm_resource_group.rg1 ]  
-=======
-  resource_group_name    = "${var.rgname}-${var.environment}"
->>>>>>> ff0be95373c31be6b19db1ab1b16e7f1f4deafec
 }
 
 module "acr" {
