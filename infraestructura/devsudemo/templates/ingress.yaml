@@ -1,9 +1,10 @@
 ---
 {{- $root := . }}
+{{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-ing
+  name: {{ $root.Release.Name }}-ing
   annotations:
     cert-manager.io/cluster-issuer: staging
     nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -14,21 +15,20 @@ spec:
     - host: echo.kdvops.com
       http:
         paths:
-          - path: /v1(/|$)(.*)
-            pathType: ImplementationSpecific
+          {{- range $i := until (.Values.service.count | int) }}
+          - path: {{ $root.Values.ingress.hosts.path }}{{ add $i 1 }}(/|$)(.*)
+            pathType: {{ $root.Values.ingress.hosts.pathType }}
             backend:
-              service:
-                name: {{ .Release.Name }}-svc
+              service: 
+                name: {{ printf "%s-svc%d" $root.Release.Name (add $i 1) }}
                 port:
                   number: {{ $root.Values.image.port }}
-          - path: /v2(/|$)(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: echoserver-v2-1-secure
-                port:
-                  number: {{ $root.Values.image.port }}
+          {{- end }}
+
   tls:
     - hosts:
         - echo.kdvops.com
       secretName: echo-kdvops-com
+---
+
+{{- end }}
