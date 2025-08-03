@@ -64,7 +64,7 @@ secret:
 service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   enabled: true
-  count: 3
+  count: 2
   type: ClusterIP
   #type: LoadBalancer
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
@@ -79,7 +79,7 @@ ingress:
     cert-manager.io/cluster-issuer: staging
     nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-    host: kdvops.com
+    host: echo.kdvops.com
     path: /v
     pathType: ImplementationSpecific
     servicePort: 80

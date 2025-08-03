@@ -27,8 +27,8 @@ spec:
 
   tls:
     - hosts:
-        - echo.kdvops.com
-      secretName: echo-kdvops-com
----
+        - {{ $root.Values.ingress.hosts.host }}
+      secretName: {{ $root.Values.ingress.hosts.host }}-scret
 
+---
 {{- end }}
