@@ -1,0 +1,19 @@
+{{- $nodes := (lookup "v1" "Node" "" "").items }}
+{{- $isAzure := false }}
+{{- range $nodes }}
+  {{- if hasKey .metadata.labels "kubernetes.azure.com/cluster" }}
+    {{- $isAzure = true }}
+  {{- end }}
+{{- end }}
+
+{{- if and $isAzure .Values.storageClass.enabled }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Values.storageClass.name }}
+provisioner: kubernetes.io/azure-file
+parameters:
+  skuName: Standard_LRS
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+{{- end }}

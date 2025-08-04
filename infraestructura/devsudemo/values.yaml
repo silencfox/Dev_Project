@@ -4,6 +4,8 @@
 environment: prod
 #environment: prod
 
+
+
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
 replicaCount: 1
 
@@ -141,21 +143,28 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+
+cloudProvider: ""
+storageClass:
+  enabled: true
+  name: azurefile
+
 # Additional volumes on the output Deployment definition.
-volumes: []
+#volumes: []
 # - name: foo
 #   secret:
 #     secretName: mysecret
 #     optional: false
-#volumes:
-#  - name: volume
-#    persistentVolumeClaim:
-#      claimName: azure-managed-disk
+volumes:
+  - name: volume
+    persistentVolumeClaim:
+      claimName: azure-managed-disk
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: volume
-#   mountPath: "/mnt/azure"
-#   readOnly: true
+volumeMounts: 
+  - name: volume
+    mountPath: "/mnt/azure"
+    readOnly: true
+
 nodeSelector: {}
 
 tolerations: []
